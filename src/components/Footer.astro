@@ -1,0 +1,17 @@
+---
+import { SITE_SETTINGS } from '../lib/site';
+import type { SiteSettings } from '../lib/types';
+
+const year = new Date().getFullYear();
+const { settings = SITE_SETTINGS } = Astro.props as { settings?: SiteSettings };
+---
+
+<footer class="site-footer">
+  <div class="shell footer-shell">
+    <p>{settings.footerBlurb} © {year}</p>
+    <ul class="footer-links">
+      <li><a href="/privacy">Privacy</a></li>
+      <li><a href="/rss.xml">RSS</a></li>
+    </ul>
+  </div>
+</footer>

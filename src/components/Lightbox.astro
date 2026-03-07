@@ -1,0 +1,71 @@
+---
+interface Props {
+  images: Array<{ src: string; alt: string }>;
+  id?: string;
+}
+
+const { images, id = 'gallery' } = Astro.props;
+---
+
+<div class="lightbox-gallery" data-lightbox={id}>
+  <div class="gallery-grid">
+    {images.map((image, index) => (
+      <button class="gallery-thumb" type="button" data-index={index}>
+        <img src={image.src} alt={image.alt} loading="lazy" />
+      </button>
+    ))}
+  </div>
+
+  <dialog class="lightbox-dialog" aria-label="Image viewer">
+    <button class="lightbox-close" type="button" data-close>Close</button>
+    <button class="lightbox-prev" type="button" data-prev>Previous</button>
+    <img data-full alt="" />
+    <button class="lightbox-next" type="button" data-next>Next</button>
+  </dialog>
+</div>
+
+<script define:vars={{ images }}>
+  const root = document.currentScript?.parentElement;
+  if (!root) return;
+
+  const dialog = root.querySelector('.lightbox-dialog');
+  const full = root.querySelector('[data-full]');
+  const thumbs = [...root.querySelectorAll('.gallery-thumb')];
+  const closeBtn = root.querySelector('[data-close]');
+  const prevBtn = root.querySelector('[data-prev]');
+  const nextBtn = root.querySelector('[data-next]');
+  let current = 0;
+
+  function render(index) {
+    const target = images[index];
+    if (!target) return;
+    full.src = target.src;
+    full.alt = target.alt;
+    current = index;
+  }
+
+  thumbs.forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      render(Number(thumb.dataset.index || 0));
+      dialog.showModal();
+    });
+  });
+
+  closeBtn?.addEventListener('click', () => dialog.close());
+  prevBtn?.addEventListener('click', () => render((current - 1 + images.length) % images.length));
+  nextBtn?.addEventListener('click', () => render((current + 1) % images.length));
+
+  dialog?.addEventListener('click', (event) => {
+    const rect = dialog.getBoundingClientRect();
+    const inDialog =
+      rect.top <= event.clientY && event.clientY <= rect.top + rect.height &&
+      rect.left <= event.clientX && event.clientX <= rect.left + rect.width;
+    if (!inDialog) dialog.close();
+  });
+
+  dialog?.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') dialog.close();
+    if (event.key === 'ArrowLeft') render((current - 1 + images.length) % images.length);
+    if (event.key === 'ArrowRight') render((current + 1) % images.length);
+  });
+</script>

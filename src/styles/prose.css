@@ -1,0 +1,16 @@
+.prose {
+  width: min(100%, var(--prose-width));
+}
+
+.prose p,
+.prose ul,
+.prose ol,
+.prose blockquote {
+  margin: 0 0 1.2em;
+}
+
+.prose img,
+.prose iframe {
+  max-width: 100%;
+  height: auto;
+}

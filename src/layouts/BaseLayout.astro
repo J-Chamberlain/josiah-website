@@ -1,0 +1,62 @@
+---
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_SETTINGS } from '../lib/site';
+import { buildSeo } from '../lib/seo';
+import '../styles/tokens.css';
+import '../styles/base.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  path?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = SITE_SETTINGS.siteTitle,
+  description = SITE_SETTINGS.siteDescription,
+  path = Astro.url.pathname,
+  ogImage,
+  noindex = false,
+} = Astro.props;
+
+const seo = buildSeo({ title, description, path, ogImage, noindex });
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{seo.title}</title>
+    <meta name="description" content={seo.description} />
+    <link rel="canonical" href={seo.canonical} />
+
+    {seo.noindex && <meta name="robots" content="noindex,nofollow" />}
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={seo.title} />
+    <meta property="og:description" content={seo.description} />
+    <meta property="og:url" content={seo.canonical} />
+    <meta property="og:image" content={seo.ogImage} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={seo.title} />
+    <meta name="twitter:description" content={seo.description} />
+    <meta name="twitter:image" content={seo.ogImage} />
+
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <Header />
+    <main id="main" class="shell main-shell">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

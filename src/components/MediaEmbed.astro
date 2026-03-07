@@ -1,0 +1,24 @@
+---
+interface Props {
+  type: 'youtube' | 'spotify';
+  idOrUrl: string;
+  title: string;
+}
+
+const { type, idOrUrl, title } = Astro.props;
+
+const src = type === 'youtube'
+  ? `https://www.youtube-nocookie.com/embed/${idOrUrl}`
+  : idOrUrl;
+---
+
+<div class="media-frame">
+  <iframe
+    src={src}
+    title={title}
+    loading="lazy"
+    referrerpolicy="strict-origin-when-cross-origin"
+    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+    allowfullscreen
+  />
+</div>

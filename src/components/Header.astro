@@ -1,0 +1,33 @@
+---
+import { NAV_ITEMS, SITE_SETTINGS } from '../lib/site';
+import type { SiteSettings } from '../lib/types';
+
+const currentPath = Astro.url.pathname;
+const { settings = SITE_SETTINGS } = Astro.props as { settings?: SiteSettings };
+const navByLabel = new Map(NAV_ITEMS.map((item) => [item.label, item]));
+type NavItem = (typeof NAV_ITEMS)[number];
+function isNavItem(value: NavItem | undefined): value is NavItem {
+  return Boolean(value);
+}
+const navItems =
+  settings.mainNav && settings.mainNav.length > 0
+    ? settings.mainNav.map((label) => navByLabel.get(label)).filter(isNavItem)
+    : NAV_ITEMS;
+---
+
+<header class="site-header">
+  <div class="shell header-shell">
+    <a class="brand" href="/">{settings.siteTitle}</a>
+    <nav aria-label="Primary">
+      <ul class="nav-list">
+        {navItems.map((item) => (
+          <li>
+            <a href={item.href} aria-current={currentPath === item.href ? 'page' : undefined}>
+              {item.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  </div>
+</header>

@@ -15,7 +15,12 @@ pnpm-debug.log*
 
 # environment variables
 .env
+.env.*
+!.env.example
 .env.production
+
+# vercel
+.vercel/
 
 # macOS-specific files
 .DS_Store

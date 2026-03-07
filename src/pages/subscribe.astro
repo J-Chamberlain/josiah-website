@@ -1,0 +1,25 @@
+---
+export const prerender = false;
+
+import ProseLayout from '../layouts/ProseLayout.astro';
+import SubscribeForm from '../components/SubscribeForm.astro';
+import { getSiteSettings } from '../lib/site';
+
+const settings = await getSiteSettings();
+const status = Astro.url.searchParams.get('status');
+
+const statusMessage: Record<string, string> = {
+  pending: 'Check your inbox to confirm your subscription.',
+  confirmed: 'Subscription confirmed. You are now subscribed.',
+  unsubscribed: 'You have been unsubscribed.',
+  confirm_expired: 'Confirmation link expired. Please subscribe again.',
+  confirm_invalid: 'Confirmation link is invalid.',
+};
+---
+
+<ProseLayout title="Subscribe" description="Get notified when new pieces are published." path="/subscribe">
+  <h1>Subscribe</h1>
+  <p>{settings.subscribeIntro}</p>
+  {status && statusMessage[status] && <p class="note">{statusMessage[status]}</p>}
+  <SubscribeForm />
+</ProseLayout>

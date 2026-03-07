@@ -1,0 +1,19 @@
+:root {
+  --bg: #f7f4ee;
+  --surface: #fdfbf7;
+  --text: #1f1d1a;
+  --muted: #6f675d;
+  --rule: #dbd2c6;
+  --accent: #6b7a63;
+  --accent-soft: #e8eee3;
+
+  --space-1: 0.5rem;
+  --space-2: 0.75rem;
+  --space-3: 1rem;
+  --space-4: 1.5rem;
+  --space-5: 2rem;
+  --space-6: 3rem;
+
+  --container: 68rem;
+  --prose-width: 72ch;
+}

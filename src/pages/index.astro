@@ -1,17 +1,50 @@
 ---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SubscribeForm from '../components/SubscribeForm.astro';
+import TagChip from '../components/TagChip.astro';
+import { getSiteSettings } from '../lib/site';
+import { contentUrl, getFeaturedProjects, getRecentContent } from '../lib/content-source';
 
+const settings = await getSiteSettings();
+const featured = await getFeaturedProjects();
+const recent = await getRecentContent(5);
+export const prerender = true;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout title={settings.siteTitle} description={settings.siteDescription} path="/">
+  <section>
+    <h1>{settings.homepageStatement}</h1>
+    <p class="muted">Essays, mixed-media projects, idea outlines, and photography.</p>
+  </section>
+
+  <section class="section" aria-labelledby="featured-heading">
+    <h2 id="featured-heading">Featured Work</h2>
+    <div class="grid">
+      {featured.map((item) => (
+        <article class="card">
+          <h3><a href={`/projects/${item.slug}`}>{item.title}</a></h3>
+          <p>{item.excerpt}</p>
+          <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="recent-heading">
+    <h2 id="recent-heading">Recent Work</h2>
+    <ul>
+      {recent.map((item) => (
+        <li>
+          <a href={contentUrl(item)}>{item.title}</a>
+          <span class="muted"> ({item.publishedAt})</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section card" aria-labelledby="subscribe-heading">
+    <h2 id="subscribe-heading">Subscribe</h2>
+    <p>{settings.subscribeCta}</p>
+    <SubscribeForm />
+  </section>
+</BaseLayout>

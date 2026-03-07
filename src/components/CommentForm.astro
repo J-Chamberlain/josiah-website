@@ -1,0 +1,29 @@
+---
+const { contentType, contentSlug } = Astro.props as {
+  contentType: 'essay' | 'project' | 'ideaOutline' | 'gallery';
+  contentSlug: string;
+  returnTo?: string;
+};
+---
+
+<form method="post" action="/api/comments/create" class="card" aria-label="Comment form">
+  <input type="hidden" name="content_type" value={contentType} />
+  <input type="hidden" name="content_slug" value={contentSlug} />
+  <input type="hidden" name="return_to" value={Astro.props.returnTo || Astro.url.pathname} />
+
+  <label for="name">Name (optional)</label>
+  <br />
+  <input id="name" name="name" autocomplete="name" />
+
+  <br />
+  <label for="comment-email">Email (required, never displayed)</label>
+  <br />
+  <input id="comment-email" name="email" type="email" required autocomplete="email" />
+
+  <br />
+  <label for="comment">Comment</label>
+  <br />
+  <textarea id="comment" name="body" rows="5" required></textarea>
+
+  <button type="submit">Submit comment</button>
+</form>

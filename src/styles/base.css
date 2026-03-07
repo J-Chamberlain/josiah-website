@@ -1,0 +1,308 @@
+/*
+  Self-hosted fonts — place woff2 files in public/fonts/
+  Download Source Serif 4: https://fonts.google.com/specimen/Source+Serif+4
+  Download Public Sans:    https://fonts.google.com/specimen/Public+Sans
+  Use the variable font files (source-serif-4-variable.woff2, public-sans-variable.woff2)
+*/
+@font-face {
+  font-family: 'Source Serif 4';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/source-serif-4-variable.woff2') format('woff2');
+}
+
+@font-face {
+  font-family: 'Public Sans';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/public-sans-variable.woff2') format('woff2');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+
+a {
+  color: inherit;
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  text-decoration-thickness: 2px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+}
+
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  background: var(--surface);
+  border: 1px solid var(--rule);
+  padding: var(--space-2);
+  z-index: 99;
+}
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.shell {
+  width: min(100% - 2rem, var(--container));
+  margin: 0 auto;
+}
+
+.site-header {
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in oklab, var(--surface) 92%, white 8%);
+}
+
+.header-shell {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+  min-height: 4rem;
+}
+
+.brand {
+  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+  letter-spacing: 0.01em;
+}
+
+.nav-list,
+.footer-links {
+  list-style: none;
+  display: flex;
+  gap: var(--space-3);
+  margin: 0;
+  padding: 0;
+  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 0.95rem;
+}
+
+.nav-list a[aria-current="page"] {
+  text-decoration-thickness: 2px;
+}
+
+.main-shell {
+  padding-block: var(--space-6);
+}
+
+.site-footer {
+  margin-top: var(--space-6);
+  border-top: 1px solid var(--rule);
+}
+
+.footer-shell {
+  min-height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-3);
+  color: var(--muted);
+  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-size: 0.92rem;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  margin-top: 0;
+}
+
+h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+}
+
+h2 {
+  font-size: clamp(1.3rem, 2.6vw, 1.85rem);
+}
+
+.section {
+  margin-top: var(--space-6);
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.card {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  padding: var(--space-4);
+}
+
+.grid {
+  display: grid;
+  gap: var(--space-3);
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2);
+}
+
+.tag-chip {
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 0.2rem 0.55rem;
+  font-size: 0.85rem;
+  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  text-decoration: none;
+}
+
+.media-frame {
+  border: 1px solid var(--rule);
+  background: #000;
+  margin-bottom: var(--space-4);
+}
+
+.media-frame iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  display: block;
+}
+
+.image-figure {
+  margin: 0 0 var(--space-4);
+}
+
+.image-figure img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+.image-figure.full-width {
+  margin-inline: min(-6vw, -2rem);
+}
+
+.image-figure figcaption {
+  margin-top: var(--space-1);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.gallery-grid {
+  display: grid;
+  gap: var(--space-3);
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.gallery-thumb {
+  padding: 0;
+  border: 1px solid var(--rule);
+  background: transparent;
+  cursor: pointer;
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+}
+
+.lightbox-dialog {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  width: min(92vw, 1000px);
+}
+
+.lightbox-dialog img {
+  width: 100%;
+  height: auto;
+}
+
+.note {
+  border-left: 3px solid var(--accent);
+  padding-left: var(--space-3);
+  color: var(--muted);
+}
+
+.hp-field {
+  position: absolute;
+  left: -9999px;
+}
+
+input,
+textarea,
+button {
+  font: inherit;
+  margin-top: var(--space-1);
+  margin-bottom: var(--space-3);
+}
+
+input,
+textarea {
+  width: min(32rem, 100%);
+  border: 1px solid var(--rule);
+  background: #fff;
+  padding: 0.6rem;
+}
+
+button {
+  border: 1px solid var(--rule);
+  background: var(--surface);
+  padding: 0.55rem 0.9rem;
+  cursor: pointer;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.search-results {
+  list-style: none;
+  margin: var(--space-3) 0 0;
+  padding: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+.search-result-item h3 {
+  margin-bottom: var(--space-2);
+}
+
+.comments-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: var(--space-3);
+}
+
+@media (max-width: 800px) {
+  .header-shell,
+  .footer-shell {
+    flex-direction: column;
+    align-items: flex-start;
+    padding-block: var(--space-2);
+  }
+}

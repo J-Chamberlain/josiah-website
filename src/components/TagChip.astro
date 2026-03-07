@@ -1,0 +1,11 @@
+---
+import { tagToSlug } from '../lib/tags';
+
+interface Props {
+  tag: string;
+}
+
+const { tag } = Astro.props;
+---
+
+<a class="tag-chip" href={`/tags/${tagToSlug(tag)}`}>{tag}</a>

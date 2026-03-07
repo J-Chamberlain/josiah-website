@@ -1,0 +1,15 @@
+---
+interface Props {
+  src: string;
+  alt: string;
+  caption?: string;
+  fullWidth?: boolean;
+}
+
+const { src, alt, caption, fullWidth = false } = Astro.props;
+---
+
+<figure class={fullWidth ? 'image-figure full-width' : 'image-figure'}>
+  <img src={src} alt={alt} loading="lazy" />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
