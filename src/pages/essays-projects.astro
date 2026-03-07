@@ -15,14 +15,20 @@ export const prerender = true;
   description="Explore featured projects, essays, idea outlines, and archive content."
   path="/essays-projects"
 >
-  <h1>Essays & Projects</h1>
-  <p class="muted">A curated index of published work.</p>
+  <section class="listing-lead">
+    <p class="kicker">Browse</p>
+    <h1>Essays & Projects</h1>
+    <p class="muted">A curated index of published work.</p>
+  </section>
+
   <div>
     <section class="section" id="featured-projects">
-      <h2>Featured Projects</h2>
-      <div class="grid">
+      <div class="section-head">
+        <h2>Featured Projects</h2>
+      </div>
+      <div class="list-grid">
         {featuredProjects.map((item) => (
-          <article class="card">
+          <article class="card tone-card">
             <h3><a href={`/projects/${item.slug}`}>{item.title}</a></h3>
             <p>{item.excerpt}</p>
             <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
@@ -32,10 +38,12 @@ export const prerender = true;
     </section>
 
     <section class="section" id="essays">
-      <h2>Essays</h2>
-      <div class="grid">
+      <div class="section-head">
+        <h2>Essays</h2>
+      </div>
+      <div class="list-grid">
         {essays.map((item) => (
-          <article class="card">
+          <article class="card tone-card">
             <h3><a href={`/essays/${item.slug}`}>{item.title}</a></h3>
             <p>{item.excerpt}</p>
             <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
@@ -45,10 +53,12 @@ export const prerender = true;
     </section>
 
     <section class="section" id="idea-outlines">
-      <h2>Idea Outlines</h2>
-      <div class="grid">
+      <div class="section-head">
+        <h2>Idea Outlines</h2>
+      </div>
+      <div class="list-grid">
         {ideas.map((item) => (
-          <article class="card">
+          <article class="card tone-card">
             <h3><a href={`/ideas/${item.slug}`}>{item.title}</a></h3>
             <p>{item.excerpt}</p>
             <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
@@ -58,12 +68,14 @@ export const prerender = true;
     </section>
 
     <section class="section" id="archive">
-      <h2>Archive</h2>
-      <ul>
+      <div class="section-head">
+        <h2>Archive</h2>
+      </div>
+      <ul class="archive-list">
         {archive.map((item) => (
           <li>
             <a href={contentUrl(item)}>{item.title}</a>
-            <span class="muted"> ({item.publishedAt})</span>
+            <span class="muted">{item.publishedAt}</span>
           </li>
         ))}
       </ul>
