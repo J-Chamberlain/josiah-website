@@ -53,7 +53,7 @@ if (hasSupabase && supabaseAdmin) {
       </p>
     )}
     <p>{entry.excerpt}</p>
-    <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+    {entry.tags && entry.tags.length > 0 && <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>}
   </header>
 
   <section class="section-shell section">

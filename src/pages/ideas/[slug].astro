@@ -49,7 +49,7 @@ if (hasSupabase && supabaseAdmin) {
       </p>
     )}
     {entry.ideaStage && <p class="meta-row">Stage: {entry.ideaStage}</p>}
-    <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+    {entry.tags && entry.tags.length > 0 && <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>}
   </header>
 
   {entry.openQuestions && entry.openQuestions.length > 0 && (

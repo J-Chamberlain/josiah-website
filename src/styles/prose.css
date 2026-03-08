@@ -1,6 +1,5 @@
 .prose {
-  width: min(100%, var(--prose-width));
-  margin-inline: auto;
+  width: 100%;
   border: 1px solid var(--rule);
   border-radius: calc(var(--radius) + 2px);
   background: var(--surface-raised);

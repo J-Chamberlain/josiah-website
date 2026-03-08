@@ -13,17 +13,27 @@ const { entry, kicker, commentStatus } = Astro.props;
 ---
 
 <header class="article-header">
-  {entry.coverImage && (
-    <div class="article-header-cover">
-      <img src={entry.coverImage.src} alt={entry.coverImage.alt} />
-    </div>
-  )}
   <div class="article-header-body">
     {kicker && <p class="kicker">{kicker}</p>}
     <h1>{entry.title}</h1>
+    {entry.subtitle && <p class="article-subtitle">{entry.subtitle}</p>}
+    {entry.coverImage && (() => {
+      const ci = entry.coverImage!;
+      const isFloat = ci.align === 'left' || ci.align === 'right';
+      const figStyle = ci.width
+        ? `width: ${ci.width}; max-width: 100%${ci.align === 'center' ? '; margin-inline: auto' : ''}`
+        : undefined;
+      const alignClass = ci.align ? `align-${ci.align}` : '';
+      return (
+        <figure class={`article-header-cover${alignClass ? ` ${alignClass}` : ''}`} style={figStyle}>
+          <img src={ci.src} alt={ci.alt} />
+          {ci.caption && <figcaption>{ci.caption}</figcaption>}
+        </figure>
+      );
+    })()}
     {entry.excerpt && <p class="article-dek">{entry.excerpt}</p>}
     <ReadingMeta publishedAt={entry.publishedAt} body={entry.body} />
-    {entry.tags.length > 0 && (
+    {entry.tags && entry.tags.length > 0 && (
       <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
     )}
     {commentStatus && (

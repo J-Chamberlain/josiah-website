@@ -22,17 +22,33 @@ const entries: ContentEntry[] = [
   {
     id: 'project-1',
     kind: 'project',
-    title: 'Project Meridian',
-    slug: 'project-meridian',
-    excerpt: 'A mixed-media exploration combining writing, diagrams, and audio notes.',
+    title: 'Conjuring Fredric Law Olmsted',
+    subtitle: '"Pastoral Transcendentalism"',
+    slug: 'project-olmsted',
+    // excerpt: 'A mixed-media exploration combining writing, diagrams, and audio notes.',
     publishedAt: '2026-02-18',
     visibility: 'public',
     tags: ['AI', 'Philosophy'],
+    coverImage: {
+      src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/1868_Vaux_%5E_Olmsted_Map_of_Central_Park%2C_New_York_City_-_Geographicus_-_CentralPark-CentralPark-1869.jpg/1200px-1868_Vaux_%5E_Olmsted_Map_of_Central_Park%2C_New_York_City_-_Geographicus_-_CentralPark-CentralPark-1869.jpg',
+      alt: 'The modified Greensward Plan for Central Park, 1868',
+      caption: 'The modified Greensward Plan for Central Park',
+      width: '90%',
+      align: 'center',
+    },
     body: [
-      { type: 'heading', text: 'Overview' },
-      { type: 'paragraph', text: 'Project Meridian examines how reflective practices can shape technical product decisions.' },
-      { type: 'image', src: 'https://images.unsplash.com/photo-1469474968028-56623f02e42e?auto=format&fit=crop&w=1800&q=80', alt: 'Mountain ridgeline in warm light', caption: 'Field notes visual direction', fullWidth: true },
-      { type: 'spotify', url: 'https://open.spotify.com/embed/episode/7makk4oTQel546B0PZlDM5', title: 'Audio field note' },
+     // { type: 'heading', text: 'Overview' },
+      { type: 'paragraph', text: `In March 1858, Frederick Law Olmsted and Calvert Vaux delivered the \u201cGreensward\u201d plan in the competition to design Central Park. Outside, New York was in full industrial roar. The city\u2019s streets were a percussion: iron wheels on cobblestone, the clatter of horse traffic, vendors, and factories. The Greensward design philosophy, which they called \u201cpastoral transcendentalism,\u201d aimed not at returning to an untouched nature, rather, it was a nature-inspired composition. The hills were not hills. The wilderness was not wild. But the relief it produced was entirely real. The park they envisioned, in their own words, would offer \u201cthe most agreeable contrast to the confinement, bustle, and monotonous street-division of the city.\u201d` },
+      {
+        type: 'image',
+        src: '/images/disfigured_banks_v2.jpeg',
+        alt: 'Niagara by Louis Rémy Mignot',
+        caption: '"Disfigured Banks" - Report on the preservation of Niagara Falls 1879',
+        width: '40%',
+        align: 'right',
+      },
+      { type: 'paragraph', text: `Olmsted moved from designer to conservationist. In his 1865 report on Yosemite, he argued the land should be held \u201cfor the free use of the whole body of the people forever.\u201d In a report on the preservation of Niagara Falls, co-authored by Olmsted, they argued that restoring the former beauty of the falls was a \u201csacred obligation to mankind.\u201d` },
+      { type: 'paragraph', text: `He did not reject industrialization. He responded to it \u2014 sometimes as a conservationist drawing a line around what should not be consumed, sometimes as a designer using the very tools of industry to produce experiences industry was destroying. His parks were fake wilderness built with real bulldozers, and that was precisely the point.` },
     ],
   },
   {
@@ -104,7 +120,7 @@ export function getPublishedBySlug(kind: ContentKind, slug: string): ContentEntr
 
 export function getPublicByTag(tag: string): ContentEntry[] {
   const normalized = normalizeTag(tag);
-  return getPublicContent().filter((entry) => entry.tags.some((t) => normalizeTag(t) === normalized));
+  return getPublicContent().filter((entry) => entry.tags?.some((t) => normalizeTag(t) === normalized));
 }
 
 export function getFeaturedProjects(): ContentEntry[] {

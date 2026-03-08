@@ -216,7 +216,7 @@ export async function getPublishedBySlug(kind: ContentKind, slug: string): Promi
 export async function getPublicByTag(tag: string): Promise<ContentEntry[]> {
   const normalized = normalizeTag(tag);
   const all = await getAllPublicContent();
-  return all.filter((entry) => entry.tags.some((t) => normalizeTag(t) === normalized));
+  return all.filter((entry) => entry.tags?.some((t) => normalizeTag(t) === normalized));
 }
 
 export async function getFeaturedProjects(): Promise<ContentEntry[]> {
@@ -237,7 +237,7 @@ export async function getRecentContent(limit = 8): Promise<ContentEntry[]> {
 
 export async function getTagList(): Promise<string[]> {
   const all = await getAllPublicContent();
-  return [...new Set(all.flatMap((entry) => entry.tags.map(normalizeTag)))].sort();
+  return [...new Set(all.flatMap((entry) => (entry.tags ?? []).map(normalizeTag)))].sort();
 }
 
 export function contentUrl(entry: Pick<ContentEntry, 'kind' | 'slug'>): string {

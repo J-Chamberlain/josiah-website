@@ -15,7 +15,7 @@ export function slugToTag(slug: string): string {
 export function collectTags(entries: ContentEntry[]): string[] {
   const set = new Set<string>();
   for (const entry of entries) {
-    for (const tag of entry.tags) set.add(normalizeTag(tag));
+    for (const tag of entry.tags ?? []) set.add(normalizeTag(tag));
   }
   return [...set].sort();
 }

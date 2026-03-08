@@ -21,21 +21,21 @@ export const prerender = true;
     </p>
   </section>
 
-  <section class="section section-shell" aria-labelledby="featured-heading">
+  <section class="section" aria-labelledby="featured-heading">
     <div class="section-head">
       <p class="kicker">Curated</p>
       <h2 id="featured-heading">Featured Work</h2>
       <p class="muted">Projects and essays currently defining the studio's direction.</p>
     </div>
 
-    <div class="list-grid three">
+    <div>
       {featured.map((item) => (
-        <ContentCard entry={item} showCover={true} href={`/projects/${item.slug}`} />
+        <ContentCard entry={item} showCover={false} href={`/projects/${item.slug}`} />
       ))}
     </div>
   </section>
 
-  <section class="section section-shell dark" aria-labelledby="recent-heading">
+  <section class="section" aria-labelledby="recent-heading">
     <div class="section-head">
       <p class="kicker">Publishing Log</p>
       <h2 id="recent-heading">Recent Work</h2>
@@ -51,7 +51,7 @@ export const prerender = true;
     </ul>
   </section>
 
-  <section class="section section-shell" aria-labelledby="subscribe-heading">
+  <section class="section" aria-labelledby="subscribe-heading">
     <div class="section-head">
       <p class="kicker">Stay Updated</p>
       <h2 id="subscribe-heading">Subscribe</h2>

@@ -1,8 +1,8 @@
 :root {
-  --bg: #efe8dd;
-  --surface: #f8f2e8;
-  --surface-2: #f3ebdf;
-  --surface-raised: #fdfaf5;
+  --bg: #faf8f5;
+  --surface: #fdfcfa;
+  --surface-2: #faf8f5;
+  --surface-raised: #ffffff;
   --ink: #1d1b18;
   --text: #26221d;
   --muted: #675d52;
@@ -19,7 +19,7 @@
   --font-ui: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
   --display-weight: 560;
   --body-weight: 390;
-  --display-size: clamp(2.8rem, 6vw, 6.2rem);
+  --display-size: clamp(1.8rem, 2.6vw, 2.8rem);
 
   --space-1: 0.5rem;
   --space-2: 0.8rem;
@@ -30,8 +30,8 @@
   --space-7: 6rem;
   --space-8: 9rem;
 
-  --container: 76rem;
-  --prose-width: 68ch;
+  --container: 92rem;
+  --prose-width: 88ch;
   --radius: 18px;
   --radius-sm: 10px;
   --radius-lg: 24px;

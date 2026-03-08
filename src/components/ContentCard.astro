@@ -34,7 +34,7 @@ const url = href ?? contentUrl(entry);
   <div class="card-body">
     <h3><a href={url}>{entry.title}</a></h3>
     {entry.excerpt && <p>{entry.excerpt}</p>}
-    {entry.tags.length > 0 && (
+    {entry.tags && entry.tags.length > 0 && (
       <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
     )}
     <p class="meta-row">{kindLabel[entry.kind]}</p>
