@@ -31,7 +31,9 @@ body {
 }
 
 body {
-  font-family: "Source Serif 4", Georgia, "Times New Roman", serif;
+  font-family: var(--font-display);
+  font-weight: var(--body-weight);
+  font-optical-sizing: auto;
   color: var(--text);
   line-height: 1.78;
   background:
@@ -42,13 +44,14 @@ body {
 
 a {
   color: inherit;
-  text-decoration-color: color-mix(in oklab, var(--accent) 56%, transparent);
+  text-decoration-color: color-mix(in oklab, var(--accent) 48%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 0.21em;
 }
 
 a:hover {
   text-decoration-thickness: 2px;
+  text-decoration-color: var(--accent-muted);
 }
 
 .skip-link {
@@ -82,6 +85,8 @@ textarea:focus-visible {
   margin: 0 auto;
 }
 
+/* ─── Header ─── */
+
 .site-header {
   position: sticky;
   top: 0;
@@ -107,7 +112,7 @@ textarea:focus-visible {
 }
 
 .brand-mark {
-  font-family: "Source Serif 4", Georgia, serif;
+  font-family: var(--font-display);
   font-size: 1.16rem;
   font-weight: 620;
   letter-spacing: 0.01em;
@@ -115,7 +120,7 @@ textarea:focus-visible {
 }
 
 .brand-note {
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   font-size: 0.66rem;
   letter-spacing: 0.11em;
   text-transform: uppercase;
@@ -129,7 +134,7 @@ textarea:focus-visible {
   gap: var(--space-3);
   margin: 0;
   padding: 0;
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   font-size: 0.76rem;
   text-transform: uppercase;
   letter-spacing: 0.09em;
@@ -147,9 +152,13 @@ textarea:focus-visible {
   padding-bottom: 0.22rem;
 }
 
+/* ─── Main ─── */
+
 .main-shell {
   padding-block: var(--space-6) var(--space-7);
 }
+
+/* ─── Footer ─── */
 
 .site-footer {
   margin-top: var(--space-7);
@@ -166,7 +175,7 @@ textarea:focus-visible {
   align-items: center;
   gap: var(--space-3);
   color: var(--dark-muted);
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   font-size: 0.84rem;
 }
 
@@ -174,12 +183,15 @@ textarea:focus-visible {
   color: #e7e1d8;
 }
 
+/* ─── Typography ─── */
+
 h1,
 h2,
 h3 {
   line-height: 1.1;
   margin-top: 0;
   color: var(--ink);
+  font-optical-sizing: auto;
 }
 
 h1 {
@@ -200,6 +212,8 @@ h3 {
   letter-spacing: -0.008em;
   font-weight: 510;
 }
+
+/* ─── Layout primitives ─── */
 
 .section {
   margin-top: var(--space-6);
@@ -228,39 +242,57 @@ h3 {
   color: #c8c1b7;
 }
 
+/* Section head — amber left-border accent */
 .section-head {
-  border-bottom: 1px solid var(--rule);
+  border-left: 3px solid var(--amber-rule);
+  padding-left: var(--space-3);
   margin-bottom: var(--space-4);
-  padding-bottom: var(--space-2);
+  padding-bottom: var(--space-1);
 }
 
 .section-shell.dark .section-head {
-  border-bottom-color: color-mix(in oklab, #f6f2ea 20%, transparent);
+  border-left-color: color-mix(in oklab, var(--amber-rule) 55%, transparent);
 }
 
+/* Kicker — amber tint for warmth */
 .kicker {
   margin: 0 0 var(--space-2);
-  color: color-mix(in oklab, var(--muted) 86%, white 14%);
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  color: var(--accent);
+  font-family: var(--font-ui);
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.11em;
 }
 
+.section-shell.dark .kicker {
+  color: color-mix(in oklab, var(--amber-rule) 80%, white 20%);
+}
+
+/* ─── Hero ─── */
+
 .hero {
   border: 1px solid var(--rule);
-  border-radius: calc(var(--radius) + 6px);
+  border-radius: var(--radius-lg);
   background: linear-gradient(180deg, color-mix(in oklab, var(--surface) 86%, white 14%) 0%, var(--surface-2) 100%);
-  padding: clamp(1.8rem, 4vw, 3.7rem);
+  padding: clamp(2.6rem, 5.5vw, 5rem);
+}
+
+.hero h1 {
+  font-weight: var(--display-weight);
+  font-optical-sizing: auto;
 }
 
 .hero p {
   max-width: 60ch;
 }
 
+/* ─── Utility ─── */
+
 .muted {
   color: var(--muted);
 }
+
+/* ─── Cards ─── */
 
 .card {
   border: 1px solid var(--rule);
@@ -270,23 +302,49 @@ h3 {
 }
 
 .mag-card {
+  border-radius: var(--radius-lg);
+  padding: 0;
+  overflow: hidden;
   transition: border-color 150ms ease, transform 150ms ease, background-color 150ms ease;
 }
 
 .mag-card:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in oklab, var(--accent) 45%, var(--rule) 55%);
+  transform: translateY(-3px);
+  border-color: var(--amber-rule);
   background: color-mix(in oklab, var(--surface) 88%, white 12%);
 }
+
+/* Cover image strip at top of mag-card */
+.card-cover {
+  width: 100%;
+  height: 160px;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.card-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.card-body {
+  padding: var(--space-4);
+}
+
+/* ─── Meta ─── */
 
 .meta-row {
   margin-top: var(--space-2);
   color: var(--muted);
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   font-size: 0.74rem;
   text-transform: uppercase;
   letter-spacing: 0.07em;
 }
+
+/* ─── Grids ─── */
 
 .list-grid,
 .grid {
@@ -299,6 +357,8 @@ h3 {
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
+/* ─── Archive list ─── */
+
 .archive-list {
   margin: 0;
   padding: 0;
@@ -308,17 +368,43 @@ h3 {
 
 .archive-list li {
   display: flex;
-  justify-content: space-between;
   align-items: baseline;
   gap: var(--space-3);
   padding: var(--space-3) 0;
   border-bottom: 1px solid var(--rule);
 }
 
-.archive-list .muted {
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
-  font-size: 0.78rem;
+.archive-list li > a {
+  flex: 1;
 }
+
+/* amber dot marker */
+.archive-list li::before {
+  content: '';
+  display: inline-block;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: var(--amber-rule);
+  flex-shrink: 0;
+  align-self: center;
+}
+
+.section-shell.dark .archive-list {
+  border-top-color: color-mix(in oklab, #f6f2ea 18%, transparent);
+}
+
+.section-shell.dark .archive-list li {
+  border-bottom-color: color-mix(in oklab, #f6f2ea 18%, transparent);
+}
+
+.archive-list .muted {
+  font-family: var(--font-ui);
+  font-size: 0.78rem;
+  white-space: nowrap;
+}
+
+/* ─── Tags ─── */
 
 .tag-row {
   display: flex;
@@ -327,16 +413,19 @@ h3 {
 }
 
 .tag-chip {
-  border: 1px solid var(--rule);
+  border: 1px solid var(--amber-rule);
   border-radius: 999px;
   padding: 0.2rem 0.58rem;
   font-size: 0.71rem;
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: color-mix(in oklab, var(--text) 74%, var(--muted) 26%);
+  background: var(--accent-soft);
 }
+
+/* ─── Media embeds ─── */
 
 .media-frame {
   border: 1px solid var(--rule);
@@ -353,6 +442,8 @@ h3 {
   display: block;
 }
 
+/* ─── Image figure ─── */
+
 .image-figure {
   margin: 0 0 var(--space-4);
 }
@@ -361,7 +452,7 @@ h3 {
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
 }
 
 .image-figure.full-width {
@@ -374,6 +465,8 @@ h3 {
   font-size: 0.9rem;
 }
 
+/* ─── Gallery ─── */
+
 .gallery-grid {
   display: grid;
   gap: var(--space-3);
@@ -383,7 +476,7 @@ h3 {
 .gallery-thumb {
   padding: 0;
   border: 1px solid var(--rule);
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   overflow: hidden;
   background: transparent;
   cursor: pointer;
@@ -391,9 +484,11 @@ h3 {
 
 .gallery-thumb img {
   width: 100%;
-  height: 220px;
+  height: 280px;
   object-fit: cover;
 }
+
+/* ─── Lightbox ─── */
 
 .lightbox-dialog {
   border: 1px solid var(--rule);
@@ -406,11 +501,186 @@ h3 {
   height: auto;
 }
 
+/* ─── Inline note ─── */
+
 .note {
   border-left: 3px solid var(--accent);
   padding-left: var(--space-3);
   color: var(--muted);
 }
+
+/* ─── Pull quote ─── */
+
+.pull-quote {
+  border-left: 4px solid var(--amber-rule);
+  background: var(--surface-raised);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: var(--space-3) var(--space-4);
+  margin-block: var(--space-4);
+  margin-inline: -1.5rem;
+}
+
+.pull-quote blockquote {
+  margin: 0;
+  font-size: 1.4rem;
+  font-style: italic;
+  line-height: 1.45;
+  color: var(--ink);
+  font-optical-sizing: auto;
+}
+
+.pull-quote cite {
+  display: block;
+  margin-top: var(--space-2);
+  font-style: normal;
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+}
+
+/* ─── Article header ─── */
+
+.article-header {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: linear-gradient(180deg, color-mix(in oklab, var(--surface) 90%, white 10%) 0%, var(--surface-2) 100%);
+  overflow: hidden;
+  margin-bottom: var(--space-5);
+}
+
+.article-header-cover {
+  width: 100%;
+  aspect-ratio: 21 / 9;
+  overflow: hidden;
+  background: var(--surface-2);
+}
+
+.article-header-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.article-header-body {
+  padding: clamp(1.8rem, 3.5vw, 3rem);
+}
+
+.article-header h1 {
+  font-size: var(--display-size);
+  font-weight: var(--display-weight);
+  font-optical-sizing: auto;
+  letter-spacing: -0.03em;
+  max-width: 20ch;
+  line-height: 1.05;
+  margin-bottom: var(--space-3);
+}
+
+.article-dek {
+  font-size: 1.15rem;
+  font-style: italic;
+  color: var(--muted);
+  max-width: 60ch;
+  line-height: 1.6;
+  margin: 0 0 var(--space-3);
+}
+
+/* ─── Reading meta ─── */
+
+.reading-meta {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.74rem;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--muted);
+  margin-bottom: var(--space-3);
+}
+
+.reading-meta-sep {
+  width: 1px;
+  height: 0.9em;
+  background: var(--rule);
+}
+
+/* ─── Section divider ─── */
+
+.section-divider {
+  border: none;
+  border-top: 1px solid var(--rule);
+  margin-block: var(--space-5);
+  position: relative;
+}
+
+.section-divider[data-label]::before {
+  content: attr(data-label);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: var(--bg);
+  padding: 0 var(--space-3);
+  font-family: var(--font-ui);
+  font-size: 0.66rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--muted);
+}
+
+/* ─── Content card ─── */
+
+.content-card {
+  border: 1px solid var(--rule);
+  border-radius: var(--radius-lg);
+  background: color-mix(in oklab, var(--surface) 95%, white 5%);
+  overflow: hidden;
+  transition: border-color 150ms ease, transform 150ms ease;
+}
+
+.content-card:hover {
+  transform: translateY(-3px);
+  border-color: var(--amber-rule);
+}
+
+.content-card .card-cover {
+  height: 200px;
+}
+
+.content-card.wide .card-cover {
+  height: 260px;
+}
+
+.content-card h3 {
+  margin-bottom: var(--space-2);
+}
+
+/* ─── Stage badge ─── */
+
+.stage-badge {
+  display: inline-block;
+  border: 1px solid var(--amber-rule);
+  border-radius: 999px;
+  padding: 0.18rem 0.7rem;
+  font-family: var(--font-ui);
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.stage-badge[data-stage="seed"],
+.stage-badge[data-stage="on-hold"] {
+  background: color-mix(in oklab, var(--surface-2) 80%, white 20%);
+  color: var(--muted);
+  border-color: var(--rule);
+}
+
+/* ─── Forms ─── */
 
 input,
 textarea,
@@ -432,15 +702,22 @@ textarea {
 button {
   border: 1px solid color-mix(in oklab, var(--accent) 55%, var(--rule) 45%);
   border-radius: 999px;
-  background: color-mix(in oklab, var(--accent-soft) 74%, var(--surface) 26%);
+  background: var(--accent-soft);
   color: var(--ink);
-  font-family: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  font-family: var(--font-ui);
   font-size: 0.75rem;
   text-transform: uppercase;
   letter-spacing: 0.06em;
   padding: 0.62rem 1rem;
   cursor: pointer;
 }
+
+button:hover {
+  background: color-mix(in oklab, var(--accent-soft) 60%, var(--amber-rule) 40%);
+  border-color: var(--amber-rule);
+}
+
+/* ─── Comments ─── */
 
 .comments-list {
   list-style: none;
@@ -458,10 +735,14 @@ button {
   margin-top: var(--space-5);
 }
 
+/* ─── Accessibility ─── */
+
 .hp-field,
 .hidden {
   display: none !important;
 }
+
+/* ─── Responsive ─── */
 
 @media (max-width: 1080px) {
   .list-grid.three {
@@ -474,6 +755,10 @@ button {
   .grid,
   .list-grid.three {
     grid-template-columns: 1fr;
+  }
+
+  .pull-quote {
+    margin-inline: 0;
   }
 }
 
@@ -491,8 +776,10 @@ button {
   }
 
   .archive-list li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.2rem;
+    flex-wrap: wrap;
+  }
+
+  .article-header-cover {
+    aspect-ratio: 16 / 9;
   }
 }

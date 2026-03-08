@@ -1,0 +1,28 @@
+---
+import type { ContentEntry } from '../lib/types';
+
+interface Props {
+  publishedAt: string;
+  body: ContentEntry['body'];
+}
+
+const { publishedAt, body } = Astro.props;
+
+const wordCount = body
+  .filter((b): b is { type: 'paragraph' | 'heading'; text: string } =>
+    b.type === 'paragraph' || b.type === 'heading'
+  )
+  .reduce((acc, b) => acc + b.text.split(/\s+/).filter(Boolean).length, 0);
+
+const readingTime = Math.max(1, Math.round(wordCount / 200));
+---
+
+<div class="reading-meta">
+  <span>{publishedAt}</span>
+  {wordCount > 0 && (
+    <>
+      <span class="reading-meta-sep" aria-hidden="true"></span>
+      <span>{readingTime} min read</span>
+    </>
+  )}
+</div>

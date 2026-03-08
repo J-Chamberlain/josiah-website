@@ -1,0 +1,39 @@
+---
+import TagChip from './TagChip.astro';
+import ReadingMeta from './ReadingMeta.astro';
+import type { ContentEntry } from '../lib/types';
+
+interface Props {
+  entry: ContentEntry;
+  kicker?: string;
+  commentStatus?: string | null;
+}
+
+const { entry, kicker, commentStatus } = Astro.props;
+---
+
+<header class="article-header">
+  {entry.coverImage && (
+    <div class="article-header-cover">
+      <img src={entry.coverImage.src} alt={entry.coverImage.alt} />
+    </div>
+  )}
+  <div class="article-header-body">
+    {kicker && <p class="kicker">{kicker}</p>}
+    <h1>{entry.title}</h1>
+    {entry.excerpt && <p class="article-dek">{entry.excerpt}</p>}
+    <ReadingMeta publishedAt={entry.publishedAt} body={entry.body} />
+    {entry.tags.length > 0 && (
+      <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+    )}
+    {commentStatus && (
+      <p class="note" style="margin-top: 1rem;">
+        {commentStatus === 'approved'
+          ? 'Comment published.'
+          : commentStatus === 'rejected'
+            ? 'Comment was rejected by moderation.'
+            : 'Comment received and awaiting moderation.'}
+      </p>
+    )}
+  </div>
+</header>

@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SubscribeForm from '../components/SubscribeForm.astro';
-import TagChip from '../components/TagChip.astro';
+import ContentCard from '../components/ContentCard.astro';
 import { getSiteSettings } from '../lib/site';
 import { contentUrl, getFeaturedProjects, getRecentContent } from '../lib/content-source';
 
@@ -30,12 +30,7 @@ export const prerender = true;
 
     <div class="list-grid three">
       {featured.map((item) => (
-        <article class="card mag-card">
-          <h3><a href={`/projects/${item.slug}`}>{item.title}</a></h3>
-          <p>{item.excerpt}</p>
-          <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
-          <p class="meta-row">Project</p>
-        </article>
+        <ContentCard entry={item} showCover={true} href={`/projects/${item.slug}`} />
       ))}
     </div>
   </section>

@@ -1,0 +1,42 @@
+---
+import TagChip from './TagChip.astro';
+import type { ContentEntry } from '../lib/types';
+import { contentUrl } from '../lib/content-source';
+
+interface Props {
+  entry: ContentEntry;
+  showCover?: boolean;
+  size?: 'default' | 'wide';
+  href?: string;
+}
+
+const { entry, showCover = true, size = 'default', href } = Astro.props;
+
+const kindLabel: Record<ContentEntry['kind'], string> = {
+  essay: 'Essay',
+  project: 'Project',
+  ideaOutline: 'Idea',
+  gallery: 'Gallery',
+};
+
+const url = href ?? contentUrl(entry);
+---
+
+<article class:list={['content-card', size === 'wide' && 'wide']}>
+  {showCover && entry.coverImage && (
+    <div class="card-cover">
+      <img src={entry.coverImage.src} alt={entry.coverImage.alt} />
+    </div>
+  )}
+  {showCover && !entry.coverImage && (
+    <div class="card-cover"></div>
+  )}
+  <div class="card-body">
+    <h3><a href={url}>{entry.title}</a></h3>
+    {entry.excerpt && <p>{entry.excerpt}</p>}
+    {entry.tags.length > 0 && (
+      <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+    )}
+    <p class="meta-row">{kindLabel[entry.kind]}</p>
+  </div>
+</article>

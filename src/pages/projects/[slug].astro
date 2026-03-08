@@ -3,7 +3,7 @@ export const prerender = false;
 
 import ProseLayout from '../../layouts/ProseLayout.astro';
 import RichTextRenderer from '../../components/RichTextRenderer.astro';
-import TagChip from '../../components/TagChip.astro';
+import ArticleHeader from '../../components/ArticleHeader.astro';
 import CommentForm from '../../components/CommentForm.astro';
 import CommentList from '../../components/CommentList.astro';
 import { getPublishedBySlug } from '../../lib/content-source';
@@ -35,21 +35,7 @@ if (hasSupabase && supabaseAdmin) {
   path={`/projects/${entry.slug}`}
   noindex={entry.visibility === 'unlisted'}
 >
-  <header class="section-shell">
-    <p class="kicker">Project</p>
-    <h1>{entry.title}</h1>
-    <p class="meta-row">{entry.publishedAt}</p>
-    {commentStatus && (
-      <p class="note">
-        {commentStatus === 'approved'
-          ? 'Comment published.'
-          : commentStatus === 'rejected'
-            ? 'Comment was rejected by moderation.'
-            : 'Comment received and awaiting moderation.'}
-      </p>
-    )}
-    <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
-  </header>
+  <ArticleHeader entry={entry} kicker="Project" commentStatus={commentStatus} />
 
   <RichTextRenderer blocks={entry.body} />
 

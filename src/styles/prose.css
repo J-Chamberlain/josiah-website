@@ -3,8 +3,10 @@
   margin-inline: auto;
   border: 1px solid var(--rule);
   border-radius: calc(var(--radius) + 2px);
-  background: color-mix(in oklab, var(--surface) 94%, white 6%);
-  padding: clamp(1.2rem, 2.3vw, 2.2rem);
+  background: var(--surface-raised);
+  padding: clamp(1.2rem, 2.3vw, 2.6rem);
+  font-size: 1.0625rem;
+  line-height: 1.82;
 }
 
 .prose > h1 + .meta,
@@ -22,6 +24,18 @@
 .prose h2,
 .prose h3 {
   margin-top: 1.35em;
+}
+
+/* Drop cap on first paragraph of prose body */
+.prose > p:first-of-type:not(:only-child)::first-letter {
+  float: left;
+  font-size: 3.2rem;
+  font-weight: 620;
+  line-height: 0.82;
+  margin-right: 0.08em;
+  margin-top: 0.06em;
+  color: var(--accent);
+  font-optical-sizing: auto;
 }
 
 .prose img,
