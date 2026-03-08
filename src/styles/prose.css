@@ -1,12 +1,27 @@
 .prose {
   width: min(100%, var(--prose-width));
+  margin-inline: auto;
+  border: 1px solid var(--rule);
+  border-radius: calc(var(--radius) + 2px);
+  background: color-mix(in oklab, var(--surface) 94%, white 6%);
+  padding: clamp(1.2rem, 2.3vw, 2.2rem);
+}
+
+.prose > h1 + .meta,
+.prose > p.muted {
+  margin-top: -0.45rem;
 }
 
 .prose p,
 .prose ul,
 .prose ol,
 .prose blockquote {
-  margin: 0 0 1.2em;
+  margin: 0 0 1.28em;
+}
+
+.prose h2,
+.prose h3 {
+  margin-top: 1.35em;
 }
 
 .prose img,

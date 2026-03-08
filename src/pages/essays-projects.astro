@@ -15,58 +15,72 @@ export const prerender = true;
   description="Explore featured projects, essays, idea outlines, and archive content."
   path="/essays-projects"
 >
-  <h1>Essays & Projects</h1>
-  <p class="muted">A curated index of published work.</p>
-  <div>
-    <section class="section" id="featured-projects">
+  <section class="hero">
+    <p class="kicker">Index</p>
+    <h1>Essays & Projects</h1>
+    <p class="muted">A curated editorial map of long-form pieces, mixed-media projects, and early-stage ideas.</p>
+  </section>
+
+  <section class="section section-shell" id="featured-projects">
+    <div class="section-head">
+      <p class="kicker">Spotlight</p>
       <h2>Featured Projects</h2>
-      <div class="grid">
-        {featuredProjects.map((item) => (
-          <article class="card">
-            <h3><a href={`/projects/${item.slug}`}>{item.title}</a></h3>
-            <p>{item.excerpt}</p>
-            <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
-          </article>
-        ))}
-      </div>
-    </section>
+    </div>
+    <div class="list-grid">
+      {featuredProjects.map((item) => (
+        <article class="card mag-card">
+          <h3><a href={`/projects/${item.slug}`}>{item.title}</a></h3>
+          <p>{item.excerpt}</p>
+          <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
+          <p class="meta-row">Project</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
-    <section class="section" id="essays">
+  <section class="section section-shell" id="essays">
+    <div class="section-head">
       <h2>Essays</h2>
-      <div class="grid">
-        {essays.map((item) => (
-          <article class="card">
-            <h3><a href={`/essays/${item.slug}`}>{item.title}</a></h3>
-            <p>{item.excerpt}</p>
-            <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
-          </article>
-        ))}
-      </div>
-    </section>
+    </div>
+    <div class="list-grid">
+      {essays.map((item) => (
+        <article class="card mag-card">
+          <h3><a href={`/essays/${item.slug}`}>{item.title}</a></h3>
+          <p>{item.excerpt}</p>
+          <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
+          <p class="meta-row">Essay</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
-    <section class="section" id="idea-outlines">
+  <section class="section section-shell" id="idea-outlines">
+    <div class="section-head">
       <h2>Idea Outlines</h2>
-      <div class="grid">
-        {ideas.map((item) => (
-          <article class="card">
-            <h3><a href={`/ideas/${item.slug}`}>{item.title}</a></h3>
-            <p>{item.excerpt}</p>
-            <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
-          </article>
-        ))}
-      </div>
-    </section>
+    </div>
+    <div class="list-grid">
+      {ideas.map((item) => (
+        <article class="card mag-card">
+          <h3><a href={`/ideas/${item.slug}`}>{item.title}</a></h3>
+          <p>{item.excerpt}</p>
+          <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
+          <p class="meta-row">Idea Outline</p>
+        </article>
+      ))}
+    </div>
+  </section>
 
-    <section class="section" id="archive">
+  <section class="section section-shell dark" id="archive">
+    <div class="section-head">
       <h2>Archive</h2>
-      <ul>
-        {archive.map((item) => (
-          <li>
-            <a href={contentUrl(item)}>{item.title}</a>
-            <span class="muted"> ({item.publishedAt})</span>
-          </li>
-        ))}
-      </ul>
-    </section>
-  </div>
+    </div>
+    <ul class="archive-list">
+      {archive.map((item) => (
+        <li>
+          <a href={contentUrl(item)}>{item.title}</a>
+          <span class="muted">{item.publishedAt}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
 </BaseLayout>

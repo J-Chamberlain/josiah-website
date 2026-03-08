@@ -39,20 +39,29 @@ if (hasSupabase && supabaseAdmin) {
   path={`/galleries/${entry.slug}`}
   noindex={entry.visibility === 'unlisted'}
 >
-  <h1>{entry.title}</h1>
-  <p class="muted">{entry.publishedAt}</p>
-  {commentStatus && (
-    <p class="note">
-      {commentStatus === 'approved'
-        ? 'Comment published.'
-        : commentStatus === 'rejected'
-          ? 'Comment was rejected by moderation.'
-          : 'Comment received and awaiting moderation.'}
-    </p>
-  )}
-  <p>{entry.excerpt}</p>
-  <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
-  <Lightbox images={images} id={entry.slug} />
-  <CommentList comments={comments} />
-  <CommentForm contentType="gallery" contentSlug={entry.slug} returnTo={`/galleries/${entry.slug}`} />
+  <header class="section-shell">
+    <p class="kicker">Gallery</p>
+    <h1>{entry.title}</h1>
+    <p class="meta-row">{entry.publishedAt}</p>
+    {commentStatus && (
+      <p class="note">
+        {commentStatus === 'approved'
+          ? 'Comment published.'
+          : commentStatus === 'rejected'
+            ? 'Comment was rejected by moderation.'
+            : 'Comment received and awaiting moderation.'}
+      </p>
+    )}
+    <p>{entry.excerpt}</p>
+    <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+  </header>
+
+  <section class="section-shell section">
+    <Lightbox images={images} id={entry.slug} />
+  </section>
+
+  <section class="comment-shell" aria-label="Comments">
+    <CommentList comments={comments} />
+    <CommentForm contentType="gallery" contentSlug={entry.slug} returnTo={`/galleries/${entry.slug}`} />
+  </section>
 </ProseLayout>

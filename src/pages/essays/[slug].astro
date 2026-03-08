@@ -35,19 +35,26 @@ if (hasSupabase && supabaseAdmin) {
   path={`/essays/${entry.slug}`}
   noindex={entry.visibility === 'unlisted'}
 >
-  <h1>{entry.title}</h1>
-  <p class="muted">{entry.publishedAt}</p>
-  {commentStatus && (
-    <p class="note">
-      {commentStatus === 'approved'
-        ? 'Comment published.'
-        : commentStatus === 'rejected'
-          ? 'Comment was rejected by moderation.'
-          : 'Comment received and awaiting moderation.'}
-    </p>
-  )}
-  <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+  <header class="section-shell">
+    <p class="kicker">Essay</p>
+    <h1>{entry.title}</h1>
+    <p class="meta-row">{entry.publishedAt}</p>
+    {commentStatus && (
+      <p class="note">
+        {commentStatus === 'approved'
+          ? 'Comment published.'
+          : commentStatus === 'rejected'
+            ? 'Comment was rejected by moderation.'
+            : 'Comment received and awaiting moderation.'}
+      </p>
+    )}
+    <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+  </header>
+
   <RichTextRenderer blocks={entry.body} />
-  <CommentList comments={comments} />
-  <CommentForm contentType="essay" contentSlug={entry.slug} returnTo={`/essays/${entry.slug}`} />
+
+  <section class="comment-shell" aria-label="Comments">
+    <CommentList comments={comments} />
+    <CommentForm contentType="essay" contentSlug={entry.slug} returnTo={`/essays/${entry.slug}`} />
+  </section>
 </ProseLayout>

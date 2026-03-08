@@ -7,43 +7,60 @@ import { contentUrl, getFeaturedProjects, getRecentContent } from '../lib/conten
 
 const settings = await getSiteSettings();
 const featured = await getFeaturedProjects();
-const recent = await getRecentContent(5);
+const recent = await getRecentContent(6);
 export const prerender = true;
 ---
 
 <BaseLayout title={settings.siteTitle} description={settings.siteDescription} path="/">
-  <section>
+  <section class="hero">
+    <p class="kicker">Personal Editorial Studio</p>
     <h1>{settings.homepageStatement}</h1>
-    <p class="muted">Essays, mixed-media projects, idea outlines, and photography.</p>
+    <p class="muted">
+      A calm lab for long-form thinking across AI, design, and emerging ideas.
+      Built for reading, reflection, and slow iteration in public.
+    </p>
   </section>
 
-  <section class="section" aria-labelledby="featured-heading">
-    <h2 id="featured-heading">Featured Work</h2>
-    <div class="grid">
+  <section class="section section-shell" aria-labelledby="featured-heading">
+    <div class="section-head">
+      <p class="kicker">Curated</p>
+      <h2 id="featured-heading">Featured Work</h2>
+      <p class="muted">Projects and essays currently defining the studio's direction.</p>
+    </div>
+
+    <div class="list-grid three">
       {featured.map((item) => (
-        <article class="card">
+        <article class="card mag-card">
           <h3><a href={`/projects/${item.slug}`}>{item.title}</a></h3>
           <p>{item.excerpt}</p>
           <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>
+          <p class="meta-row">Project</p>
         </article>
       ))}
     </div>
   </section>
 
-  <section class="section" aria-labelledby="recent-heading">
-    <h2 id="recent-heading">Recent Work</h2>
-    <ul>
+  <section class="section section-shell dark" aria-labelledby="recent-heading">
+    <div class="section-head">
+      <p class="kicker">Publishing Log</p>
+      <h2 id="recent-heading">Recent Work</h2>
+    </div>
+
+    <ul class="archive-list">
       {recent.map((item) => (
         <li>
           <a href={contentUrl(item)}>{item.title}</a>
-          <span class="muted"> ({item.publishedAt})</span>
+          <span class="muted">{item.publishedAt}</span>
         </li>
       ))}
     </ul>
   </section>
 
-  <section class="section card" aria-labelledby="subscribe-heading">
-    <h2 id="subscribe-heading">Subscribe</h2>
+  <section class="section section-shell" aria-labelledby="subscribe-heading">
+    <div class="section-head">
+      <p class="kicker">Stay Updated</p>
+      <h2 id="subscribe-heading">Subscribe</h2>
+    </div>
     <p>{settings.subscribeCta}</p>
     <SubscribeForm />
   </section>

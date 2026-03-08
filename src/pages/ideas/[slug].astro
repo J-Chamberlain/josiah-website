@@ -35,28 +35,36 @@ if (hasSupabase && supabaseAdmin) {
   path={`/ideas/${entry.slug}`}
   noindex={entry.visibility === 'unlisted'}
 >
-  <h1>{entry.title}</h1>
-  <p class="muted">{entry.publishedAt}</p>
-  {commentStatus && (
-    <p class="note">
-      {commentStatus === 'approved'
-        ? 'Comment published.'
-        : commentStatus === 'rejected'
-          ? 'Comment was rejected by moderation.'
-          : 'Comment received and awaiting moderation.'}
-    </p>
-  )}
-  {entry.ideaStage && <p class="muted">Stage: {entry.ideaStage}</p>}
+  <header class="section-shell">
+    <p class="kicker">Idea Outline</p>
+    <h1>{entry.title}</h1>
+    <p class="meta-row">{entry.publishedAt}</p>
+    {commentStatus && (
+      <p class="note">
+        {commentStatus === 'approved'
+          ? 'Comment published.'
+          : commentStatus === 'rejected'
+            ? 'Comment was rejected by moderation.'
+            : 'Comment received and awaiting moderation.'}
+      </p>
+    )}
+    {entry.ideaStage && <p class="meta-row">Stage: {entry.ideaStage}</p>}
+    <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+  </header>
+
   {entry.openQuestions && entry.openQuestions.length > 0 && (
-    <section class="section">
+    <section class="section-shell section">
       <h2>Open Questions</h2>
       <ul>
         {entry.openQuestions.map((question) => <li>{question}</li>)}
       </ul>
     </section>
   )}
-  <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>
+
   <RichTextRenderer blocks={entry.body} />
-  <CommentList comments={comments} />
-  <CommentForm contentType="ideaOutline" contentSlug={entry.slug} returnTo={`/ideas/${entry.slug}`} />
+
+  <section class="comment-shell" aria-label="Comments">
+    <CommentList comments={comments} />
+    <CommentForm contentType="ideaOutline" contentSlug={entry.slug} returnTo={`/ideas/${entry.slug}`} />
+  </section>
 </ProseLayout>

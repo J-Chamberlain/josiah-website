@@ -53,10 +53,12 @@ const seo = buildSeo({ title, description, path, ogImage, noindex });
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to content</a>
-    <Header />
-    <main id="main" class="shell main-shell">
-      <slot />
-    </main>
-    <Footer />
+    <div class="site-canvas">
+      <Header />
+      <main id="main" class="shell main-shell">
+        <slot />
+      </main>
+      <Footer />
+    </div>
   </body>
 </html>
