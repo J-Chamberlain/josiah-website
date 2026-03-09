@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { supabaseAdmin, hasSupabase } from '../../lib/supabase';
-import { verifySignedToken } from '../../lib/signed-links';
+import { hasSigningSecret, verifySignedToken } from '../../lib/signed-links';
 
 export const GET: APIRoute = async ({ url, redirect }) => {
   const base = (import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321').replace(/\/$/, '');
@@ -8,6 +8,9 @@ export const GET: APIRoute = async ({ url, redirect }) => {
   const sig = url.searchParams.get('sig');
 
   if (!id || !sig) return redirect('/subscribe?status=confirm_invalid', 302);
+  if (!hasSigningSecret) {
+    return new Response('Signing secret is not configured.', { status: 501 });
+  }
 
   if (!verifySignedToken(id, sig)) {
     return redirect('/subscribe?status=confirm_invalid', 302);

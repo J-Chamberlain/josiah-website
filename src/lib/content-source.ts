@@ -1,5 +1,6 @@
 import {
   getFeaturedProjects as getFeaturedProjectsLocal,
+  getFeaturedEssays as getFeaturedEssaysLocal,
   getPublishedBySlug as getPublishedBySlugLocal,
   getPublicByKind as getPublicByKindLocal,
   getPublicBySlug as getPublicBySlugLocal,
@@ -139,6 +140,14 @@ function mapSanityEntry(entry: SanityEntry): ContentEntry | null {
   const body = normalizeBlocks(entry);
   const excerpt = (entry.excerpt || '').trim() || (body.find((b) => b.type === 'paragraph')?.text ?? '');
   const coverSrc = imageUrlFrom(entry.coverImage);
+  const coverPositionX =
+    entry.coverImage && typeof entry.coverImage === 'object' && 'positionX' in entry.coverImage
+      ? String((entry.coverImage as { positionX?: unknown }).positionX || '').trim() || undefined
+      : undefined;
+  const coverPositionY =
+    entry.coverImage && typeof entry.coverImage === 'object' && 'positionY' in entry.coverImage
+      ? String((entry.coverImage as { positionY?: unknown }).positionY || '').trim() || undefined
+      : undefined;
 
   return {
     id: entry._id,
@@ -149,7 +158,7 @@ function mapSanityEntry(entry: SanityEntry): ContentEntry | null {
     publishedAt: entry.publishedAt || new Date().toISOString().slice(0, 10),
     visibility: entry.visibility === 'unlisted' ? 'unlisted' : 'public',
     tags: (entry.tags || []).filter(Boolean),
-    coverImage: coverSrc ? { src: coverSrc, alt: entry.title } : undefined,
+    coverImage: coverSrc ? { src: coverSrc, alt: entry.title, positionX: coverPositionX, positionY: coverPositionY } : undefined,
     body,
     ideaStage: entry.stage,
     openQuestions: entry.openQuestions || [],
@@ -228,6 +237,17 @@ export async function getFeaturedProjects(): Promise<ContentEntry[]> {
     return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
   }
   return getFeaturedProjectsLocal();
+}
+
+export async function getFeaturedEssays(): Promise<ContentEntry[]> {
+  if (!hasSanityConfig) return getFeaturedEssaysLocal();
+  const rows = await sanityFetch<SanityEntry[]>(
+    `*[_type == "essay" && status == "published" && visibility != "unlisted" && featured == true] | order(publishedAt desc)[0...3] ${SANITY_SELECT}`,
+  );
+  if (rows && rows.length > 0) {
+    return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+  }
+  return getFeaturedEssaysLocal();
 }
 
 export async function getRecentContent(limit = 8): Promise<ContentEntry[]> {

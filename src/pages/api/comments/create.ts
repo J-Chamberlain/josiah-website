@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { supabaseAdmin, hasSupabase } from '../../../lib/supabase';
 import { runRuleModeration } from '../../../lib/moderation';
 import { hasResend, sendModerationDigestEmail } from '../../../lib/email';
-import { signToken } from '../../../lib/signed-links';
+import { hasSigningSecret, signToken } from '../../../lib/signed-links';
 
 const schema = z.object({
   content_type: z.enum(['essay', 'project', 'ideaOutline', 'gallery']),
@@ -62,14 +62,17 @@ export const POST: APIRoute = async ({ request }) => {
   }
 
   // Send moderation digest email to author for any pending comment
-  if (status === 'pending' && hasResend) {
+  if (status === 'pending' && hasResend && hasSigningSecret) {
     const authorEmail = import.meta.env.AUTHOR_EMAIL;
     if (authorEmail) {
       const base = (import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321').replace(/\/$/, '');
       const id = inserted.id;
-      const sig = signToken(id);
-      const approveUrl = `${base}/api/comments/moderate?id=${id}&action=approve&token=${id}&sig=${sig}`;
-      const rejectUrl = `${base}/api/comments/moderate?id=${id}&action=reject&token=${id}&sig=${sig}`;
+      const approveToken = `${id}:approve`;
+      const rejectToken = `${id}:reject`;
+      const approveSig = signToken(approveToken);
+      const rejectSig = signToken(rejectToken);
+      const approveUrl = `${base}/api/comments/moderate?id=${id}&action=approve&token=${approveToken}&sig=${approveSig}`;
+      const rejectUrl = `${base}/api/comments/moderate?id=${id}&action=reject&token=${rejectToken}&sig=${rejectSig}`;
       try {
         await sendModerationDigestEmail(authorEmail, {
           id,

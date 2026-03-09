@@ -1,7 +1,14 @@
 import { createHmac, timingSafeEqual } from 'node:crypto';
 
+const SIGNING_SECRET = import.meta.env.MODERATION_SIGNING_SECRET || import.meta.env.SUBSCRIBE_SIGNING_SECRET;
+
+export const hasSigningSecret = Boolean(SIGNING_SECRET);
+
 function getSecret(): string {
-  return import.meta.env.MODERATION_SIGNING_SECRET || import.meta.env.SUBSCRIBE_SIGNING_SECRET || 'dev-secret';
+  if (!SIGNING_SECRET) {
+    throw new Error('Signing secret is not configured. Set MODERATION_SIGNING_SECRET or SUBSCRIBE_SIGNING_SECRET.');
+  }
+  return SIGNING_SECRET;
 }
 
 export function signToken(payload: string): string {

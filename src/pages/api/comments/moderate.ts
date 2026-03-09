@@ -1,6 +1,6 @@
 import type { APIRoute } from 'astro';
 import { supabaseAdmin, hasSupabase } from '../../../lib/supabase';
-import { verifySignedToken } from '../../../lib/signed-links';
+import { hasSigningSecret, verifySignedToken } from '../../../lib/signed-links';
 
 export const GET: APIRoute = async ({ url }) => {
   const commentId = url.searchParams.get('id');
@@ -11,17 +11,21 @@ export const GET: APIRoute = async ({ url }) => {
   if (!commentId || !action || !token || !sig) {
     return new Response('Missing moderation params', { status: 400 });
   }
-  if (!verifySignedToken(token, sig)) {
-    return new Response('Invalid signature', { status: 403 });
-  }
   if (action !== 'approve' && action !== 'reject') {
     return new Response('Invalid action', { status: 400 });
+  }
+  if (!hasSigningSecret) {
+    return new Response('Signing secret is not configured.', { status: 501 });
+  }
+  const expectedToken = `${commentId}:${action}`;
+  if (token !== expectedToken || !verifySignedToken(token, sig)) {
+    return new Response('Invalid signature', { status: 403 });
   }
   if (!hasSupabase || !supabaseAdmin) {
     return new Response('Supabase is not configured.', { status: 501 });
   }
 
-  await supabaseAdmin
+  const { error } = await supabaseAdmin
     .from('comments')
     .update({
       status: action === 'approve' ? 'approved' : 'rejected',
@@ -30,6 +34,10 @@ export const GET: APIRoute = async ({ url }) => {
       moderated_at: new Date().toISOString(),
     })
     .eq('id', commentId);
+
+  if (error) {
+    return new Response('Failed to update comment.', { status: 500 });
+  }
 
   return new Response(`Comment ${action}d.`, { status: 200 });
 };

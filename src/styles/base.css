@@ -315,6 +315,7 @@ h3 {
   height: 160px;
   overflow: hidden;
   background: var(--surface-2);
+  padding: var(--space-2);
 }
 
 .card-cover img {
@@ -460,6 +461,7 @@ h3 {
 
 .image-figure figcaption {
   margin-top: var(--space-1);
+  padding-left: 0.5rem;
   color: var(--muted);
   font-size: 0.9rem;
 }
@@ -597,8 +599,17 @@ h3 {
   border-radius: var(--radius-sm);
 }
 
+.article-header-cover figcaption {
+  margin-top: var(--space-1);
+  padding-left: 0.5rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 .article-header-body {
-  padding: clamp(1.8rem, 3.5vw, 3rem);
+  padding-inline: clamp(1.8rem, 3.5vw, 3rem);
+  padding-block-start: clamp(0.8rem, 1.5vw, 1.2rem);
+  padding-block-end: clamp(0.4rem, 0.8vw, 0.6rem);
 }
 
 .article-header h1 {
@@ -613,7 +624,7 @@ h3 {
 
 .article-subtitle {
   font-size: 1.25rem;
-  font-style: italic;
+  font-style: normal;
   color: var(--muted);
   margin: 0.1em 0 var(--space-3);
   font-weight: var(--body-weight);
@@ -621,7 +632,7 @@ h3 {
 
 .article-dek {
   font-size: 1.15rem;
-  font-style: italic;
+  font-style: normal;
   color: var(--muted);
   max-width: 60ch;
   line-height: 1.6;

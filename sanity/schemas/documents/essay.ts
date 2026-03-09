@@ -11,6 +11,7 @@ export default defineType({
     defineField({ name: 'publishedAt', type: 'datetime' }),
     defineField({ name: 'status', type: 'string', options: { list: ['draft', 'published'] }, initialValue: 'draft', validation: (rule) => rule.required() }),
     defineField({ name: 'visibility', type: 'string', options: { list: ['public', 'unlisted'] }, initialValue: 'public', validation: (rule) => rule.required() }),
+    defineField({ name: 'featured', type: 'boolean', initialValue: false }),
     defineField({ name: 'tags', type: 'array', of: [{ type: 'reference', to: [{ type: 'tag' }] }] }),
     defineField({ name: 'coverImage', type: 'image', options: { hotspot: true } }),
     defineField({ name: 'body', type: 'array', of: [{ type: 'block' }, { type: 'mediaEmbed' }, { type: 'imageFigure' }] }),

@@ -12,6 +12,11 @@ interface Block {
   alt?: string;
   caption?: string;
   fullWidth?: boolean;
+  width?: string;
+  align?: 'left' | 'center' | 'right';
+  cropWidth?: number;
+  cropHeight?: number;
+  naturalAspect?: number;
 }
 
 interface Props {
@@ -39,6 +44,11 @@ const { blocks } = Astro.props;
           alt={block.alt}
           caption={block.caption}
           fullWidth={Boolean(block.fullWidth)}
+          width={block.width}
+          align={block.align}
+          cropWidth={block.cropWidth}
+          cropHeight={block.cropHeight}
+          naturalAspect={block.naturalAspect}
         />
       );
     }

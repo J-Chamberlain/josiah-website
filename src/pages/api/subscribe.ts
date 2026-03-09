@@ -3,7 +3,7 @@ import { createHash, randomBytes } from 'node:crypto';
 import { z } from 'zod';
 import { supabaseAdmin, hasSupabase } from '../../lib/supabase';
 import { hasResend, sendConfirmationEmail } from '../../lib/email';
-import { signToken } from '../../lib/signed-links';
+import { hasSigningSecret, signToken } from '../../lib/signed-links';
 
 const schema = z.object({
   email: z.string().email(),
@@ -40,6 +40,15 @@ export const POST: APIRoute = async ({ request, redirect }) => {
       JSON.stringify({
         ok: false,
         message: 'Supabase is not configured yet. Configure env vars to enable subscriptions.',
+      }),
+      { status: 501 },
+    );
+  }
+  if (!hasSigningSecret) {
+    return new Response(
+      JSON.stringify({
+        ok: false,
+        message: 'Signing secret is not configured. Set MODERATION_SIGNING_SECRET or SUBSCRIBE_SIGNING_SECRET.',
       }),
       { status: 501 },
     );

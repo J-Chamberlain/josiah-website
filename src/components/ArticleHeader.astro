@@ -19,15 +19,22 @@ const { entry, kicker, commentStatus } = Astro.props;
     {entry.subtitle && <p class="article-subtitle">{entry.subtitle}</p>}
     {entry.coverImage && (() => {
       const ci = entry.coverImage!;
-      const isFloat = ci.align === 'left' || ci.align === 'right';
-      const figStyle = ci.width
-        ? `width: ${ci.width}; max-width: 100%${ci.align === 'center' ? '; margin-inline: auto' : ''}`
-        : undefined;
       const alignClass = ci.align ? `align-${ci.align}` : '';
+      const containerWidth = ci.width ?? '100%';
+      const centerMargin = ci.align === 'center' ? ' margin-inline: auto;' : '';
+      const croppedAspect = (ci.cropHeight && ci.naturalAspect)
+        ? ci.naturalAspect / (ci.cropHeight / 100)
+        : null;
       return (
-        <figure class={`article-header-cover${alignClass ? ` ${alignClass}` : ''}`} style={figStyle}>
-          <img src={ci.src} alt={ci.alt} />
-          {ci.caption && <figcaption>{ci.caption}</figcaption>}
+        <figure class={`article-header-cover${alignClass ? ` ${alignClass}` : ''}`}>
+          {croppedAspect ? (
+            <div style={`aspect-ratio: ${croppedAspect}; overflow: hidden; width: ${containerWidth}; max-width: 100%;${centerMargin}`}>
+              <img src={ci.src} alt={ci.alt} style="width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block;" />
+            </div>
+          ) : (
+            <img src={ci.src} alt={ci.alt} style={ci.width ? `width: ${containerWidth}; max-width: 100%;${centerMargin}` : undefined} />
+          )}
+          {ci.caption && <figcaption style="text-align: center;">{ci.caption}</figcaption>}
         </figure>
       );
     })()}
