@@ -3,11 +3,11 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SubscribeForm from '../components/SubscribeForm.astro';
 import ContentCard from '../components/ContentCard.astro';
 import { getSiteSettings } from '../lib/site';
-import { contentUrl, getFeaturedEssays, getRecentContent } from '../lib/content-source';
+import { contentUrl, getFeaturedWork, getRecentWork } from '../lib/content-source';
 
 const settings = await getSiteSettings();
-const featured = await getFeaturedEssays();
-const recent = await getRecentContent(6);
+const featured = await getFeaturedWork(3);
+const recent = await getRecentWork(6);
 export const prerender = true;
 ---
 
@@ -23,13 +23,13 @@ export const prerender = true;
 
   <section class="section" aria-labelledby="featured-heading">
     <div class="section-head">
-      <h2 id="featured-heading">Featured Essay</h2>
+      <h2 id="featured-heading">Featured Work</h2>
       <p class="muted">Projects and essays currently defining the studio's direction.</p>
     </div>
 
     <div>
       {featured.map((item) => (
-        <ContentCard entry={item} showCover={true} href={`/essays/${item.slug}`} />
+        <ContentCard entry={item} showCover={true} href={contentUrl(item)} />
       ))}
     </div>
   </section>

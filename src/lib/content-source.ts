@@ -50,6 +50,10 @@ function byDateDesc(a: ContentEntry, b: ContentEntry): number {
   return a.publishedAt < b.publishedAt ? 1 : -1;
 }
 
+function onlyHomepageWork(entries: ContentEntry[]): ContentEntry[] {
+  return entries.filter((entry) => entry.kind === 'essay' || entry.kind === 'project');
+}
+
 function textFromPortableBlock(block: Record<string, unknown>): string {
   const children = Array.isArray(block.children) ? block.children : [];
   return children
@@ -262,6 +266,34 @@ export async function getFeaturedEssays(): Promise<ContentEntry[]> {
     if (latest) return latest.slice(0, 3);
   }
   return getFeaturedEssaysLocal();
+}
+
+export async function getFeaturedWork(limit = 3): Promise<ContentEntry[]> {
+  const localFallback = [...getFeaturedEssaysLocal(), ...getFeaturedProjectsLocal()].sort(byDateDesc).slice(0, limit);
+  if (!hasSanityConfig) return localFallback;
+
+  const rows = await sanityFetch<SanityEntry[]>(
+    `*[_type in ["essay","project"] && status == "published" && visibility != "unlisted" && featured == true] | order(publishedAt desc)[0...$limit] ${SANITY_SELECT}`,
+    { limit },
+  );
+
+  if (rows === null) return localFallback;
+  if (rows.length > 0) {
+    return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+  }
+
+  const all = await sanityAllPublic();
+  if (all === null) return localFallback;
+  return onlyHomepageWork(all).slice(0, limit);
+}
+
+export async function getRecentWork(limit = 8): Promise<ContentEntry[]> {
+  const localFallback = onlyHomepageWork(getPublicContentLocal()).slice(0, limit);
+  if (!hasSanityConfig) return localFallback;
+
+  const all = await sanityAllPublic();
+  if (all === null) return localFallback;
+  return onlyHomepageWork(all).slice(0, limit);
 }
 
 export async function getRecentContent(limit = 8): Promise<ContentEntry[]> {
