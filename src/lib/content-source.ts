@@ -50,6 +50,31 @@ function byDateDesc(a: ContentEntry, b: ContentEntry): number {
   return a.publishedAt < b.publishedAt ? 1 : -1;
 }
 
+function entryKey(entry: Pick<ContentEntry, 'kind' | 'slug'>): string {
+  return `${entry.kind}:${entry.slug}`;
+}
+
+function mergePreferPrimary(primary: ContentEntry[], fallback: ContentEntry[]): ContentEntry[] {
+  const seen = new Set<string>();
+  const merged: ContentEntry[] = [];
+
+  for (const entry of primary) {
+    const key = entryKey(entry);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(entry);
+  }
+
+  for (const entry of fallback) {
+    const key = entryKey(entry);
+    if (seen.has(key)) continue;
+    seen.add(key);
+    merged.push(entry);
+  }
+
+  return merged.sort(byDateDesc);
+}
+
 function onlyHomepageWork(entries: ContentEntry[]): ContentEntry[] {
   return entries.filter((entry) => entry.kind === 'essay' || entry.kind === 'project');
 }
@@ -210,25 +235,29 @@ async function sanityAllPublic(): Promise<ContentEntry[] | null> {
 
 export async function getAllPublicContent(): Promise<ContentEntry[]> {
   if (!hasSanityConfig) return getPublicContentLocal();
-  return (await sanityAllPublic()) || getPublicContentLocal();
+  const sanity = await sanityAllPublic();
+  if (sanity === null) return getPublicContentLocal();
+  return mergePreferPrimary(sanity, getPublicContentLocal());
 }
 
 export async function getPublicByKind(kind: ContentKind): Promise<ContentEntry[]> {
   if (!hasSanityConfig) return getPublicByKindLocal(kind);
-  return (await sanityByKind(kind)) || getPublicByKindLocal(kind);
+  const sanity = await sanityByKind(kind);
+  if (sanity === null) return getPublicByKindLocal(kind);
+  return mergePreferPrimary(sanity, getPublicByKindLocal(kind));
 }
 
 export async function getPublicBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined> {
   if (!hasSanityConfig) return getPublicBySlugLocal(kind, slug);
   const row = await sanityBySlug(kind, slug);
-  if (row === null) return getPublicBySlugLocal(kind, slug);
+  if (row === null || row === undefined) return getPublicBySlugLocal(kind, slug);
   return row;
 }
 
 export async function getPublishedBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined> {
   if (!hasSanityConfig) return getPublishedBySlugLocal(kind, slug);
   const row = await sanityByPublishedSlug(kind, slug);
-  if (row === null) return getPublishedBySlugLocal(kind, slug);
+  if (row === null || row === undefined) return getPublishedBySlugLocal(kind, slug);
   return row;
 }
 
@@ -239,33 +268,37 @@ export async function getPublicByTag(tag: string): Promise<ContentEntry[]> {
 }
 
 export async function getFeaturedProjects(): Promise<ContentEntry[]> {
-  if (!hasSanityConfig) return getFeaturedProjectsLocal();
+  const localFallback = getFeaturedProjectsLocal();
+  if (!hasSanityConfig) return localFallback;
   const rows = await sanityFetch<SanityEntry[]>(
     `*[_type == "project" && status == "published" && visibility != "unlisted" && featured == true] | order(publishedAt desc)[0...3] ${SANITY_SELECT}`,
   );
   if (rows && rows.length > 0) {
-    return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+    const sanity = rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+    return mergePreferPrimary(sanity, localFallback).slice(0, 3);
   }
   if (rows) {
     const latest = await sanityByKind('project');
-    if (latest) return latest.slice(0, 3);
+    if (latest) return mergePreferPrimary(latest, getPublicByKindLocal('project')).slice(0, 3);
   }
-  return getFeaturedProjectsLocal();
+  return localFallback;
 }
 
 export async function getFeaturedEssays(): Promise<ContentEntry[]> {
-  if (!hasSanityConfig) return getFeaturedEssaysLocal();
+  const localFallback = getFeaturedEssaysLocal();
+  if (!hasSanityConfig) return localFallback;
   const rows = await sanityFetch<SanityEntry[]>(
     `*[_type == "essay" && status == "published" && visibility != "unlisted" && featured == true] | order(publishedAt desc)[0...3] ${SANITY_SELECT}`,
   );
   if (rows && rows.length > 0) {
-    return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+    const sanity = rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+    return mergePreferPrimary(sanity, localFallback).slice(0, 3);
   }
   if (rows) {
     const latest = await sanityByKind('essay');
-    if (latest) return latest.slice(0, 3);
+    if (latest) return mergePreferPrimary(latest, getPublicByKindLocal('essay')).slice(0, 3);
   }
-  return getFeaturedEssaysLocal();
+  return localFallback;
 }
 
 export async function getFeaturedWork(limit = 3): Promise<ContentEntry[]> {
@@ -279,12 +312,13 @@ export async function getFeaturedWork(limit = 3): Promise<ContentEntry[]> {
 
   if (rows === null) return localFallback;
   if (rows.length > 0) {
-    return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+    const sanityFeatured = rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+    return mergePreferPrimary(sanityFeatured, localFallback).slice(0, limit);
   }
 
   const all = await sanityAllPublic();
   if (all === null) return localFallback;
-  return onlyHomepageWork(all).slice(0, limit);
+  return mergePreferPrimary(onlyHomepageWork(all), onlyHomepageWork(getPublicContentLocal())).slice(0, limit);
 }
 
 export async function getRecentWork(limit = 8): Promise<ContentEntry[]> {
@@ -293,7 +327,7 @@ export async function getRecentWork(limit = 8): Promise<ContentEntry[]> {
 
   const all = await sanityAllPublic();
   if (all === null) return localFallback;
-  return onlyHomepageWork(all).slice(0, limit);
+  return mergePreferPrimary(onlyHomepageWork(all), onlyHomepageWork(getPublicContentLocal())).slice(0, limit);
 }
 
 export async function getRecentContent(limit = 8): Promise<ContentEntry[]> {
