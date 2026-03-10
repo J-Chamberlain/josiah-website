@@ -174,22 +174,26 @@ async function sanityByKind(kind: ContentKind): Promise<ContentEntry[] | null> {
   return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
 }
 
-async function sanityBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | null> {
-  const row = await sanityFetch<SanityEntry>(
-    `*[_type == $kind && slug.current == $slug && status == "published" && visibility != "unlisted"][0] ${SANITY_SELECT}`,
+async function sanityBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined | null> {
+  const rows = await sanityFetch<SanityEntry[]>(
+    `*[_type == $kind && slug.current == $slug && status == "published" && visibility != "unlisted"][0...1] ${SANITY_SELECT}`,
     { kind, slug },
   );
-  if (!row) return null;
-  return mapSanityEntry(row);
+  if (!rows) return null;
+  const row = rows[0];
+  if (!row) return undefined;
+  return mapSanityEntry(row) ?? undefined;
 }
 
-async function sanityByPublishedSlug(kind: ContentKind, slug: string): Promise<ContentEntry | null> {
-  const row = await sanityFetch<SanityEntry>(
-    `*[_type == $kind && slug.current == $slug && status == "published"][0] ${SANITY_SELECT}`,
+async function sanityByPublishedSlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined | null> {
+  const rows = await sanityFetch<SanityEntry[]>(
+    `*[_type == $kind && slug.current == $slug && status == "published"][0...1] ${SANITY_SELECT}`,
     { kind, slug },
   );
-  if (!row) return null;
-  return mapSanityEntry(row);
+  if (!rows) return null;
+  const row = rows[0];
+  if (!row) return undefined;
+  return mapSanityEntry(row) ?? undefined;
 }
 
 async function sanityAllPublic(): Promise<ContentEntry[] | null> {
@@ -213,13 +217,15 @@ export async function getPublicByKind(kind: ContentKind): Promise<ContentEntry[]
 export async function getPublicBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined> {
   if (!hasSanityConfig) return getPublicBySlugLocal(kind, slug);
   const row = await sanityBySlug(kind, slug);
-  return row || getPublicBySlugLocal(kind, slug);
+  if (row === null) return getPublicBySlugLocal(kind, slug);
+  return row;
 }
 
 export async function getPublishedBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined> {
   if (!hasSanityConfig) return getPublishedBySlugLocal(kind, slug);
   const row = await sanityByPublishedSlug(kind, slug);
-  return row || getPublishedBySlugLocal(kind, slug);
+  if (row === null) return getPublishedBySlugLocal(kind, slug);
+  return row;
 }
 
 export async function getPublicByTag(tag: string): Promise<ContentEntry[]> {
@@ -236,6 +242,10 @@ export async function getFeaturedProjects(): Promise<ContentEntry[]> {
   if (rows && rows.length > 0) {
     return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
   }
+  if (rows) {
+    const latest = await sanityByKind('project');
+    if (latest) return latest.slice(0, 3);
+  }
   return getFeaturedProjectsLocal();
 }
 
@@ -246,6 +256,10 @@ export async function getFeaturedEssays(): Promise<ContentEntry[]> {
   );
   if (rows && rows.length > 0) {
     return rows.map(mapSanityEntry).filter((x): x is ContentEntry => Boolean(x));
+  }
+  if (rows) {
+    const latest = await sanityByKind('essay');
+    if (latest) return latest.slice(0, 3);
   }
   return getFeaturedEssaysLocal();
 }
