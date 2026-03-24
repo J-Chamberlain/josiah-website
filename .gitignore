@@ -1,0 +1,28 @@
+# Large files (>100 MB — exceeds GitHub limit)
+References/Documents/Special Report on the preservation of Niagara Falls.pdf
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+.output/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+
+# Logs
+*.log
+
+# Editor
+.vscode/
+.idea/
+
+# Astro / Sanity cache
+.astro/
+.sanity/

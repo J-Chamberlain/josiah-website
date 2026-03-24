@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import KashmirApp from '../components/kashmir/KashmirApp';
+---
+
+<BaseLayout
+  title="Kashmir ADV Expedition Planner"
+  description="High uncertainty travel environment interpretation layer and map for motorcycle travel in Kashmir and Ladakh."
+  path="/kashmir"
+>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <style is:global>
+    /* Full bleed application viewport */
+    .main-shell {
+      padding: 0 !important;
+      max-width: 100% !important;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .site-canvas {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Leaflet overrides for custom markers and tooltips */
+    .custom-kashmir-marker {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-tooltip {
+      background: rgba(45, 55, 72, 0.95) !important;
+      border: 1px solid #1a202c !important;
+      color: #fff !important;
+      font-weight: 500;
+      font-family: inherit;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3) !important;
+      border-radius: 4px !important;
+      padding: 6px 10px !important;
+    }
+
+    .leaflet-tooltip-left.section-tooltip::before {
+      border-left-color: rgba(45, 55, 72, 0.95) !important;
+    }
+    .leaflet-tooltip-right.section-tooltip::before {
+      border-right-color: rgba(45, 55, 72, 0.95) !important;
+    }
+  </style>
+
+  <KashmirApp client:only="react" />
+</BaseLayout>

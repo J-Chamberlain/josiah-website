@@ -1,0 +1,36 @@
+---
+import '../styles/slipstream-figure.css';
+
+const mountId = 'slipstream-figure-root';
+---
+
+<div class="slipstream-embed">
+  <div id={mountId}></div>
+</div>
+
+<script is:inline>
+  const mountId = 'slipstream-figure-root';
+
+  function bootSlipstreamFigure() {
+    const mount = document.getElementById(mountId);
+    if (!mount || mount.dataset.slipstreamMounted === 'true') return;
+    if (typeof window.mountSlipstreamFigure !== 'function') return;
+    window.mountSlipstreamFigure(mount);
+    mount.dataset.slipstreamMounted = 'true';
+  }
+
+  if (typeof window.mountSlipstreamFigure === 'function') {
+    bootSlipstreamFigure();
+  } else {
+    const existingScript = document.querySelector('script[data-slipstream-script="true"]');
+    if (existingScript instanceof HTMLScriptElement) {
+      existingScript.addEventListener('load', bootSlipstreamFigure, { once: true });
+    } else {
+      const script = document.createElement('script');
+      script.src = '/scripts/slipstream-figure.js';
+      script.dataset.slipstreamScript = 'true';
+      script.addEventListener('load', bootSlipstreamFigure, { once: true });
+      document.head.appendChild(script);
+    }
+  }
+</script>

@@ -1,0 +1,29 @@
+---
+type CommentItem = {
+  name: string | null;
+  body: string;
+  createdAt: string;
+};
+
+interface Props {
+  comments?: CommentItem[];
+}
+
+const { comments = [] } = Astro.props;
+---
+
+<section class="section" aria-labelledby="comments-heading">
+  <h2 id="comments-heading">Comments</h2>
+  {comments.length === 0 ? (
+    <p class="muted">No approved comments yet.</p>
+  ) : (
+    <ul class="comments-list">
+      {comments.map((item) => (
+        <li class="card">
+          <p>{item.body}</p>
+          <p class="muted">{item.name || 'Anonymous'} · {new Date(item.createdAt).toLocaleDateString()}</p>
+        </li>
+      ))}
+    </ul>
+  )}
+</section>

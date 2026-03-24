@@ -1,0 +1,116 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SubscribeForm from '../components/SubscribeForm.astro';
+import ContentCard from '../components/ContentCard.astro';
+import { getSiteSettings } from '../lib/site';
+import { contentUrl, getFeaturedWork, getPublicBySlug, getRecentWork } from '../lib/content-source';
+import { applyEssayDisplayOverrides, prioritizeOlmstedEssay } from '../lib/preview-display';
+
+const settings = await getSiteSettings();
+const featuredBase = await getFeaturedWork(3);
+const olmsted = await getPublicBySlug('essay', 'project-olmsted');
+const featuredWithOlmsted = (() => {
+  if (!olmsted) return featuredBase;
+  const withoutOlmsted = featuredBase.filter((item) => !(item.kind === 'essay' && item.slug === 'project-olmsted'));
+  return [olmsted, ...withoutOlmsted].slice(0, 3);
+})();
+const featured = prioritizeOlmstedEssay(featuredWithOlmsted).map(applyEssayDisplayOverrides);
+const recent = (await getRecentWork(6)).map(applyEssayDisplayOverrides);
+export const prerender = true;
+---
+
+<BaseLayout title={settings.siteTitle} description={settings.siteDescription} path="/">
+  <section class="hero">
+    <p class="kicker">Preview</p>
+    <h1>{settings.homepageStatement}</h1>
+    <p class="muted">
+      This homepage is using temporary preview copy.
+      Sections below are under development and not final published material.
+    </p>
+  </section>
+
+  <section class="section history-explorer-entry" aria-labelledby="history-explorer-entry-heading">
+    <div class="section-head">
+      <p class="kicker">Interactive Feature</p>
+      <h2 id="history-explorer-entry-heading">Interactive History Explorer</h2>
+    </div>
+    <p class="muted">
+      Explore a zoomable world-history timeline, drag a selection across the chart, and generate an AI-guided explanation of the period or region in view.
+    </p>
+    <a href="/history-explorer" class="history-link">
+      Open History Explorer →
+    </a>
+  </section>
+
+  <section class="section" aria-labelledby="featured-heading">
+    <div class="section-head">
+      <h2 id="featured-heading">Featured Work</h2>
+      <p class="muted">Draft placeholders for preview layout testing.</p>
+    </div>
+
+    <div>
+      {featured.map((item) => (
+        <ContentCard entry={item} showCover={true} href={contentUrl(item)} />
+      ))}
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="recent-heading">
+    <div class="section-head">
+      <p class="kicker">Preview Index</p>
+      <h2 id="recent-heading">Recent Work</h2>
+    </div>
+
+    <ul class="archive-list">
+      {recent.map((item) => (
+        <li>
+          <a href={contentUrl(item)}>{item.title}</a>
+          <span class="muted">{item.publishedAt}</span>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section class="section" aria-labelledby="subscribe-heading">
+    <div class="section-head">
+      <p class="kicker">Preview Signup</p>
+      <h2 id="subscribe-heading">Subscribe</h2>
+    </div>
+    <p>{settings.subscribeCta}</p>
+    <SubscribeForm />
+  </section>
+</BaseLayout>
+
+<style>
+  .history-explorer-entry {
+    padding: var(--space-4);
+    border: 1px solid var(--rule);
+    background: color-mix(in oklab, var(--surface) 93%, white 7%);
+  }
+
+  .history-explorer-entry p {
+    max-width: 62ch;
+    margin-bottom: var(--space-3);
+  }
+
+  .history-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.72rem 1rem;
+    border: 1px solid color-mix(in oklab, var(--accent) 46%, var(--rule) 54%);
+    background: color-mix(in oklab, white 80%, var(--accent-soft) 20%);
+    font-family: var(--font-ui);
+    font-size: 0.92rem;
+    font-weight: 620;
+    letter-spacing: 0.03em;
+    text-decoration: none;
+    transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+  }
+
+  .history-link:hover {
+    background: color-mix(in oklab, white 62%, var(--accent-soft) 38%);
+    border-color: var(--accent-muted);
+    transform: translateY(-1px);
+  }
+</style>

@@ -1,0 +1,67 @@
+---
+export const prerender = false;
+
+import ProseLayout from '../../layouts/ProseLayout.astro';
+import TagChip from '../../components/TagChip.astro';
+import Lightbox from '../../components/Lightbox.astro';
+import CommentForm from '../../components/CommentForm.astro';
+import CommentList from '../../components/CommentList.astro';
+import { getPublishedBySlug } from '../../lib/content-source';
+import { supabaseAdmin, hasSupabase } from '../../lib/supabase';
+
+const { slug } = Astro.params;
+const entry = await getPublishedBySlug('gallery', slug ?? '');
+const commentStatus = Astro.url.searchParams.get('comment_status');
+
+if (!entry) return Astro.redirect('/404');
+
+const images = entry.body
+  .filter((block) => block.type === 'image')
+  .map((block) => ({ src: block.src, alt: block.alt }));
+
+type CommentRow = { name: string | null; body: string; createdAt: string };
+let comments: CommentRow[] = [];
+if (hasSupabase && supabaseAdmin) {
+  const { data } = await supabaseAdmin
+    .from('comments')
+    .select('name, body, created_at')
+    .eq('content_type', 'gallery')
+    .eq('content_slug', entry.slug)
+    .eq('status', 'approved')
+    .order('created_at', { ascending: true });
+  comments = (data ?? []).map((c) => ({ name: c.name, body: c.body, createdAt: c.created_at }));
+}
+---
+
+<ProseLayout
+  title={entry.title}
+  description={entry.excerpt}
+  path={`/galleries/${entry.slug}`}
+  noindex={entry.visibility === 'unlisted'}
+>
+  <header class="section-shell">
+    <p class="kicker">Gallery</p>
+    <h1>{entry.title}</h1>
+    <p class="meta-row">{entry.publishedAt}</p>
+    {commentStatus && (
+      <p class="note">
+        {commentStatus === 'approved'
+          ? 'Comment published.'
+          : commentStatus === 'rejected'
+            ? 'Comment was rejected by moderation.'
+            : 'Comment received and awaiting moderation.'}
+      </p>
+    )}
+    <p>{entry.excerpt}</p>
+    {entry.tags && entry.tags.length > 0 && <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>}
+  </header>
+
+  <section class="section-shell section">
+    <Lightbox images={images} id={entry.slug} />
+  </section>
+
+  <section class="comment-shell" aria-label="Comments">
+    <CommentList comments={comments} />
+    <CommentForm contentType="gallery" contentSlug={entry.slug} returnTo={`/galleries/${entry.slug}`} />
+  </section>
+</ProseLayout>

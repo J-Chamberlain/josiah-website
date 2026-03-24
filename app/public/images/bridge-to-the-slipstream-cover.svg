@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" role="img" aria-labelledby="title desc">
+  <title id="title">Bridge to the Slipstream cover art</title>
+  <desc id="desc">A stylized cycling pack on a road with a rider bridging into the draft.</desc>
+  <defs>
+    <linearGradient id="sky" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#f6f1e7" />
+      <stop offset="100%" stop-color="#e7dcc9" />
+    </linearGradient>
+    <linearGradient id="road" x1="50%" y1="20%" x2="50%" y2="100%">
+      <stop offset="0%" stop-color="#756757" />
+      <stop offset="100%" stop-color="#54473d" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="700" fill="url(#sky)" />
+  <rect y="0" width="1200" height="120" fill="#fbf8f2" opacity="0.75" />
+  <path d="M430 120 L300 700 L900 700 L770 120 Z" fill="url(#road)" />
+  <path d="M588 120 L612 120 L650 700 L550 700 Z" fill="#f1d38f" opacity="0.95" />
+  <path d="M492 160 L480 700" stroke="#ffffff" stroke-opacity="0.1" stroke-width="14" />
+  <path d="M708 160 L720 700" stroke="#ffffff" stroke-opacity="0.1" stroke-width="14" />
+  <g fill="none" stroke="#e9efe9" stroke-opacity="0.7">
+    <path d="M600 210 C560 260 520 330 515 430" stroke-width="14" stroke-linecap="round" />
+    <path d="M600 210 C640 260 680 330 685 430" stroke-width="14" stroke-linecap="round" />
+    <path d="M600 220 C600 290 602 360 606 430" stroke-width="10" stroke-linecap="round" />
+  </g>
+  <g transform="translate(600 206) scale(0.95)">
+    <g transform="translate(-70 -12)">
+      <circle cx="-18" cy="20" r="16" stroke="#f1eadf" stroke-width="5" />
+      <circle cx="18" cy="20" r="16" stroke="#f1eadf" stroke-width="5" />
+      <path d="M-18 20 L0 0 L18 20 L-3 20 L-18 20" stroke="#f1eadf" stroke-width="5" fill="none" />
+      <path d="M0 0 L10 -14 L22 -5" stroke="#f1eadf" stroke-width="5" fill="none" />
+      <circle cx="0" cy="-22" r="11" fill="#445258" />
+      <path d="M0 -10 L-10 5 M0 -10 L8 1 M-2 2 L-6 20 M2 2 L6 20" stroke="#445258" stroke-width="6" stroke-linecap="round" />
+    </g>
+    <g>
+      <circle cx="-18" cy="20" r="16" stroke="#f1eadf" stroke-width="5" />
+      <circle cx="18" cy="20" r="16" stroke="#f1eadf" stroke-width="5" />
+      <path d="M-18 20 L0 0 L18 20 L-3 20 L-18 20" stroke="#f1eadf" stroke-width="5" fill="none" />
+      <path d="M0 0 L10 -14 L22 -5" stroke="#f1eadf" stroke-width="5" fill="none" />
+      <circle cx="0" cy="-22" r="11" fill="#445258" />
+      <path d="M0 -10 L-10 5 M0 -10 L8 1 M-2 2 L-6 20 M2 2 L6 20" stroke="#445258" stroke-width="6" stroke-linecap="round" />
+    </g>
+    <g transform="translate(72 14)">
+      <circle cx="-18" cy="20" r="16" stroke="#f1eadf" stroke-width="5" />
+      <circle cx="18" cy="20" r="16" stroke="#f1eadf" stroke-width="5" />
+      <path d="M-18 20 L0 0 L18 20 L-3 20 L-18 20" stroke="#f1eadf" stroke-width="5" fill="none" />
+      <path d="M0 0 L10 -14 L22 -5" stroke="#f1eadf" stroke-width="5" fill="none" />
+      <circle cx="0" cy="-22" r="11" fill="#445258" />
+      <path d="M0 -10 L-10 5 M0 -10 L8 1 M-2 2 L-6 20 M2 2 L6 20" stroke="#445258" stroke-width="6" stroke-linecap="round" />
+    </g>
+  </g>
+  <g transform="translate(600 438) scale(1.12)">
+    <circle cx="-18" cy="20" r="16" stroke="#f5eee1" stroke-width="5" />
+    <circle cx="18" cy="20" r="16" stroke="#f5eee1" stroke-width="5" />
+    <path d="M-18 20 L0 0 L18 20 L-3 20 L-18 20" stroke="#f5eee1" stroke-width="5" fill="none" />
+    <path d="M0 0 L10 -14 L22 -5" stroke="#f5eee1" stroke-width="5" fill="none" />
+    <circle cx="0" cy="-22" r="11" fill="#be5f2e" />
+    <path d="M0 -10 L-10 5 M0 -10 L8 1 M-2 2 L-6 20 M2 2 L6 20" stroke="#be5f2e" stroke-width="6" stroke-linecap="round" />
+  </g>
+</svg>

@@ -1,0 +1,79 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { verifySignedToken, signToken } from '../lib/signed-links';
+import { supabaseAdmin, hasSupabase } from '../lib/supabase';
+
+const token = Astro.url.searchParams.get('token');
+const signature = Astro.url.searchParams.get('sig');
+const isAuthorized = Boolean(token && signature && verifySignedToken(token, signature));
+
+type PendingComment = {
+  id: string;
+  name: string | null;
+  body: string;
+  email: string;
+  content_type: string;
+  content_slug: string;
+  created_at: string;
+  moderation_reason: string | null;
+  approveUrl: string;
+  rejectUrl: string;
+};
+
+let pendingComments: PendingComment[] = [];
+
+if (isAuthorized && hasSupabase && supabaseAdmin) {
+  const base = (import.meta.env.PUBLIC_SITE_URL || 'http://localhost:4321').replace(/\/$/, '');
+  const { data } = await supabaseAdmin
+    .from('comments')
+    .select('id, name, body, email, content_type, content_slug, created_at, moderation_reason')
+    .eq('status', 'pending')
+    .order('created_at', { ascending: true });
+
+  pendingComments = (data ?? []).map((c) => {
+    const sig = signToken(c.id);
+    return {
+      ...c,
+      approveUrl: `${base}/api/comments/moderate?id=${c.id}&action=approve&token=${c.id}&sig=${sig}`,
+      rejectUrl: `${base}/api/comments/moderate?id=${c.id}&action=reject&token=${c.id}&sig=${sig}`,
+    };
+  });
+}
+---
+
+<BaseLayout
+  title="Moderation Queue"
+  description="Protected moderation queue for comment approvals."
+  path="/moderation"
+  noindex={true}
+>
+  <h1>Moderation Queue</h1>
+
+  {!isAuthorized ? (
+    <p class="muted">Invalid or missing signed token. Access denied.</p>
+  ) : !hasSupabase ? (
+    <p class="muted">Supabase is not configured.</p>
+  ) : pendingComments.length === 0 ? (
+    <p class="muted">No pending comments.</p>
+  ) : (
+    <ul class="comments-list">
+      {pendingComments.map((c) => (
+        <li class="card">
+          <p class="muted" style="font-size:0.85rem;margin:0 0 6px">
+            {c.content_type} / <strong>{c.content_slug}</strong>
+            &nbsp;·&nbsp; {new Date(c.created_at).toLocaleString()}
+            &nbsp;·&nbsp; reason: {c.moderation_reason ?? '—'}
+          </p>
+          <p class="muted" style="font-size:0.85rem;margin:0 0 8px">From: {c.name || 'Anonymous'} &lt;{c.email}&gt;</p>
+          <p style="margin:0 0 12px">{c.body}</p>
+          <p style="margin:0;display:flex;gap:1rem">
+            <a href={c.approveUrl} style="color:#6b7a63;font-weight:600">Approve</a>
+            <a href={c.rejectUrl} style="color:#9e7070">Reject</a>
+          </p>
+        </li>
+      ))}
+    </ul>
+  )}
+</BaseLayout>

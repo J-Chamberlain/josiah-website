@@ -1,0 +1,57 @@
+---
+import MediaEmbed from './MediaEmbed.astro';
+import ImageFigure from './ImageFigure.astro';
+
+interface Block {
+  type: 'paragraph' | 'heading' | 'youtube' | 'spotify' | 'image' | 'note';
+  text?: string;
+  id?: string;
+  title?: string;
+  url?: string;
+  src?: string;
+  alt?: string;
+  caption?: string;
+  fullWidth?: boolean;
+  width?: string;
+  align?: 'left' | 'center' | 'right';
+  cropWidth?: number;
+  cropHeight?: number;
+  naturalAspect?: number;
+}
+
+interface Props {
+  blocks: Block[];
+}
+
+const { blocks } = Astro.props;
+---
+
+<div>
+  {blocks.map((block) => {
+    if (block.type === 'heading') return <h2>{block.text}</h2>;
+    if (block.type === 'paragraph') return <p>{block.text}</p>;
+    if (block.type === 'note') return <aside class="note">{block.text}</aside>;
+    if (block.type === 'youtube' && block.id && block.title) {
+      return <MediaEmbed type="youtube" idOrUrl={block.id} title={block.title} />;
+    }
+    if (block.type === 'spotify' && block.url && block.title) {
+      return <MediaEmbed type="spotify" idOrUrl={block.url} title={block.title} />;
+    }
+    if (block.type === 'image' && block.src && block.alt) {
+      return (
+        <ImageFigure
+          src={block.src}
+          alt={block.alt}
+          caption={block.caption}
+          fullWidth={Boolean(block.fullWidth)}
+          width={block.width}
+          align={block.align}
+          cropWidth={block.cropWidth}
+          cropHeight={block.cropHeight}
+          naturalAspect={block.naturalAspect}
+        />
+      );
+    }
+    return null;
+  })}
+</div>

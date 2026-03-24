@@ -1,0 +1,70 @@
+---
+export const prerender = false;
+
+import ProseLayout from '../../layouts/ProseLayout.astro';
+import RichTextRenderer from '../../components/RichTextRenderer.astro';
+import TagChip from '../../components/TagChip.astro';
+import CommentForm from '../../components/CommentForm.astro';
+import CommentList from '../../components/CommentList.astro';
+import { getPublishedBySlug } from '../../lib/content-source';
+import { supabaseAdmin, hasSupabase } from '../../lib/supabase';
+
+const { slug } = Astro.params;
+const entry = await getPublishedBySlug('ideaOutline', slug ?? '');
+const commentStatus = Astro.url.searchParams.get('comment_status');
+
+if (!entry) return Astro.redirect('/404');
+
+type CommentRow = { name: string | null; body: string; createdAt: string };
+let comments: CommentRow[] = [];
+if (hasSupabase && supabaseAdmin) {
+  const { data } = await supabaseAdmin
+    .from('comments')
+    .select('name, body, created_at')
+    .eq('content_type', 'ideaOutline')
+    .eq('content_slug', entry.slug)
+    .eq('status', 'approved')
+    .order('created_at', { ascending: true });
+  comments = (data ?? []).map((c) => ({ name: c.name, body: c.body, createdAt: c.created_at }));
+}
+---
+
+<ProseLayout
+  title={entry.title}
+  description={entry.excerpt}
+  path={`/ideas/${entry.slug}`}
+  noindex={entry.visibility === 'unlisted'}
+>
+  <header class="section-shell">
+    <p class="kicker">Idea Outline</p>
+    <h1>{entry.title}</h1>
+    <p class="meta-row">{entry.publishedAt}</p>
+    {commentStatus && (
+      <p class="note">
+        {commentStatus === 'approved'
+          ? 'Comment published.'
+          : commentStatus === 'rejected'
+            ? 'Comment was rejected by moderation.'
+            : 'Comment received and awaiting moderation.'}
+      </p>
+    )}
+    {entry.ideaStage && <p class="meta-row">Stage: {entry.ideaStage}</p>}
+    {entry.tags && entry.tags.length > 0 && <p class="tag-row">{entry.tags.map((tag) => <TagChip tag={tag} />)}</p>}
+  </header>
+
+  {entry.openQuestions && entry.openQuestions.length > 0 && (
+    <section class="section-shell section">
+      <h2>Open Questions</h2>
+      <ul>
+        {entry.openQuestions.map((question) => <li>{question}</li>)}
+      </ul>
+    </section>
+  )}
+
+  <RichTextRenderer blocks={entry.body} />
+
+  <section class="comment-shell" aria-label="Comments">
+    <CommentList comments={comments} />
+    <CommentForm contentType="ideaOutline" contentSlug={entry.slug} returnTo={`/ideas/${entry.slug}`} />
+  </section>
+</ProseLayout>

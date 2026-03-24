@@ -1,0 +1,18 @@
+---
+export const prerender = true;
+
+import ProseLayout from '../layouts/ProseLayout.astro';
+import { getSiteSettings } from '../lib/site';
+
+const settings = await getSiteSettings();
+---
+
+<ProseLayout title="Privacy" description="Privacy page preview placeholder." path="/privacy">
+  <h1>Privacy</h1>
+  <p>{settings.privacyIntro}</p>
+  <p>{settings.privacyDataUse}</p>
+  <p>
+    {settings.privacyUnsubscribe}{' '}
+    <a href={`mailto:${settings.contactEmail}`}>{settings.contactEmail}</a>.
+  </p>
+</ProseLayout>

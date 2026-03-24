@@ -1,0 +1,13 @@
+---
+interface Props {
+  quote: string;
+  attribution?: string;
+}
+
+const { quote, attribution } = Astro.props;
+---
+
+<div class="pull-quote">
+  <blockquote>{quote}</blockquote>
+  {attribution && <cite>{attribution}</cite>}
+</div>

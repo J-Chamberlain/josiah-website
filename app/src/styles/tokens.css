@@ -1,0 +1,38 @@
+:root {
+  --bg: #faf8f5;
+  --surface: #fdfcfa;
+  --surface-2: #faf8f5;
+  --surface-raised: #ffffff;
+  --ink: #1d1b18;
+  --text: #26221d;
+  --muted: #675d52;
+  --rule: #d8ccbc;
+  --accent: #8b6914;
+  --accent-soft: #f5ead6;
+  --accent-muted: #c49a2e;
+  --amber-rule: #d4a843;
+  --dark: #121314;
+  --dark-surface: #1c1d21;
+  --dark-muted: #bcb8b2;
+
+  --font-display: "Source Serif 4", Georgia, serif;
+  --font-ui: "Public Sans", "Avenir Next", "Segoe UI", sans-serif;
+  --display-weight: 560;
+  --body-weight: 390;
+  --display-size: clamp(1.8rem, 2.6vw, 2.8rem);
+
+  --space-1: 0.5rem;
+  --space-2: 0.8rem;
+  --space-3: 1.2rem;
+  --space-4: 1.8rem;
+  --space-5: 2.8rem;
+  --space-6: 4.2rem;
+  --space-7: 6rem;
+  --space-8: 9rem;
+
+  --container: 92rem;
+  --prose-width: 88ch;
+  --radius: 18px;
+  --radius-sm: 10px;
+  --radius-lg: 24px;
+}

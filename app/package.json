@@ -1,0 +1,33 @@
+{
+  "name": "app",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "verify:integrations": "node scripts/verify-integrations.mjs",
+    "sanity:dev": "sanity dev",
+    "sanity:build": "sanity build"
+  },
+  "dependencies": {
+    "@astrojs/react": "^5.0.1",
+    "@astrojs/rss": "^4.0.15",
+    "@astrojs/sitemap": "^3.7.0",
+    "@astrojs/vercel": "^9.0.4",
+    "@sanity/client": "^7.16.0",
+    "@sanity/image-url": "^2.0.3",
+    "@supabase/supabase-js": "^2.98.0",
+    "astro": "^5.17.1",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4",
+    "resend": "^6.9.3",
+    "styled-components": "^6.3.11",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@sanity/vision": "^5.13.0",
+    "sanity": "^5.13.0"
+  }
+}

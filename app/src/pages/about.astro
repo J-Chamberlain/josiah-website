@@ -1,0 +1,18 @@
+---
+export const prerender = true;
+
+import ProseLayout from '../layouts/ProseLayout.astro';
+import { getSiteSettings } from '../lib/site';
+
+const settings = await getSiteSettings();
+---
+
+<ProseLayout
+  title="About"
+  description="About page preview placeholder."
+  path="/about"
+>
+  <h1>About</h1>
+  <p>{settings.aboutIntro}</p>
+  <p>{settings.aboutCanonicalNote}</p>
+</ProseLayout>

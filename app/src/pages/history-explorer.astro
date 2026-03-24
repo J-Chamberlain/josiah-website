@@ -1,0 +1,20 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Explorer from '../components/HistoryExplorer/Explorer';
+
+const historyImage = '/images/history/timeline-of-world-history%20copy.jpg';
+---
+
+<BaseLayout
+  title="History Explorer"
+  description="Interactive world-history explorer with selection-based AI narrative analysis."
+  path="/history-explorer"
+>
+  <Explorer
+    client:load
+    imageSrc={historyImage}
+    imageAlt="Timeline of world history chart"
+    imageWidth={1200}
+    imageHeight={1800}
+  />
+</BaseLayout>

@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { contentUrl, getPublicByTag } from '../../lib/content-source';
+import { slugToTag } from '../../lib/tags';
+
+const tag = slugToTag(Astro.params.tag || '');
+const entries = await getPublicByTag(tag);
+---
+
+<BaseLayout title={`Tag: ${tag}`} description={`Content tagged ${tag}`} path={`/tags/${Astro.params.tag}`}>
+  <h1>Tag: {tag}</h1>
+  <ul>
+    {entries.map((entry) => (
+      <li>
+        <a href={contentUrl(entry)}>{entry.title}</a>
+        <span class="muted"> ({entry.publishedAt})</span>
+      </li>
+    ))}
+  </ul>
+</BaseLayout>

@@ -1,0 +1,57 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CobdrApp from '../components/cobdr/CobdrApp';
+---
+
+<BaseLayout
+  title="COBDR Interactive Companion"
+  description="Map-based exploration of the Colorado Backcountry Discovery Route sections and POIs with AI insights."
+  path="/cobdr"
+>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <style is:global>
+    /* Adjust the main shell to allow a full-bleed application view */
+    .main-shell {
+      padding: 0 !important;
+      max-width: 100% !important;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .site-canvas {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Leaflet overrides for custom markers and tooltips */
+    .custom-cobdr-marker {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .section-tooltip {
+      background: rgba(0, 0, 0, 0.85) !important;
+      border: 1px solid #555 !important;
+      color: #fff !important;
+      font-weight: 500;
+      font-family: inherit;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2) !important;
+      border-radius: 6px !important;
+      padding: 6px 10px !important;
+    }
+
+    .leaflet-tooltip-left.section-tooltip::before {
+      border-left-color: rgba(0, 0, 0, 0.85) !important;
+    }
+    .leaflet-tooltip-right.section-tooltip::before {
+      border-right-color: rgba(0, 0, 0, 0.85) !important;
+    }
+  </style>
+
+  <CobdrApp client:only="react" />
+</BaseLayout>
