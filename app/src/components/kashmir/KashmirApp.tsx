@@ -45,36 +45,50 @@ const SidebarPanel = styled.div`
 `;
 
 export default function KashmirApp() {
-    const [activeSectionId, setActiveSectionId] = useState<SectionId>(null);
-    const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
+  const [activeSectionId, setActiveSectionId] = useState<SectionId>(null);
+  const [activeMarkerId, setActiveMarkerId] = useState<string | null>(null);
+  const [activePhotoId, setActivePhotoId] = useState<string | null>(null);
 
-    const handleSectionSelect = (id: SectionId) => {
-        setActiveSectionId(id);
-        if (!id || (activeMarkerId && MARKERS.find(m => m.id === activeMarkerId)?.sectionId !== id)) {
-            setActiveMarkerId(null);
-        }
-    };
+  const handleSectionSelect = (id: SectionId) => {
+    setActiveSectionId(id);
+    setActivePhotoId(null);
+    if (!id || (activeMarkerId && MARKERS.find(m => m.id === activeMarkerId)?.sectionId !== id)) {
+      setActiveMarkerId(null);
+    }
+  };
 
-    const handleMarkerSelect = (id: string | null) => {
-        setActiveMarkerId(id);
-    };
+  const handleMarkerSelect = (id: string | null) => {
+    setActiveMarkerId(id);
+    setActivePhotoId(null);
+  };
 
-    return (
-        <AppContainer>
-            <MapPanel>
-                <Map
-                    activeSectionId={activeSectionId}
-                    activeMarkerId={activeMarkerId}
-                    onSectionSelect={handleSectionSelect}
-                    onMarkerSelect={handleMarkerSelect}
-                />
-            </MapPanel>
-            <SidebarPanel>
-                <Sidebar
-                    activeSectionId={activeSectionId}
-                    activeMarkerId={activeMarkerId}
-                />
-            </SidebarPanel>
-        </AppContainer>
-    );
+  const handlePhotoSelect = (id: string | null) => {
+    setActivePhotoId(id);
+    if (id) {
+      setActiveSectionId(null);
+      setActiveMarkerId(null);
+    }
+  };
+
+  return (
+    <AppContainer>
+      <MapPanel>
+        <Map
+          activeSectionId={activeSectionId}
+          activeMarkerId={activeMarkerId}
+          activePhotoId={activePhotoId}
+          onSectionSelect={handleSectionSelect}
+          onMarkerSelect={handleMarkerSelect}
+          onPhotoSelect={handlePhotoSelect}
+        />
+      </MapPanel>
+      <SidebarPanel>
+        <Sidebar
+          activeSectionId={activeSectionId}
+          activeMarkerId={activeMarkerId}
+          activePhotoId={activePhotoId}
+        />
+      </SidebarPanel>
+    </AppContainer>
+  );
 }

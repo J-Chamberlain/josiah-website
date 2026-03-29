@@ -23,6 +23,7 @@ interface ImageViewportProps {
   fullscreen: boolean;
   analyzing: boolean;
   canAnalyze: boolean;
+  initialZoom?: number;
   onSelectionChange: (selection: SelectionRect | null) => void;
   onEnterFullscreen: () => void;
   onExitFullscreen: () => void;
@@ -50,15 +51,19 @@ export function ImageViewport({
   onExitFullscreen,
   onAnalyze,
   onSetToolMode,
+  initialZoom = 1,
 }: ImageViewportProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const animationFrameRef = useRef<number | null>(null);
   const focusPointRef = useRef<{ clientX?: number; clientY?: number }>({});
-  const zoomTargetRef = useRef(1);
-  const zoomRef = useRef(1);
+  const zoomTargetRef = useRef(initialZoom);
+  const zoomRef = useRef(initialZoom);
   const panRef = useRef({ x: 0, y: 0 });
+  const initializedRef = useRef(false);
+  const centerOnNextResizeRef = useRef(false);
+  const prevContainerRef = useRef({ width: 0, height: 0 });
   const [containerSize, setContainerSize] = useState({ width: 0, height: 0 });
-  const [zoom, setZoom] = useState(1);
+  const [zoom, setZoom] = useState(initialZoom);
   const [pan, setPan] = useState({ x: 0, y: 0 });
   const [dragState, setDragState] = useState<DragState | null>(null);
 
@@ -70,6 +75,22 @@ export function ImageViewport({
     panRef.current = pan;
   }, [pan]);
 
+  // Once the container is first measured, snap pan so the image's top-left
+  // corner sits at the canvas top-left (only when initialZoom > 1).
+  useEffect(() => {
+    if (initializedRef.current || containerSize.width === 0 || containerSize.height === 0) return;
+    if (initialZoom <= 1) return;
+    initializedRef.current = true;
+    const fs = Math.min(containerSize.width / imageWidth, containerSize.height / imageHeight);
+    const by = (containerSize.height - imageHeight * fs) / 2;
+    const newPan = {
+      x: (imageWidth * fs / 2) * (1 - initialZoom),
+      y: -by,
+    };
+    panRef.current = newPan;
+    setPan(newPan);
+  }, [containerSize, initialZoom, imageWidth, imageHeight]);
+
   useEffect(() => {
     const element = containerRef.current;
     if (!element) return;
@@ -77,15 +98,49 @@ export function ImageViewport({
     const observer = new ResizeObserver((entries) => {
       const entry = entries[0];
       if (!entry) return;
-      setContainerSize({
-        width: entry.contentRect.width,
-        height: entry.contentRect.height,
-      });
+      const w = entry.contentRect.width;
+      const h = entry.contentRect.height;
+      setContainerSize({ width: w, height: h });
+
+      if (centerOnNextResizeRef.current && w > 0 && h > 0) {
+        centerOnNextResizeRef.current = false;
+        const fs = Math.min(w / imageWidth, h / imageHeight);
+        const newPan = {
+          x: (imageWidth * fs / 2) * (1 - zoomRef.current),
+          y: (imageHeight * fs / 2) * (1 - zoomRef.current),
+        };
+        panRef.current = newPan;
+        setPan(newPan);
+      } else if (initializedRef.current && prevContainerRef.current.width > 0 && w > 0 && h > 0) {
+        const prevW = prevContainerRef.current.width;
+        const prevH = prevContainerRef.current.height;
+        const prevFitScale = Math.min(prevW / imageWidth, prevH / imageHeight);
+        const newFitScale = Math.min(w / imageWidth, h / imageHeight);
+
+        const prevBaseX = (prevW - imageWidth * prevFitScale) / 2;
+        const prevBaseY = (prevH - imageHeight * prevFitScale) / 2;
+        const prevScale = prevFitScale * zoomRef.current;
+        const cur = panRef.current;
+        const imgCx = (prevW / 2 - prevBaseX - cur.x) / prevScale;
+        const imgCy = (prevH / 2 - prevBaseY - cur.y) / prevScale;
+
+        const newBaseX = (w - imageWidth * newFitScale) / 2;
+        const newBaseY = (h - imageHeight * newFitScale) / 2;
+        const newScale = newFitScale * zoomRef.current;
+        const newPan = {
+          x: w / 2 - newBaseX - imgCx * newScale,
+          y: h / 2 - newBaseY - imgCy * newScale,
+        };
+        panRef.current = newPan;
+        setPan(newPan);
+      }
+
+      prevContainerRef.current = { width: w, height: h };
     });
 
     observer.observe(element);
     return () => observer.disconnect();
-  }, []);
+  }, [imageWidth, imageHeight]);
 
   const fitScale = containerSize.width > 0 && containerSize.height > 0
     ? Math.min(containerSize.width / imageWidth, containerSize.height / imageHeight)
@@ -112,6 +167,13 @@ export function ImageViewport({
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [fullscreen, onExitFullscreen]);
+
+  // When entering fullscreen, signal the ResizeObserver to center once the
+  // container has been remeasured at the new (viewport) dimensions.
+  useEffect(() => {
+    if (!fullscreen) return;
+    centerOnNextResizeRef.current = true;
+  }, [fullscreen]);
 
   function toImageCoordinates(clientX: number, clientY: number) {
     const rect = containerRef.current?.getBoundingClientRect();
@@ -242,8 +304,8 @@ export function ImageViewport({
         pointerId: event.pointerId,
         startX: event.clientX,
         startY: event.clientY,
-        originX: pan.x,
-        originY: pan.y,
+        originX: panRef.current.x,
+        originY: panRef.current.y,
       });
       return;
     }
@@ -269,10 +331,12 @@ export function ImageViewport({
     if (!dragState) return;
 
     if (dragState.kind === 'pan') {
-      setPan({
+      const newPan = {
         x: dragState.originX + (event.clientX - dragState.startX),
         y: dragState.originY + (event.clientY - dragState.startY),
-      });
+      };
+      panRef.current = newPan;
+      setPan(newPan);
       return;
     }
 
@@ -298,10 +362,22 @@ export function ImageViewport({
   }
 
   function resetView() {
-    zoomTargetRef.current = 1;
+    zoomTargetRef.current = initialZoom;
     focusPointRef.current = {};
-    applyZoom(1);
-    setPan({ x: 0, y: 0 });
+    applyZoom(initialZoom);
+    if (initialZoom > 1 && !fullscreen) {
+      const fs = Math.min(containerSize.width / imageWidth, containerSize.height / imageHeight);
+      const by = (containerSize.height - imageHeight * fs) / 2;
+      const newPan = {
+        x: (imageWidth * fs / 2) * (1 - initialZoom),
+        y: -by,
+      };
+      panRef.current = newPan;
+      setPan(newPan);
+    } else {
+      panRef.current = { x: 0, y: 0 };
+      setPan({ x: 0, y: 0 });
+    }
   }
 
   const canvas = (
@@ -405,10 +481,9 @@ export function ImageViewport({
         <div className="history-viewport__mode">
           <span>{toolMode === 'pan' ? 'Pan Mode' : 'Selection Mode'}</span>
           <span>Pinch over chart or use +/- for precise zoom</span>
-          {detectedMode && selection ? <strong>{getModeLabel(detectedMode)}</strong> : null}
         </div>
         <button type="button" className="history-viewport__fullscreen-btn" onClick={onEnterFullscreen} aria-label="Enter fullscreen">
-          ⛶
+          ⛶ Fullscreen
         </button>
       </div>
       {canvas}

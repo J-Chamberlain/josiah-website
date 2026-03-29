@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { PROJECT_ITEMS } from '../lib/editorial';
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Projects"
+  description="Interactive and applied work from the studio."
+  path="/projects"
+>
+  <section class="hero">
+    <p class="kicker">Projects</p>
+    <h1>Interactive and applied work.</h1>
+    <p class="muted">Projects collect simulations, planners, and exploratory tools that are live or actively evolving.</p>
+  </section>
+
+  <section class="section project-grid">
+    {PROJECT_ITEMS.map((item) => <EditorialCard item={item} />)}
+  </section>
+</BaseLayout>
+
+<style>
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-3);
+    align-items: start;
+  }
+</style>

@@ -1,0 +1,23 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { ANCHOR_ESSAY } from '../lib/editorial';
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Essays"
+  description="Finished writing from the studio."
+  path="/essays"
+>
+  <section class="hero">
+    <p class="kicker">Essays</p>
+    <h1>Finished writing only.</h1>
+    <p class="muted">Published essays live here as complete pieces rather than drafts or notes.</p>
+  </section>
+
+  <section class="section">
+    <EditorialCard item={ANCHOR_ESSAY} featured={true} />
+  </section>
+</BaseLayout>

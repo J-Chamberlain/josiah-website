@@ -1,116 +1,338 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SubscribeForm from '../components/SubscribeForm.astro';
-import ContentCard from '../components/ContentCard.astro';
-import { getSiteSettings } from '../lib/site';
-import { contentUrl, getFeaturedWork, getPublicBySlug, getRecentWork } from '../lib/content-source';
-import { applyEssayDisplayOverrides, prioritizeOlmstedEssay } from '../lib/preview-display';
+import { HOMEPAGE_MANIFEST } from '../lib/editorial';
+import { getPublicBySlug } from '../lib/content-source';
 
-const settings = await getSiteSettings();
-const featuredBase = await getFeaturedWork(3);
-const olmsted = await getPublicBySlug('essay', 'project-olmsted');
-const featuredWithOlmsted = (() => {
-  if (!olmsted) return featuredBase;
-  const withoutOlmsted = featuredBase.filter((item) => !(item.kind === 'essay' && item.slug === 'project-olmsted'));
-  return [olmsted, ...withoutOlmsted].slice(0, 3);
-})();
-const featured = prioritizeOlmstedEssay(featuredWithOlmsted).map(applyEssayDisplayOverrides);
-const recent = (await getRecentWork(6)).map(applyEssayDisplayOverrides);
 export const prerender = true;
+
+const featuredItem = HOMEPAGE_MANIFEST.find((item) => item.layoutSlot === 'featured');
+const supportingItems = HOMEPAGE_MANIFEST.filter((item) => item.layoutSlot !== 'featured');
+const ideaItems = supportingItems.filter((item) => item.label === 'IDEA · DRAFT');
+const projectItems = supportingItems.filter((item) => item.label === 'PROJECT · IN PROGRESS');
+const olmstedEssay = await getPublicBySlug('essay', 'project-olmsted');
+const coverImage = olmstedEssay?.coverImage;
+const croppedAspect = coverImage?.cropHeight && coverImage?.naturalAspect
+  ? coverImage.naturalAspect / (coverImage.cropHeight / 100)
+  : null;
+const coverWidth = coverImage?.width ?? '100%';
+const coverCenterMargin = coverImage?.align === 'center' ? ' margin-inline: auto;' : '';
 ---
 
-<BaseLayout title={settings.siteTitle} description={settings.siteDescription} path="/">
-  <section class="hero">
-    <p class="kicker">Preview</p>
-    <h1>{settings.homepageStatement}</h1>
-    <p class="muted">
-      This homepage is using temporary preview copy.
-      Sections below are under development and not final published material.
-    </p>
-  </section>
+<BaseLayout
+  title="Personal Studio"
+  description="Essays, projects, and visual ideas in progress, anchored by finished writing."
+  path="/"
+>
+  <section class="home-hero">
+    <div class="home-hero-inner">
+      <p class="eyebrow">WORKING STUDIO</p>
 
-  <section class="section history-explorer-entry" aria-labelledby="history-explorer-entry-heading">
-    <div class="section-head">
-      <p class="kicker">Interactive Feature</p>
-      <h2 id="history-explorer-entry-heading">Interactive History Explorer</h2>
-    </div>
-    <p class="muted">
-      Explore a zoomable world-history timeline, drag a selection across the chart, and generate an AI-guided explanation of the period or region in view.
-    </p>
-    <a href="/history-explorer" class="history-link">
-      Open History Explorer →
-    </a>
-  </section>
+      <h1>We are entering a new design space.</h1>
 
-  <section class="section" aria-labelledby="featured-heading">
-    <div class="section-head">
-      <h2 id="featured-heading">Featured Work</h2>
-      <p class="muted">Draft placeholders for preview layout testing.</p>
-    </div>
+      <div class="hero-body">
+        <p>
+          For most of history, the structure of our lives—how we work, focus, and relate to one another—has been shaped by necessity and constraint. Now, with artificial intelligence, many of those constraints are loosening. The question is no longer just how to be more productive within existing systems, but how those systems themselves might be redesigned.
+        </p>
 
-    <div>
-      {featured.map((item) => (
-        <ContentCard entry={item} showCover={true} href={contentUrl(item)} />
-      ))}
+        <p>
+          This site explores that question.
+        </p>
+
+        <p>
+          Some pieces are essays. Others are tools—early attempts to rethink how we interact with information, plan experiences, or shape our environments. Across all of them is a shared idea: that by working with human nature, rather than against it, we can uncover forms of effort that feel less like strain and more like alignment.
+        </p>
+      </div>
     </div>
   </section>
 
-  <section class="section" aria-labelledby="recent-heading">
-    <div class="section-head">
-      <p class="kicker">Preview Index</p>
-      <h2 id="recent-heading">Recent Work</h2>
-    </div>
+  <section class="featured-essay">
+    <div class="featured-essay-inner">
+      <article class="article-header featured-essay-preview">
+        <div class="article-header-body">
+          <p class="kicker">ESSAY</p>
+          <h2>
+            <a href="/essays/project-olmsted">
+              Pastoral Transcendentalism
+            </a>
+          </h2>
 
-    <ul class="archive-list">
-      {recent.map((item) => (
-        <li>
-          <a href={contentUrl(item)}>{item.title}</a>
-          <span class="muted">{item.publishedAt}</span>
-        </li>
-      ))}
-    </ul>
+          <p class="article-subtitle">
+            Conjuring Frederick Law Olmsted in AI-Enabled Design
+          </p>
+
+          {coverImage && (
+            <figure class="article-header-cover">
+              {croppedAspect ? (
+                <div style={`aspect-ratio: ${croppedAspect}; overflow: hidden; width: ${coverWidth}; max-width: 100%;${coverCenterMargin}`}>
+                  <img src={coverImage.src} alt={coverImage.alt} style="width: 100%; height: 100%; object-fit: cover; object-position: center center; display: block;" />
+                </div>
+              ) : (
+                <img src={coverImage.src} alt={coverImage.alt} style={coverImage.width ? `width: ${coverWidth}; max-width: 100%;${coverCenterMargin}` : undefined} />
+              )}
+              {coverImage.caption && <figcaption style="text-align: center;">{coverImage.caption}</figcaption>}
+            </figure>
+          )}
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section class="section supporting-group" aria-labelledby="projects-heading">
+    <div class="section-inner">
+      <p class="kicker">PROJECTS</p>
+      <h2 id="projects-heading">Projects in progress.</h2>
+      <div class="stack-list">
+        {projectItems.map((item) => (
+          <article class:list={['studio-card', !item.href && 'is-static']}>
+            <div class="studio-card-media">
+              {item.href ? (
+                <a href={item.href}>
+                  <img src={item.imageSrc} alt={item.imageAlt ?? item.title} loading="lazy" />
+                </a>
+              ) : (
+                <img src={item.imageSrc} alt={item.imageAlt ?? item.title} loading="lazy" />
+              )}
+            </div>
+            <div class="studio-card-body">
+              <p class="studio-card-label">{item.label}</p>
+              <h3 class="studio-card-title">
+                {item.href ? <a href={item.href}>{item.title}</a> : item.title}
+              </h3>
+              <p class="studio-card-description">{item.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section supporting-group" aria-labelledby="ideas-heading">
+    <div class="section-inner">
+      <p class="kicker">IDEAS</p>
+      <h2 id="ideas-heading">Ideas in development.</h2>
+      <div class="stack-list">
+        {ideaItems.map((item) => (
+          <article class:list={['studio-card', !item.href && 'is-static']}>
+            <div class="studio-card-media">
+              {item.href ? (
+                <a href={item.href}>
+                  <img src={item.imageSrc} alt={item.imageAlt ?? item.title} loading="lazy" />
+                </a>
+              ) : (
+                <img src={item.imageSrc} alt={item.imageAlt ?? item.title} loading="lazy" />
+              )}
+            </div>
+            <div class="studio-card-body">
+              <p class="studio-card-label">{item.label}</p>
+              <h3 class="studio-card-title">
+                {item.href ? <a href={item.href}>{item.title}</a> : item.title}
+              </h3>
+              <p class="studio-card-description">{item.description}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
   </section>
 
   <section class="section" aria-labelledby="subscribe-heading">
     <div class="section-head">
-      <p class="kicker">Preview Signup</p>
+      <p class="kicker">Updates</p>
       <h2 id="subscribe-heading">Subscribe</h2>
     </div>
-    <p>{settings.subscribeCta}</p>
+    <p class="home-intro__body">
+      Subscribe for new essays and project updates as work moves from draft to publication.
+    </p>
     <SubscribeForm />
   </section>
 </BaseLayout>
 
 <style>
-  .history-explorer-entry {
-    padding: var(--space-4);
-    border: 1px solid var(--rule);
-    background: color-mix(in oklab, var(--surface) 93%, white 7%);
+  .home-column {
+    max-width: 840px;
+    margin: 0 auto;
   }
 
-  .history-explorer-entry p {
-    max-width: 62ch;
+  .home-hero {
+    padding: 80px 24px 48px;
+  }
+
+  .home-hero-inner {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .hero-body {
+    max-width: 720px;
+  }
+
+  .eyebrow {
+    margin: 0 0 12px;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 0.76rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .home-hero h1 {
+    font-size: 40px;
+    line-height: 1.2;
+    margin-bottom: 24px;
+  }
+
+  .hero-body p {
+    font-size: 18px;
+    line-height: 1.7;
+    margin-bottom: 16px;
+  }
+
+  .featured-essay {
+    padding: 64px 24px;
+  }
+
+  .featured-essay-inner {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .featured-essay h2 {
+    font-size: 36px;
+    margin: 8px 0 12px;
+  }
+
+  .featured-essay-preview {
+    margin-bottom: 0;
+  }
+
+  .featured-essay-preview .article-header-body {
+    padding-block-end: clamp(1rem, 1.8vw, 1.4rem);
+  }
+
+  .featured-essay-preview .article-header-cover {
+    margin-top: var(--space-2);
+    margin-bottom: 0;
+  }
+
+  .featured-essay-preview .article-header-cover > div {
+    max-height: 360px;
+  }
+
+  .featured-essay-preview .article-header-cover figcaption {
+    margin-top: var(--space-1);
+  }
+
+  .supporting-group {
+    padding-inline: 24px;
+  }
+
+  .section-inner {
+    max-width: 840px;
+    margin: 0 auto;
+  }
+
+  .section-inner h2 {
     margin-bottom: var(--space-3);
   }
 
-  .history-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.72rem 1rem;
-    border: 1px solid color-mix(in oklab, var(--accent) 46%, var(--rule) 54%);
-    background: color-mix(in oklab, white 80%, var(--accent-soft) 20%);
-    font-family: var(--font-ui);
-    font-size: 0.92rem;
-    font-weight: 620;
-    letter-spacing: 0.03em;
-    text-decoration: none;
-    transition: background 140ms ease, border-color 140ms ease, transform 140ms ease;
+  .stack-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-3);
   }
 
-  .history-link:hover {
-    background: color-mix(in oklab, white 62%, var(--accent-soft) 38%);
-    border-color: var(--accent-muted);
-    transform: translateY(-1px);
+  .studio-card {
+    border: 1px solid var(--rule);
+    background: var(--surface-raised);
+    overflow: hidden;
+    height: 100%;
+  }
+
+  .studio-card-media {
+    padding: var(--space-3);
+    padding-bottom: 0;
+  }
+
+  .studio-card-media img {
+    display: block;
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    object-position: center;
+    border: 1px solid color-mix(in oklab, var(--rule) 82%, white 18%);
+    border-radius: var(--radius-sm);
+    background: color-mix(in oklab, var(--surface) 92%, white 8%);
+  }
+
+  .studio-card-media a {
+    display: block;
+  }
+
+  .studio-card-body {
+    display: grid;
+    gap: 0.42rem;
+    padding: var(--space-3);
+  }
+
+  .studio-card-label {
+    margin: 0;
+    color: var(--accent);
+    font-family: var(--font-ui);
+    font-size: 0.76rem;
+    font-weight: 650;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .studio-card-title {
+    margin: 0;
+  }
+
+  .studio-card-title a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .studio-card-description {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .studio-card:not(.is-static):hover .studio-card-title a {
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+  }
+
+  @media (max-width: 980px) {
+    .home-hero {
+      padding-top: 64px;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .home-hero {
+      padding: 56px 20px 36px;
+    }
+
+    .featured-essay {
+      padding: 48px 20px;
+    }
+
+    .supporting-group {
+      padding-inline: 20px;
+    }
+
+    .home-hero h1 {
+      font-size: 32px;
+    }
+
+    .hero-body p,
+    .featured-essay .dek {
+      font-size: 17px;
+    }
   }
 </style>

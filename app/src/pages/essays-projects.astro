@@ -1,130 +1,42 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import TagChip from '../components/TagChip.astro';
-import { contentUrl, getPublicByKind } from '../lib/content-source';
-import { applyEssayDisplayOverrides, byPublishedDateDesc, prioritizeOlmstedEssay } from '../lib/preview-display';
-
-const featuredProjects = await getPublicByKind('project');
-const essays = prioritizeOlmstedEssay([...await getPublicByKind('essay')].sort(byPublishedDateDesc));
-const ideas = await getPublicByKind('ideaOutline');
-const archive = [...essays, ...ideas, ...featuredProjects].sort(byPublishedDateDesc);
-
-function coverPositionStyle(coverImage: { positionX?: string; positionY?: string; align?: string }): string {
-  const alignFallback =
-    coverImage.align === 'top' || coverImage.align === 'center' || coverImage.align === 'bottom'
-      ? coverImage.align
-      : undefined;
-  const positionX = coverImage.positionX?.trim() || '50%';
-  const positionY = coverImage.positionY?.trim() || alignFallback || 'center';
-  return `object-position: ${positionX} ${positionY};`;
-}
-export const prerender = true;
 ---
 
 <BaseLayout
-  title="Essays & Projects"
-  description="Preview index for draft essays, projects, and placeholders."
+  title="Studio Index"
+  description="Legacy route for browsing essays, projects, and ideas."
   path="/essays-projects"
 >
   <section class="hero">
-    <p class="kicker">Preview Index</p>
-    <h1>Essays & Projects</h1>
-    <p class="muted">Preview content — not final. Entries on this page are temporary placeholders unless noted otherwise.</p>
+    <p class="kicker">Studio Index</p>
+    <h1>Browse by type</h1>
+    <p class="muted">
+      The studio is now organized into dedicated sections for essays, projects, and ideas.
+    </p>
   </section>
 
-  <section class="section" id="essays">
-    <div class="section-head">
-      <h2>Essays</h2>
-    </div>
-    <div>
-      {essays.map((item) => (
-        (() => {
-          const displayItem = applyEssayDisplayOverrides(item);
-          return (
-        <article class="card mag-card">
-          {item.coverImage && (
-            <div class="card-cover">
-              <img src={item.coverImage.src} alt={item.coverImage.alt} style={coverPositionStyle(item.coverImage)} />
-            </div>
-          )}
-          <div class="card-body">
-            <h3><a href={`/essays/${item.slug}`}>{displayItem.title}</a></h3>
-            {displayItem.subtitle && <p class="muted">{displayItem.subtitle}</p>}
-            <p>{displayItem.excerpt}</p>
-            {item.tags && item.tags.length > 0 && <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>}
-            <p class="meta-row">Essay</p>
-          </div>
-        </article>
-          );
-        })()
-      ))}
-    </div>
-  </section>
+  <section class="section legacy-links">
+    <article class="section-shell">
+      <h2><a href="/essays">Essays</a></h2>
+      <p>Finished writing and published essays.</p>
+    </article>
 
-  <section class="section" id="featured-projects">
-    <div class="section-head">
-      <h2>Projects</h2>
-    </div>
-    <div>
-      {featuredProjects.map((item) => (
-        <article class="card mag-card">
-          {item.coverImage && (
-            <div class="card-cover">
-              <img src={item.coverImage.src} alt={item.coverImage.alt} style={coverPositionStyle(item.coverImage)} />
-            </div>
-          )}
-          <div class="card-body">
-            <h3><a href={`/projects/${item.slug}`}>{item.title}</a></h3>
-            {item.subtitle && <p class="muted">{item.subtitle}</p>}
-            <p>{item.excerpt}</p>
-            {item.tags && item.tags.length > 0 && <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>}
-            <p class="meta-row">Project</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
+    <article class="section-shell">
+      <h2><a href="/projects">Projects</a></h2>
+      <p>Interactive and applied work, including studio tools and prototypes.</p>
+    </article>
 
-  <section class="section" id="idea-outlines">
-    <div class="section-head">
-      <h2>Idea Outlines</h2>
-    </div>
-    <div>
-      {ideas.map((item) => (
-        <article class="card mag-card">
-          {item.coverImage && (
-            <div class="card-cover">
-              <img src={item.coverImage.src} alt={item.coverImage.alt} style={coverPositionStyle(item.coverImage)} />
-            </div>
-          )}
-          <div class="card-body">
-            <h3><a href={`/ideas/${item.slug}`}>{item.title}</a></h3>
-            {item.subtitle && <p class="muted">{item.subtitle}</p>}
-            <p>{item.excerpt}</p>
-            {item.tags && item.tags.length > 0 && <p class="tag-row">{item.tags.map((tag) => <TagChip tag={tag} />)}</p>}
-            <p class="meta-row">Idea Outline</p>
-          </div>
-        </article>
-      ))}
-    </div>
-  </section>
-
-  <section class="section" id="archive">
-    <div class="section-head">
-      <h2>Archive</h2>
-    </div>
-    <ul class="archive-list">
-      {archive.map((item) => (
-        (() => {
-          const displayItem = applyEssayDisplayOverrides(item);
-          return (
-        <li>
-          <a href={contentUrl(item)}>{displayItem.title}</a>
-          <span class="muted">{item.publishedAt}</span>
-        </li>
-          );
-        })()
-      ))}
-    </ul>
+    <article class="section-shell">
+      <h2><a href="/ideas">Ideas</a></h2>
+      <p>Visual concepts and draft directions that are still being formed.</p>
+    </article>
   </section>
 </BaseLayout>
+
+<style>
+  .legacy-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-3);
+  }
+</style>

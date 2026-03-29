@@ -19,7 +19,9 @@ export const SITE_SETTINGS: SiteSettings = {
 
 export const NAV_ITEMS = [
   { href: '/', label: 'Home' },
-  { href: '/essays-projects', label: 'Essays & Projects' },
+  { href: '/essays', label: 'Essays' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/ideas', label: 'Ideas' },
   { href: '/about', label: 'About' },
   { href: '/subscribe', label: 'Subscribe' },
 ] as const;

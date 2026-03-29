@@ -5,14 +5,19 @@ import type { SiteSettings } from '../lib/types';
 const currentPath = Astro.url.pathname;
 const { settings = SITE_SETTINGS } = Astro.props as { settings?: SiteSettings };
 const navByLabel = new Map(NAV_ITEMS.map((item) => [item.label, item]));
+const legacyLabelMap: Record<string, string[]> = {
+  'Essays & Projects': ['Essays', 'Projects', 'Ideas'],
+};
 type NavItem = (typeof NAV_ITEMS)[number];
 function isNavItem(value: NavItem | undefined): value is NavItem {
   return Boolean(value);
 }
-const navItems =
+const requestedLabels =
   settings.mainNav && settings.mainNav.length > 0
-    ? settings.mainNav.map((label) => navByLabel.get(label)).filter(isNavItem)
-    : NAV_ITEMS;
+    ? settings.mainNav.flatMap((label) => legacyLabelMap[label] ?? [label])
+    : NAV_ITEMS.map((item) => item.label);
+const mappedNavItems = requestedLabels.map((label) => navByLabel.get(label)).filter(isNavItem);
+const navItems = mappedNavItems.length === NAV_ITEMS.length ? mappedNavItems : NAV_ITEMS;
 ---
 
 <header class="site-header">

@@ -2,6 +2,177 @@
   margin-top: var(--space-3);
 }
 
+/* ─────────────────────────────────────────
+   Alt layout: full-height two-column grid
+   (history-explorer-alt.astro / ExplorerAlt)
+───────────────────────────────────────── */
+
+.hex-layout {
+  display: grid;
+  grid-template-columns: 1fr 360px;
+  height: calc(100vh - 80px); /* header ≈ 80px, same as Kashmir */
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+.hex-layout.is-analysis-expanded {
+  grid-template-columns: 1fr 560px;
+}
+
+/* ── Left: chart pane ── */
+
+.hex-chart-pane {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* Make ImageViewport fill the chart pane */
+.hex-chart-pane .history-viewport {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border: none;
+  background: none;
+  box-shadow: none;
+}
+
+.hex-chart-pane .history-viewport:not(.history-viewport--fullscreen) .history-viewport__toolbar {
+  flex-shrink: 0;
+  padding: 0.5rem 0.85rem;
+  border-bottom: 1px solid var(--rule);
+  background: color-mix(in oklab, var(--surface) 94%, white 6%);
+}
+
+.hex-chart-pane .history-viewport__canvas {
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── Right: side pane ── */
+
+.hex-side-pane {
+  border-left: 1px solid var(--rule);
+  background: color-mix(in oklab, var(--surface) 94%, white 6%);
+  box-shadow: -2px 0 12px rgba(28, 23, 15, 0.06);
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-height: 0;
+  min-width: 0;
+}
+
+.hex-side-header {
+  padding: 1.2rem 1.1rem 1rem;
+  border-bottom: 1px solid var(--rule);
+  flex-shrink: 0;
+}
+
+.hex-side-title {
+  margin: 0.25rem 0 0.5rem;
+  font-size: 1.6rem;
+  line-height: 1.15;
+}
+
+.hex-side-desc {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 38ch;
+}
+
+.hex-toolbar {
+  padding: 0.9rem 1.1rem;
+  border-bottom: 1px solid var(--rule);
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  flex-shrink: 0;
+}
+
+.hex-analyze-btn {
+  margin-left: 0 !important;
+  width: 100%;
+  text-align: center;
+}
+
+/* Collapsible analysis section */
+
+.hex-analysis {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.hex-analysis-show {
+  padding: 0.9rem 1.1rem;
+  text-align: left;
+  font-family: var(--font-ui);
+  font-size: 0.8rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: color 140ms ease, background 140ms ease;
+  width: 100%;
+}
+
+.hex-analysis-show:hover {
+  color: var(--ink);
+  background: color-mix(in oklab, var(--accent-soft) 24%, transparent);
+}
+
+/* NarrativePanel embedded in the right pane — reset its standalone styles */
+.hex-side-pane .history-panel {
+  position: static !important;
+  min-height: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
+
+.hex-side-pane .history-panel__body {
+  max-height: none !important;
+  overflow: auto !important;
+  flex: 1;
+}
+
+/* ── Mobile: stack vertically ── */
+
+@media (max-width: 768px) {
+  .hex-layout,
+  .hex-layout.is-analysis-expanded {
+    grid-template-columns: 1fr;
+    grid-template-rows: 52vh 1fr;
+    height: auto;
+    min-height: calc(100vh - 80px);
+    overflow: auto;
+  }
+
+  .hex-chart-pane {
+    overflow: hidden;
+  }
+
+  .hex-side-pane {
+    border-left: none;
+    border-top: 1px solid var(--rule);
+    box-shadow: none;
+    overflow-y: auto;
+  }
+}
+
 .history-explorer__workspace {
   --history-panel-width: 320px;
   position: relative;
