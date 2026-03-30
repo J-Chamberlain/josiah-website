@@ -121,8 +121,8 @@ export function NarrativePanel({
         {narrative ? (
           <div className={`history-panel__content ${showLongform ? 'is-longform' : 'is-summary'}`}>
             <section>
-              <h3>Summary</h3>
-              <p>{narrative.summary}</p>
+              <h3>Historical Context</h3>
+              <p>{narrative.historicalContext}</p>
             </section>
 
             <section>
@@ -136,11 +136,6 @@ export function NarrativePanel({
 
             {showLongform ? (
               <>
-                <section>
-                  <h3>Historical Context</h3>
-                  <p>{narrative.historicalContext}</p>
-                </section>
-
                 <section>
                   <h3>Key Figures</h3>
                   {renderList(narrative.keyFigures)}

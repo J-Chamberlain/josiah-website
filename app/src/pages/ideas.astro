@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import EditorialCard from '../components/EditorialCard.astro';
+import { IDEAS_PAGE_ITEMS } from '../lib/editorial';
+
+export const prerender = true;
+---
+
+<BaseLayout
+  title="Ideas"
+  description="Visual concept work and draft directions from the studio."
+  path="/ideas"
+>
+  <section class="hero">
+    <p class="kicker">Ideas</p>
+    <h1>Visual concepts and draft directions.</h1>
+    <p class="muted">Ideas hold work that is still forming but already clear enough to shape into visual and editorial cards.</p>
+  </section>
+
+  <section class="section idea-grid">
+    {IDEAS_PAGE_ITEMS.map((item) => <EditorialCard item={item} />)}
+  </section>
+</BaseLayout>
+
+<style>
+  .idea-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-3);
+    align-items: stretch;
+  }
+</style>

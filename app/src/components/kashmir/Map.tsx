@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 import styled from 'styled-components';
 import { SECTIONS, MARKERS } from '../../data/kashmir/data';
 import type { SectionId } from '../../data/kashmir/data';
+import { PHOTOS } from '../../data/kashmir/photos';
 
 declare const L: any;
 
@@ -40,20 +41,25 @@ const ResetButton = styled.button`
 interface MapProps {
     onSectionSelect: (id: SectionId) => void;
     onMarkerSelect: (id: string | null) => void;
+    onPhotoSelect: (id: string | null) => void;
     activeSectionId: SectionId;
     activeMarkerId: string | null;
+    activePhotoId: string | null;
 }
 
 export default function Map({
     onSectionSelect,
     onMarkerSelect,
+    onPhotoSelect,
     activeSectionId,
-    activeMarkerId
+    activeMarkerId,
+    activePhotoId
 }: MapProps) {
     const mapRef = useRef<HTMLDivElement>(null);
     const leafletMapRef = useRef<any>(null);
     const polylinesRef = useRef<{ [id: number]: any }>({});
     const markersRef = useRef<{ [id: string]: any }>({});
+    const photoMarkersRef = useRef<{ [id: string]: any }>({});
 
     useEffect(() => {
         if (!mapRef.current) return;
@@ -122,7 +128,7 @@ export default function Map({
 
             const icon = L.divIcon({
                 className: 'custom-kashmir-marker',
-                html: `<div style="background: white; border: 3px solid ${markerColor}; width: 14px; height: 14px; border-radius: 50%;"></div>`,
+                html: `<div style="background: white; border: 3px solid ${markerColor}; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>`,
                 iconSize: [20, 20],
                 iconAnchor: [10, 10],
             });
@@ -131,6 +137,7 @@ export default function Map({
             marker.bindTooltip(markerData.name, { direction: 'top', offset: [0, -10] });
 
             marker.on('click', (e: any) => {
+                onPhotoSelect(null);
                 onMarkerSelect(markerData.id);
                 if (markerData.sectionId) {
                     onSectionSelect(markerData.sectionId);
@@ -141,9 +148,48 @@ export default function Map({
             markersRef.current[markerData.id] = marker;
         });
 
+        // Photos Clustering Layer
+        if (L.markerClusterGroup) {
+            const photoCluster = L.markerClusterGroup({
+                maxClusterRadius: 40,
+                iconCreateFunction: function (cluster: any) {
+                    return L.divIcon({
+                        html: `<div style="background-color: rgba(43, 108, 176, 0.9); color: white; border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                            📷 ${cluster.getChildCount()}
+                        </div>`,
+                        className: 'photo-cluster-icon',
+                        iconSize: L.point(40, 24),
+                        iconAnchor: [20, 12]
+                    });
+                }
+            });
+
+            PHOTOS.forEach(photo => {
+                const cameraIcon = L.divIcon({
+                    className: 'custom-photo-marker',
+                    html: `<div style="background: white; border: 2px solid #2b6cb0; border-radius: 4px; padding: 2px 4px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer;">📷</div>`,
+                    iconSize: [28, 24], // Taller for the badge
+                    iconAnchor: [-10, 24], // Offset completely down and to the right of the center POI coordinate
+                });
+
+                const marker = L.marker([photo.lat, photo.lng], { icon: cameraIcon });
+                marker.bindTooltip(`📷 ${photo.caption.substring(0, 30)}...`, { direction: 'top', offset: [0, -6] });
+                marker.on('click', (e: any) => {
+                    onSectionSelect(null);
+                    onMarkerSelect(null);
+                    onPhotoSelect(photo.id);
+                    L.DomEvent.stopPropagation(e);
+                });
+                photoCluster.addLayer(marker);
+                photoMarkersRef.current[photo.id] = marker;
+            });
+            map.addLayer(photoCluster);
+        }
+
         map.on('click', () => {
             onSectionSelect(null);
             onMarkerSelect(null);
+            onPhotoSelect(null);
         });
 
         const group = new L.featureGroup(Object.values(polylinesRef.current));
@@ -207,19 +253,23 @@ export default function Map({
         } else if (activeMarkerId) {
             const marker = markersRef.current[activeMarkerId];
             if (marker) map.flyTo(marker.getLatLng(), 10, { duration: 1.2 });
+        } else if (activePhotoId) {
+            const photoMarker = photoMarkersRef.current[activePhotoId];
+            if (photoMarker) map.flyTo(photoMarker.getLatLng(), 11, { duration: 1.0 });
         } else {
             const group = new L.featureGroup(Object.values(polylinesRef.current));
             map.flyToBounds(group.getBounds(), { padding: [40, 40], duration: 1.2 });
         }
-    }, [activeSectionId, activeMarkerId]);
+    }, [activeSectionId, activeMarkerId, activePhotoId]);
 
     return (
         <MapRoot>
             <div ref={mapRef} style={{ width: '100%', height: '100%', zIndex: 1 }} />
-            {(activeSectionId !== null || activeMarkerId !== null) && (
+            {(activeSectionId !== null || activeMarkerId !== null || activePhotoId !== null) && (
                 <ResetButton onClick={() => {
                     onSectionSelect(null);
                     onMarkerSelect(null);
+                    onPhotoSelect(null);
                 }}>
                     Reset View
                 </ResetButton>

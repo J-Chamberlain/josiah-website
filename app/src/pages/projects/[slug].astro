@@ -13,6 +13,7 @@ import { supabaseAdmin, hasSupabase } from '../../lib/supabase';
 const { slug } = Astro.params;
 const entry = await getPublishedBySlug('project', slug ?? '');
 const commentStatus = Astro.url.searchParams.get('comment_status');
+const headerKicker = entry?.slug === 'bridge-to-the-slipstream' ? 'Ideas' : 'Project';
 
 if (!entry) return Astro.redirect('/404');
 
@@ -36,11 +37,19 @@ if (hasSupabase && supabaseAdmin) {
   path={`/projects/${entry.slug}`}
   noindex={entry.visibility === 'unlisted'}
 >
-  <ArticleHeader entry={entry} kicker="Project" commentStatus={commentStatus} />
+  <ArticleHeader entry={entry} kicker={headerKicker} commentStatus={commentStatus} />
 
-  {entry.simulationEmbed === 'slipstream' && <SlipstreamFigure />}
+  {entry.slug === 'bridge-to-the-slipstream' && (
+    <style>
+      .article-header .article-dek {
+        max-width: none;
+      }
+    </style>
+  )}
 
   <RichTextRenderer blocks={entry.body} />
+
+  {entry.simulationEmbed === 'slipstream' && <SlipstreamFigure />}
 
   <section class="comment-shell" aria-label="Comments">
     <CommentList comments={comments} />

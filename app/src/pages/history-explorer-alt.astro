@@ -8,8 +8,29 @@ const historyImage = '/images/history/timeline-of-world-history%20copy.jpg';
 <BaseLayout
   title="History Explorer"
   description="Interactive world-history explorer with selection-based AI narrative analysis."
-  path="/history-explorer"
+  path="/history-explorer-alt"
 >
+  <style is:global>
+    /* Full-bleed viewport — same pattern as Kashmir page */
+    .main-shell {
+      padding: 0 !important;
+      max-width: 100% !important;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .site-canvas {
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Full-bleed app page — no footer */
+    .site-footer {
+      display: none;
+    }
+  </style>
+
   <ExplorerAlt
     client:load
     imageSrc={historyImage}

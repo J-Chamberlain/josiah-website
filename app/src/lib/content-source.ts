@@ -10,6 +10,14 @@ import { hasSanityConfig, sanityFetch, urlFor } from './sanity';
 import { normalizeTag } from './tags';
 import type { ContentEntry, ContentKind } from './types';
 
+const REMOVED_SLUGS = new Set([
+  'test-essay',
+  'second-essay',
+  'building-better-human-machine-creative-workflows',
+  'humane-ai-interfaces',
+  'draft-internal-notes-on-energy-systems',
+]);
+
 type SanityEntry = {
   _id: string;
   _type: ContentKind;
@@ -72,7 +80,7 @@ function mergePreferPrimary(primary: ContentEntry[], fallback: ContentEntry[]): 
     merged.push(entry);
   }
 
-  return merged.sort(byDateDesc);
+  return merged.filter((entry) => !REMOVED_SLUGS.has(entry.slug)).sort(byDateDesc);
 }
 
 function onlyHomepageWork(entries: ContentEntry[]): ContentEntry[] {
@@ -164,7 +172,7 @@ function normalizeBlocks(entry: SanityEntry): ContentEntry['body'] {
 
 function mapSanityEntry(entry: SanityEntry): ContentEntry | null {
   const slug = entry.slug || '';
-  if (!slug) return null;
+  if (!slug || REMOVED_SLUGS.has(slug)) return null;
   const kind = entry._type;
   const body = normalizeBlocks(entry);
   const excerpt = (entry.excerpt || '').trim() || (body.find((b) => b.type === 'paragraph')?.text ?? '');
@@ -248,6 +256,7 @@ export async function getPublicByKind(kind: ContentKind): Promise<ContentEntry[]
 }
 
 export async function getPublicBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined> {
+  if (REMOVED_SLUGS.has(slug)) return undefined;
   if (!hasSanityConfig) return getPublicBySlugLocal(kind, slug);
   const row = await sanityBySlug(kind, slug);
   if (row === null || row === undefined) return getPublicBySlugLocal(kind, slug);
@@ -255,6 +264,7 @@ export async function getPublicBySlug(kind: ContentKind, slug: string): Promise<
 }
 
 export async function getPublishedBySlug(kind: ContentKind, slug: string): Promise<ContentEntry | undefined> {
+  if (REMOVED_SLUGS.has(slug)) return undefined;
   if (!hasSanityConfig) return getPublishedBySlugLocal(kind, slug);
   const row = await sanityByPublishedSlug(kind, slug);
   if (row === null || row === undefined) return getPublishedBySlugLocal(kind, slug);
@@ -341,5 +351,11 @@ export async function getTagList(): Promise<string[]> {
 }
 
 export function contentUrl(entry: Pick<ContentEntry, 'kind' | 'slug'>): string {
-  return `/${entry.kind === 'ideaOutline' ? 'ideas' : `${entry.kind}s`}/${entry.slug}`;
+  const section =
+    entry.kind === 'ideaOutline'
+      ? 'ideas'
+      : entry.kind === 'gallery'
+        ? 'galleries'
+        : `${entry.kind}s`;
+  return `/${section}/${entry.slug}`;
 }
