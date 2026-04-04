@@ -1,12 +1,9 @@
 import type { APIRoute } from 'astro';
-import {
-  extractOpenAIOutputText,
-  getOpenAIApiKey,
-  getOpenAIModel,
-  requestOpenAIResponse,
-} from '../../lib/openai';
 
 export const prerender = false;
+
+const OPENAI_API_BASE = 'https://api.openai.com/v1';
+const DEFAULT_OPENAI_MODEL = 'gpt-4.1-mini';
 
 type KashmirInsights = {
   summary: string;
@@ -57,6 +54,85 @@ function serializeError(error: unknown) {
   };
 }
 
+function getOpenAIApiKey(env: ImportMetaEnv) {
+  return env.OPENAI_API_KEY?.trim() || null;
+}
+
+function getOpenAIModel(env: ImportMetaEnv) {
+  return env.OPENAI_KASHMIR_MODEL?.trim() || env.OPENAI_MODEL?.trim() || DEFAULT_OPENAI_MODEL;
+}
+
+async function requestOpenAIResponse(
+  env: ImportMetaEnv,
+  {
+    systemPrompt,
+    userPrompt,
+    maxOutputTokens,
+    temperature = 0.3,
+  }: {
+    systemPrompt: string;
+    userPrompt: string;
+    maxOutputTokens: number;
+    temperature?: number;
+  },
+) {
+  const apiKey = getOpenAIApiKey(env);
+
+  if (!apiKey) {
+    throw new Error('OPENAI_API_KEY is not configured.');
+  }
+
+  const model = getOpenAIModel(env);
+
+  const response = await fetch(`${OPENAI_API_BASE}/responses`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`,
+    },
+    body: JSON.stringify({
+      model,
+      temperature,
+      max_output_tokens: maxOutputTokens,
+      input: [
+        {
+          role: 'system',
+          content: [{ type: 'input_text', text: systemPrompt }],
+        },
+        {
+          role: 'user',
+          content: [{ type: 'input_text', text: userPrompt }],
+        },
+      ],
+    }),
+  });
+
+  return { model, response };
+}
+
+function extractOpenAIOutputText(payload: Record<string, unknown>) {
+  if (typeof payload.output_text === 'string' && payload.output_text.trim()) {
+    return payload.output_text;
+  }
+
+  if (!Array.isArray(payload.output)) return '';
+
+  return payload.output
+    .flatMap((item) => {
+      if (!item || typeof item !== 'object' || !('content' in item)) return [];
+      const content = (item as { content?: unknown }).content;
+      if (!Array.isArray(content)) return [];
+      return content
+        .map((entry) => {
+          if (!entry || typeof entry !== 'object') return '';
+          if ('text' in entry && typeof entry.text === 'string') return entry.text;
+          return '';
+        })
+        .filter(Boolean);
+    })
+    .join('\n');
+}
+
 function parseInsights(rawText: string): KashmirInsights {
   const trimmed = rawText.trim();
   const candidate = trimmed.match(/\{[\s\S]*\}/)?.[0] ?? trimmed;
@@ -80,7 +156,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     const apiKey = getOpenAIApiKey(import.meta.env);
-    const model = getOpenAIModel(import.meta.env, 'kashmir');
+    const model = getOpenAIModel(import.meta.env);
 
     console.log('[generate-kashmir] env var presence checks', {
       hasOpenAIApiKey: Boolean(apiKey),
@@ -168,7 +244,6 @@ Respond ONLY with a valid JSON object matching this structure:
     });
 
     const { response: openAIResponse } = await requestOpenAIResponse(import.meta.env, {
-      feature: 'kashmir',
       systemPrompt,
       userPrompt,
       maxOutputTokens: 1500,
