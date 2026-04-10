@@ -95,6 +95,46 @@ async function checkResend() {
   }
 }
 
+async function checkOpenAI() {
+  if (!has('OPENAI_API_KEY')) {
+    warn('OpenAI', 'Skipped (OPENAI_API_KEY not set).');
+    return;
+  }
+
+  const model =
+    env.OPENAI_HISTORY_MODEL ||
+    env.OPENAI_KASHMIR_MODEL ||
+    env.OPENAI_COBDR_MODEL ||
+    env.OPENAI_MODEL ||
+    'gpt-4.1-mini';
+
+  try {
+    const res = await fetch('https://api.openai.com/v1/responses', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${env.OPENAI_API_KEY}`,
+      },
+      body: JSON.stringify({
+        model,
+        max_output_tokens: 32,
+        input: 'Reply with the single word OK.',
+      }),
+    });
+
+    if (!res.ok) {
+      fail('OpenAI', `HTTP ${res.status} from responses endpoint.`);
+      return;
+    }
+
+    const json = await res.json();
+    const text = typeof json.output_text === 'string' ? json.output_text.trim() : '';
+    ok('OpenAI', `Responses API reachable using model ${model}${text ? ` (${text})` : ''}.`);
+  } catch (error) {
+    fail('OpenAI', `Request failed: ${String(error)}`);
+  }
+}
+
 function extractEmailDomain(emailFrom) {
   const at = emailFrom.lastIndexOf('@');
   if (at === -1) return null;
@@ -142,6 +182,7 @@ async function run() {
   await checkSanity();
   await checkSupabase();
   await checkResend();
+  await checkOpenAI();
   await checkDns();
 
   console.log('\nResults:');

@@ -1,4 +1,5 @@
 import type { APIRoute } from 'astro';
+import { extractOpenAIOutputText, requestOpenAIResponse } from '../../lib/openai';
 
 export const prerender = false;
 
@@ -9,29 +10,6 @@ type CobdrInsights = {
     altitudeConsiderations: string;
     logistics: string;
 };
-
-function extractOutputText(payload: Record<string, unknown>) {
-    if (typeof payload.output_text === 'string' && payload.output_text.trim()) {
-        return payload.output_text;
-    }
-
-    if (!Array.isArray(payload.output)) return '';
-
-    return payload.output
-        .flatMap((item) => {
-            if (!item || typeof item !== 'object' || !('content' in item)) return [];
-            const content = (item as { content?: unknown }).content;
-            if (!Array.isArray(content)) return [];
-            return content
-                .map((entry) => {
-                    if (!entry || typeof entry !== 'object') return '';
-                    if ('text' in entry && typeof entry.text === 'string') return entry.text;
-                    return '';
-                })
-                .filter(Boolean);
-        })
-        .join('\n');
-}
 
 function parseInsights(rawText: string): CobdrInsights {
     const trimmed = rawText.trim();
@@ -54,9 +32,7 @@ function parseInsights(rawText: string): CobdrInsights {
 }
 
 export const POST: APIRoute = async ({ request }) => {
-    const apiKey = import.meta.env.OPENAI_API_KEY;
-
-    if (!apiKey) {
+    if (!import.meta.env.OPENAI_API_KEY) {
         return new Response(JSON.stringify({ error: 'OPENAI_API_KEY is not configured.' }), { status: 500 });
     }
 
@@ -87,30 +63,11 @@ Respond ONLY with a valid JSON object matching this structure:
 
     const userPrompt = `Please analyze the following COBDR location/section and provide the structured JSON insights: ${context}`;
 
-    const model = import.meta.env.OPENAI_MODEL || 'gpt-4.1-mini';
-
-    // Following the exact fetch pattern from generate-history.ts
-    const openAIResponse = await fetch('https://api.openai.com/v1/responses', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${apiKey}`,
-        },
-        body: JSON.stringify({
-            model,
-            temperature: 0.3,
-            max_output_tokens: 1400,
-            input: [
-                {
-                    role: 'system',
-                    content: [{ type: 'input_text', text: systemPrompt }],
-                },
-                {
-                    role: 'user',
-                    content: [{ type: 'input_text', text: userPrompt }],
-                },
-            ],
-        }),
+    const { response: openAIResponse } = await requestOpenAIResponse(import.meta.env, {
+        feature: 'cobdr',
+        systemPrompt,
+        userPrompt,
+        maxOutputTokens: 1400,
     });
 
     if (!openAIResponse.ok) {
@@ -122,7 +79,7 @@ Respond ONLY with a valid JSON object matching this structure:
     }
 
     const completion = await openAIResponse.json() as Record<string, unknown>;
-    const rawText = extractOutputText(completion);
+    const rawText = extractOpenAIOutputText(completion);
 
     try {
         const insights = parseInsights(rawText);

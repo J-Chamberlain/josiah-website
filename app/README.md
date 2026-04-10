@@ -1,43 +1,29 @@
-# Astro Starter Kit: Minimal
+# Website App
 
-```sh
-npm create astro@latest -- --template minimal
-```
+## Local Setup
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+1. Install dependencies: `npm install`
+2. Copy envs: `cp .env.example .env`
+3. Set `OPENAI_API_KEY` to a server-side API key.
+4. Optionally override models with `OPENAI_MODEL`, `OPENAI_HISTORY_MODEL`, `OPENAI_KASHMIR_MODEL`, and `OPENAI_COBDR_MODEL`.
+5. Start dev server: `npm run dev`
 
-## 🚀 Project Structure
+## GPT-backed Pages
 
-Inside of your Astro project, you'll see the following folders and files:
+- `/history-explorer` calls `/api/generate-history`
+- `/kashmir` calls `/api/generate-kashmir`
+- `/cobdr` calls `/api/generate-cobdr`
 
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
+These endpoints run server-side and read `OPENAI_API_KEY` from `import.meta.env`, so the key must exist in local `.env` and in the deployment environment.
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Verification
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+- Run `npm run verify:integrations` to confirm configured services are reachable.
+- The OpenAI check calls the Responses API using your configured model envs and reports whether the request succeeds.
 
-Any static assets, like images, can be placed in the `public/` directory.
+## Commands
 
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- `npm run dev`: start local Astro dev server
+- `npm run build`: production build
+- `npm run preview`: preview production build locally
+- `npm run verify:integrations`: verify Sanity, Supabase, Resend, OpenAI, and DNS configuration

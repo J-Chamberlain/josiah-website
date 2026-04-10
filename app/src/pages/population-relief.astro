@@ -1,0 +1,17 @@
+---
+import { readFile } from 'node:fs/promises';
+import path from 'node:path';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PopulationReliefExperience from '../components/population-relief/PopulationReliefExperience';
+
+const datasetPath = path.resolve('./public/data/population-relief/human-us-phase1.json');
+const initialLayer = JSON.parse(await readFile(datasetPath, 'utf8'));
+---
+
+<BaseLayout
+  title="Population Density Validation"
+  description="Validation-first U.S. population density map built to confirm source semantics and regional plausibility before any 3D work."
+  path="/population-relief"
+>
+  <PopulationReliefExperience client:load initialLayer={initialLayer} />
+</BaseLayout>
