@@ -8,6 +8,10 @@ interface Props {
 
 const { publishedAt, body } = Astro.props;
 
+const formattedDate = publishedAt
+  ? new Date(publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+  : null;
+
 const wordCount = body
   .filter((b): b is { type: 'paragraph' | 'heading'; text: string } =>
     b.type === 'paragraph' || b.type === 'heading'
@@ -18,7 +22,7 @@ const readingTime = Math.max(1, Math.round(wordCount / 200));
 ---
 
 <div class="reading-meta">
-  <span>{publishedAt}</span>
+  {formattedDate && <span>{formattedDate}</span>}
   {wordCount > 0 && (
     <>
       <span class="reading-meta-sep" aria-hidden="true"></span>

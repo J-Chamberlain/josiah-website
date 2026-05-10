@@ -36,6 +36,7 @@ if (hasSupabase && supabaseAdmin) {
   description={entry.excerpt}
   path={`/projects/${entry.slug}`}
   noindex={entry.visibility === 'unlisted'}
+  dropcap={true}
 >
   <ArticleHeader entry={entry} kicker={headerKicker} commentStatus={commentStatus} />
 

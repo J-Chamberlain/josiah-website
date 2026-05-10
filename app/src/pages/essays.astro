@@ -1,9 +1,25 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EditorialCard from '../components/EditorialCard.astro';
-import { ANCHOR_ESSAY } from '../lib/editorial';
 
 export const prerender = true;
+
+const essayItems = [
+  {
+    title: 'The Geometry of Mind',
+    href: '/essays/geometry-of-mind',
+    label: 'ESSAY',
+    description: 'A field guide to mechanistic interpretability.',
+  },
+  {
+    title: 'Digital Pastoralism',
+    href: '/essays/project-olmsted',
+    label: 'ESSAY',
+    description: 'Conjuring Frederick Law Olmsted in the Age of AI.',
+    imageSrc: '/images/Ideas_page/Central_Park_Sapia.jpg',
+    imageAlt: 'A stylized view inspired by Central Park and restorative landscape design.',
+  },
+];
 ---
 
 <BaseLayout
@@ -17,7 +33,16 @@ export const prerender = true;
     <p class="muted">Published essays live here as complete pieces rather than drafts or notes.</p>
   </section>
 
-  <section class="section">
-    <EditorialCard item={ANCHOR_ESSAY} featured={true} />
+  <section class="section essays-stack">
+    {essayItems.map((item, index) => (
+      <EditorialCard item={item} featured={index === 0} />
+    ))}
   </section>
 </BaseLayout>
+
+<style>
+  .essays-stack {
+    display: grid;
+    gap: 1.5rem;
+  }
+</style>

@@ -8,13 +8,14 @@ interface Props {
   path?: string;
   ogImage?: string;
   noindex?: boolean;
+  dropcap?: boolean;
 }
 
-const { title, description, path, ogImage, noindex } = Astro.props;
+const { title, description, path, ogImage, noindex, dropcap = false } = Astro.props;
 ---
 
 <BaseLayout title={title} description={description} path={path} ogImage={ogImage} noindex={noindex}>
-  <article class="prose">
+  <article class:list={['prose', dropcap && 'prose--dropcap']}>
     <slot />
   </article>
 </BaseLayout>

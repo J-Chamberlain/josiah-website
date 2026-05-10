@@ -78,6 +78,8 @@ textarea:focus-visible {
 
 .site-canvas {
   min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 .shell {
@@ -156,6 +158,7 @@ textarea:focus-visible {
 /* ─── Main ─── */
 
 .main-shell {
+  flex: 1;
   padding-block: var(--space-3) var(--space-5);
 }
 

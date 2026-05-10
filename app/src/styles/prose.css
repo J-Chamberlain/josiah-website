@@ -26,8 +26,8 @@
   margin-top: 1.35em;
 }
 
-/* Drop cap on first paragraph of prose body */
-.prose > p:first-of-type:not(:only-child)::first-letter {
+/* Drop cap on first paragraph of prose body — opt-in via .prose--dropcap */
+.prose--dropcap > p:first-of-type:not(:only-child)::first-letter {
   float: left;
   font-size: 3.2rem;
   font-weight: 620;

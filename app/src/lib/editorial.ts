@@ -19,10 +19,10 @@ export const BRIDGE_TO_THE_SLIPSTREAM: EditorialCardItem = {
 
 export const HOMEPAGE_MANIFEST: EditorialCardItem[] = [
   {
-    title: 'Conjuring Olmsted',
+    title: 'Digital Pastoralism',
     href: '/essays/project-olmsted',
     label: 'ESSAY',
-    description: 'Designing a life that balances the power of technology with the need for restoration.',
+    description: 'Conjuring Frederick Law Olmsted in the Age of AI.',
     imageSrc: '/images/Ideas_page/Central_Park_Sapia.jpg',
     imageAlt: 'A stylized view inspired by Central Park and restorative landscape design.',
     layoutSlot: 'featured',
@@ -94,12 +94,13 @@ export const PROJECT_ITEMS: EditorialCardItem[] = [
     imageSrc: '/images/Ideas_page/Kashmir_motorcycle.png',
     imageAlt: 'A motorcycle journey image representing route planning through Kashmir.',
   },
-  {
-    title: 'COBDR Interactive Companion',
-    href: '/cobdr',
-    label: 'PROJECT · IN PROGRESS',
-    description: 'A route companion for exploring the Colorado BDR as sections, terrain, and logistics.',
-  },
+  // COBDR hidden for now — page preserved at /cobdr for future use
+  // {
+  //   title: 'COBDR Interactive Companion',
+  //   href: '/cobdr',
+  //   label: 'PROJECT · IN PROGRESS',
+  //   description: 'A route companion for exploring the Colorado BDR as sections, terrain, and logistics.',
+  // },
 ];
 
 export const IDEA_ITEMS: EditorialCardItem[] = [
