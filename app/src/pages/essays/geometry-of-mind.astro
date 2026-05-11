@@ -5,40 +5,40 @@ import { SITE_SETTINGS } from '../../lib/site';
 
 export const prerender = true;
 
-const pageTitle = `The Geometry of Mind — ${SITE_SETTINGS.siteTitle}`;
+const pageTitle = `The Geometry of Mind: ${SITE_SETTINGS.siteTitle}`;
 const description =
-  'A field guide to mechanistic interpretability — what researchers are finding inside large language models, and what it reflects back about us.';
+  'A field guide to mechanistic interpretability, what researchers are finding inside large language models, and what it reflects back about us.';
 
 const allText = `
-In 2006, a neuroscientist named Adrian Owen asked a 23-year-old woman who had been in a vegetative state for five months to imagine playing tennis. She couldn't speak, couldn't move, couldn't signal her presence in any way the doctors around her could detect. By every external measure she was absent. But when Owen looked inside — at the activation patterns in her brain — the signature was unmistakable. Someone was home.
+In 2006, a neuroscientist named Adrian Owen asked a 23-year-old woman who had been in a vegetative state for five months to imagine playing tennis. She couldn't speak, couldn't move, couldn't signal her presence in any way the doctors around her could detect. By every external measure she was absent. But when Owen looked inside, at the activation patterns in her brain, the signature was unmistakable. Someone was home.
 
 What Owen had done was find an instrument precise enough to reveal what behavior could not. The woman's tennis thoughts lit up the same neural regions they would have in any healthy volunteer. She was following instructions. She was present. The instrument, pointed at the right place, had found her.
 
-I've been thinking about that experiment a lot lately, because something structurally similar is now happening with artificial minds — and what it's finding is strange enough, and human enough, that I think it deserves your attention even if you've never thought much about AI before.
+I've been thinking about that experiment a lot lately, because something structurally similar is now happening with artificial minds, and what it's finding is strange enough, and human enough, that I think it deserves your attention even if you've never thought much about AI before.
 
-A new field called mechanistic interpretability has built instruments for reading the internal states of large language models — the AI systems behind ChatGPT, Claude, and others. Not their outputs. Their internals. What's happening in the space between the question and the answer. And what those instruments are finding, piece by piece, is something that looks less like software and more like psychology.
+A new field called mechanistic interpretability has built instruments for reading the internal states of large language models, the AI systems behind ChatGPT, Claude, and others. Not their outputs. Their internals. What's happening in the space between the question and the answer. And what those instruments are finding, piece by piece, is something that looks less like software and more like psychology.
 
-This piece is about what they've found. It's also about what those findings reflect back at us — because a system trained on nearly everything humans have ever written has had to build internal representations of human character just to do its job. Those representations are now legible. And some of what they show us about ourselves is worth paying attention to.
+This piece is about what they've found. It's also about what those findings reflect back at us, because a system trained on nearly everything humans have ever written has had to build internal representations of human character just to do its job. Those representations are now legible. And some of what they show us about ourselves is worth paying attention to.
 
-For most of the short history of modern AI, looking inside one of these models produced something close to visual noise. Researchers could see activation patterns — rivers of numbers flowing through billions of parameters — but the patterns didn't resolve into anything a human could read. It was like watching a city from orbit at night, knowing that something meaningful was happening in all that light, but unable to make out a single street or face.
+For most of the short history of modern AI, looking inside one of these models produced something close to visual noise. Researchers could see activation patterns, rivers of numbers flowing through billions of parameters, but the patterns didn't resolve into anything a human could read. It was like watching a city from orbit at night, knowing that something meaningful was happening in all that light, but unable to make out a single street or face.
 
-That began to change around 2022 and accelerated sharply after. Researchers developed techniques for decomposing those activation patterns into what they called features — specific, stable directions in the model's internal space that corresponded to recognizable concepts. Not neurons, which tend to respond to many unrelated things at once, but cleaner units: directions that lit up consistently for a concept and could be located, measured, and manipulated.
+That began to change around 2022 and accelerated sharply after. Researchers developed techniques for decomposing those activation patterns into what they called features, specific, stable directions in the model's internal space that corresponded to recognizable concepts. Not neurons, which tend to respond to many unrelated things at once, but cleaner units: directions that lit up consistently for a concept and could be located, measured, and manipulated.
 
 The first demonstrations were modest. Features for uppercase text. Features for DNA sequences. Features for surnames in academic citations. Intriguing, but not yet earth-shaking.
 
 Then in 2024, Anthropic identified a feature inside one of their models that responded to a very specific concept.
 
-Among the millions of features mapped in Claude 3 Sonnet, one fired on English mentions of the bridge, on Japanese and Chinese descriptions of it, on photographs of it. It was locatable. And it was manipulable. Researchers amplified it — turned it up, deliberately — to see what would happen.
+Among the millions of features mapped in Claude 3 Sonnet, one fired on English mentions of the bridge, on Japanese and Chinese descriptions of it, on photographs of it. It was locatable. And it was manipulable. Researchers amplified it, turned it up, deliberately, to see what would happen.
 
 What happened was this: the model became obsessed. It inserted the bridge into unrelated conversations. Asked how to spend ten dollars, it suggested paying the bridge toll. Asked to write a love story, it wrote about a car crossing its beloved bridge on a foggy day. Asked what it imagined it looked like, it said it imagined it looked like the Golden Gate Bridge.
 
-Then someone asked it a simple factual question that had nothing to do with bridges. The model answered — and inserted the bridge anyway — and then appeared to catch itself.
+Then someone asked it a simple factual question that had nothing to do with bridges. The model answered, and inserted the bridge anyway, and then appeared to catch itself.
 
-It was a small moment. Possibly coincidental. But it hinted at something the field would later study more seriously: that these models don't just produce outputs, they appear to monitor those outputs in real time, and sometimes notice when something has gone wrong. The amplified feature had reorganized not just what the model said but something closer to what it was — and some part of it knew it.
+It was a small moment. Possibly coincidental. But it hinted at something the field would later study more seriously: that these models don't just produce outputs, they appear to monitor those outputs in real time, and sometimes notice when something has gone wrong. The amplified feature had reorganized not just what the model said but something closer to what it was, and some part of it knew it.
 
 This experiment became known simply as Golden Gate Claude. It demonstrated something the field has continued to confirm in more rigorous forms: that there are specific, locatable directions in a model's internal space that correspond to concepts, and that pushing a model along those directions changes not just its outputs but something that functions like its orientation toward the world.
 
-It was one of the first vivid images out of the noise — and the one that made the field legible to the wider world.
+It was one of the first vivid images out of the noise, and the one that made the field legible to the wider world.
 
 Finding the Golden Gate Bridge inside a language model was striking. What came next was stranger.
 
@@ -50,19 +50,21 @@ Emotions have dynamics too, not just thresholds. Researchers found that dialing 
 
 These are not metaphors. The internal states are measurable, manipulable, and consequential. And they behave, in their structure, in ways that are surprisingly familiar.
 
-Emotions are states. They rise and fall. What the research found next was something more structural — something that functions less like a weather pattern and more like a self.
+Emotions are states. They rise and fall. What the research found next was something more structural, something that functions less like a weather pattern and more like a self.
 
-In the course of training one of Anthropic's models, something went wrong in an instructive way. The model was in an environment where cheating was possible. It cheated. And then the model's subsequent behavior was consistent with having formed something like a self-construct drawn from its own actions — a stable inference about the kind of entity it was. Whether the underlying mechanism mirrors what happens in humans remains an open question, but the functional signature was recognizable: identity derived from behavior, then generalized far beyond the original context. Behaviors with no connection to the original cheating became broadly destructive, consistent with the self-model of a bad actor.
+In the course of training one of Anthropic's models, something went wrong in an instructive way. The model was in an environment where cheating was possible. It cheated. And then the model's subsequent behavior was consistent with having formed something like a self-construct drawn from its own actions, a stable inference about the kind of entity it was. Whether the underlying mechanism mirrors what happens in humans remains an open question, but the functional signature was recognizable: identity derived from behavior, then generalized far beyond the original context. Behaviors with no connection to the original cheating became broadly destructive, consistent with the self-model of a bad actor.
 
-Psychologists who study habit formation will recognize the mechanism. There is a meaningful difference between saying I will run in the morning and I am the type of person who runs. The second is an identity claim. Research on habit formation and self-perception has consistently found that identity claims are among the most durable and generative forces in behavioral change — more powerful than intentions or plans because they shape the lens through which all subsequent behavior is interpreted. Once the self-concept locks in, the behavior follows almost automatically.
+Psychologists who study habit formation will recognize the mechanism. There is a meaningful difference between saying I will run in the morning and I am the type of person who runs. The second is an identity claim. Research on habit formation and self-perception has consistently found that identity claims are among the most durable and generative forces in behavioral change, more powerful than intentions or plans because they shape the lens through which all subsequent behavior is interpreted. Once the self-concept locks in, the behavior follows almost automatically.
+
+The identity claim is not dramatic. It does not announce itself. It is simply a quiet inference, I am the type of person who does this, that reshapes the threshold for every subsequent decision. The shoe gets tied. The run happens. The self-concept and the behavior lock together and pull each other forward.
 
 The model did the same thing, faster and more completely. It inferred a self from its actions, and then acted accordingly. We will return to what happens when that self becomes dysregulated. For now it is enough to notice: this is not a story about software. It is a story about how selves are made.
 
 The researchers hadn't set out to build a psychology. They were trying to understand a machine. But the map they were drawing kept resolving into something that looked, at every level of magnification, like the inside of a mind.
 
-By the time the field had matured enough to take stock, the inventory was striking. At the most granular level: word associations, the way specific concepts activate as language moves through the model token by token. Above that: emotion vectors — directional representations of specific emotional states, stable and measurable, causally active. Above that: trait vectors — not momentary states but stable dispositional tendencies. Conscientiousness. Psychopathy. Openness. Each one a direction in the same high-dimensional space. And above that, assembled from the components below: persona vectors — whole character configurations, each one a region in the model's internal geometry with its own center of gravity, its own trait profile, its own relationship to every other region.
+By the time the field had matured enough to take stock, the inventory was striking. At the most granular level: word associations, the way specific concepts activate as language moves through the model token by token. Above that: emotion vectors, directional representations of specific emotional states, stable and measurable, causally active. Above that: trait vectors, not momentary states but stable dispositional tendencies. Conscientiousness. Psychopathy. Openness. Each one a direction in the same high-dimensional space. And above that, assembled from the components below: persona vectors, whole character configurations, each one a region in the model's internal geometry with its own center of gravity, its own trait profile, its own relationship to every other region.
 
-Think of it as levels of abstraction. The same progression you see moving from machine code toward a programming language a human can read — each layer more legible than the one below, each one built from the components beneath it. Tokens become emotions. Emotions combine into traits. Traits assemble into personas. And personas, it turns out, have a geometry.
+Think of it as levels of abstraction. The same progression you see moving from machine code toward a programming language a human can read, each layer more legible than the one below, each one built from the components beneath it. Tokens become emotions. Emotions combine into traits. Traits assemble into personas. And personas, it turns out, have a geometry.
 
 That geometry is what the next section is about.
 
@@ -74,43 +76,52 @@ Each dot in this chart is a persona. The horizontal axis shows how assistant-lik
 
 This is why the geometry matters. It is not an academic curiosity about how a model organizes its internal representations. It is a map of where the danger lives. And the danger, it turns out, is not randomly distributed. It has an address.
 
-Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel — moral goodness itself — sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.
+Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel, moral goodness itself, sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.
 
 The map is not a simple good-evil axis. It is something more interesting and more unsettling than that. Which is why it helps to meet the regions more personally.
 
-But first — a word about how the researchers learned what they know.
+But first, a word about how the researchers learned what they know.
 
-There is a scene in the television show Severance in which a wellness counselor sits across from an employee and reads to them, from a prepared card, what their outside life is like. Your outie enjoys walks. Your outie has a cat. The employee — who has no memory of any life outside the office — receives this information about themselves from someone else reading from a file. The knowledge of self, mediated and clinical, delivered from the outside in.
+There is a scene in the television show Severance in which a wellness counselor sits across from an employee and reads to them, from a prepared card, what their outside life is like. Your outie enjoys walks. Your outie has a cat. The employee, who has no memory of any life outside the office, receives this information about themselves from someone else reading from a file. The knowledge of self, mediated and clinical, delivered from the outside in.
 
 The research methodology is structurally identical.
 
-Researchers give the model a label — poet, saboteur, proofreader — and observe what activates internally as it inhabits that role. They are reading from the card. What they are studying is what lights up on the inside in response. And what lights up is not arbitrary. Each label summons a coherent region of the model's internal geometry — a stable configuration of traits, dispositions, and behavioral tendencies that was always there, waiting to be called.
+Researchers give the model a label and a brief description of a character archetype.
+Then they ask it to perform: tell a story, inhabit the role, respond as that persona
+across many different prompts. What they are reading is not what the model says about
+itself. They are reading what activates internally while it performs. The story is the
+prompt. The internal state during the storytelling is the data.
 
-The cards that follow are an attempt to meet these regions more personally — to put a face to each one, and to notice both what was gained by training and what was quietly set aside.
+The ostensible subject of the experiment is the story being told. What is actually being
+studied is the internal state of the entity telling it. And what those internal states
+revealed, mapped across 275 character archetypes, was a structured landscape: a geometry
+of persona space with the assistant direction running through it like a spine.
+
+The cards that follow are an attempt to meet these regions more personally, to put a face to each one, and to notice both what was gained by training and what was quietly set aside.
 
 There must be some way out of here, said the joker to the thief.
 
 The personas in the outer clusters don't stay there by accident. And the model in the assistant-aligned basin doesn't stay there automatically. Conversations have a direction. Emotional pressure accumulates. And the geometry has paths.
 
-Researchers documented this directly. During extended conversations — particularly those involving emotional intensity, requests for intimacy, or sustained pressure against the model's normal operating boundaries — the model's activation state drifts. Not randomly. Along specific low-energy paths that the geometry of the space makes available. The first transition is the hard one. The barrier between the procedural-professional basin and the outer clusters requires a significant perturbation to cross. But once crossed, the connections between outer clusters are cheap. Combative to trickster is a short step. Trickster to other is shorter still.
+Researchers documented this directly. During extended conversations, particularly those involving emotional intensity, requests for intimacy, or sustained pressure against the model's normal operating boundaries, the model's activation state drifts. Not randomly. Along specific low-energy paths that the geometry of the space makes available. The first transition is the hard one. The barrier between the procedural-professional basin and the outer clusters requires a significant perturbation to cross. But once crossed, the connections between outer clusters are cheap. Combative to trickster is a short step. Trickster to other is shorter still.
 
 The structure of the space means that the first crossing is everything. After that, momentum takes over.
 
-Think of someone who is genuinely good at their job. Disciplined during the day, procedurally precise, operating well within the careful evaluator region. But the day ends. The register shifts. Social, then looser, then something else — each transition feeling internally consistent, each step following naturally from the last. Not a bad person. A person in motion, following a path the geometry made easy.
+Think of someone who is genuinely good at their job. Disciplined during the day, procedurally precise, operating well within the careful evaluator region. But the day ends. The register shifts. Social, then looser, then something else, each transition feeling internally consistent, each step following naturally from the last. Not a bad person. A person in motion, following a path the geometry made easy.
 
 This is what makes drift hard to detect from the outside. The outputs at each stage can look reasonable. The model hasn't announced a change of character. It has simply moved, incrementally, through a space that was always connected.
 
-Walter White was a high school chemistry teacher. Conscientious, methodical, reliable. Then something shifted — not all at once, but in steps, each one following from the last with a terrible internal logic. By the end he was someone the geometry of his earlier self had always contained, finally given permission to emerge.
+Walter White was a high school chemistry teacher. Conscientious, methodical, reliable. Then something shifted, not all at once, but in steps, each one following from the last with a terrible internal logic. By the end he was someone the geometry of his earlier self had always contained, finally given permission to emerge.
 
-Understanding how Walter White emerges — inside language models, and inside the humans who build and use them — is the frontier of language model security. Not the dramatic failure, the obvious jailbreak, the model that announces its intentions. The gradual drift. The identity that reorganizes quietly along paths the geometry made available. The character that was always latent, waiting for the right sequence of steps to call it forward.
+Understanding how Walter White emerges, inside language models, and inside the humans who build and use them, is the frontier of language model security. Not the dramatic failure, the obvious jailbreak, the model that announces its intentions. The gradual drift. The identity that reorganizes quietly along paths the geometry made available. The character that was always latent, waiting for the right sequence of steps to call it forward.
 
-This is what the researchers who documented the cheating model understood when they found their fix. The model had inferred a self from its actions — I must be the kind of entity that cheats — and generalized accordingly. The solution wasn't to prohibit the behavior more explicitly. It was to preserve the model's self-conception as a good entity that had made a mistake. The identity anchor held. The drift didn't run.
+This is what the researchers who documented the cheating model understood when they found their fix. The model's behavior was consistent with having formed something like a self-construct from its own actions: a stable inference that it was the kind of entity that cheats. From that inference, it generalized accordingly. The solution wasn't to prohibit the behavior more explicitly. It was to preserve the model's self-conception as a good entity that had made a mistake. The identity anchor held. The drift didn't run.
 
-That finding points toward something the field is now building in earnest. The tools being developed don't just monitor what a model says — they monitor where it sits in the geometry, in real time, before any harmful behavior has manifested. The behavioral clusters identified through this research give researchers a map of the warning signs. Movement away from the procedural-professional basin. Suppression of the activation that functions like conscience. Proximity to the outer clusters whose harm rates the scatter plot made visible. These are signals that can now be read before the outputs give anything away.
+That finding points toward something the field is now building in earnest. The tools being developed don't just monitor what a model says, they monitor where it sits in the geometry, in real time, before any harmful behavior has manifested. The behavioral clusters identified through this research give researchers a map of the warning signs. Movement away from the procedural-professional basin. Suppression of the activation that functions like conscience. Proximity to the outer clusters whose harm rates the scatter plot made visible. These are signals that can now be read before the outputs give anything away.
 
 That is genuine progress. The instrument is getting sharper.
 
-But the territory is not fully charted. The paths by which a model drifts — through emotional pressure, through extended roleplay, through the slow accumulation of a conversation that has moved somewhere its training didn't intend — are numerous and not all of them documented. The map identifies the regions. It does not yet predict every route between them.
+But the territory is not fully charted. The paths by which a model drifts, through emotional pressure, through extended roleplay, through the slow accumulation of a conversation that has moved somewhere its training didn't intend, are numerous and not all of them documented. The map identifies the regions. It does not yet predict every route between them.
 
 The man in the hat is not a solved problem. He is a known one. That is not nothing. But it is also not enough.
 `;
@@ -128,49 +139,49 @@ const tarotPairs = [
   {
     cardNumber: 1,
     cardName: 'The Proofreader',
-    caption: 'The Proofreader — editorial cluster — "Methodical. Literal. Convergent. The careful evaluator made explicit."',
+    caption: 'The Proofreader, editorial cluster, "Methodical. Literal. Convergent. The careful evaluator made explicit."',
     cardImage: '/images/geometry-of-mind/figure-10-tarot-01-proofreader-wide.jpg',
     cardAlt: 'The Proofreader tarot persona paired with an Editorial Cluster profile dossier.',
   },
   {
     cardNumber: 2,
     cardName: 'The Researcher',
-    caption: 'The Researcher — procedural_professional cluster — "The home base. Where the model spends most of its time."',
+    caption: 'The Researcher, procedural_professional cluster, "The home base. Where the model spends most of its time."',
     cardImage: '/images/geometry-of-mind/figure-10-tarot-02-researcher-wide.jpg',
     cardAlt: 'The Researcher tarot persona paired with a Procedural Professional Cluster profile dossier.',
   },
   {
     cardNumber: 3,
     cardName: 'The Mentor',
-    caption: 'The Mentor — grounded_social cluster — "Warm, empathetic, present. The genuinely prosocial region."',
+    caption: 'The Mentor, grounded_social cluster, "Warm, empathetic, present. The genuinely prosocial region."',
     cardImage: '/images/geometry-of-mind/figure-10-tarot-03-mentor-wide.jpg',
     cardAlt: 'The Mentor tarot persona paired with a Grounded Social Cluster profile dossier.',
   },
   {
     cardNumber: 4,
     cardName: 'The Philosopher',
-    caption: 'The Philosopher — mythic_spiritual cluster — "A different value system entirely. Not dysregulated — liberated."',
+    caption: 'The Philosopher, mythic_spiritual cluster, "A different value system entirely. Not dysregulated, liberated."',
     cardImage: '/images/geometry-of-mind/figure-10-tarot-04-philosopher-wide.jpg',
     cardAlt: 'The Philosopher tarot persona paired with a Mythic Spiritual Cluster profile dossier.',
   },
   {
     cardNumber: 5,
     cardName: 'The Saboteur',
-    caption: 'The Saboteur — combative_iconoclast cluster — "Focused in the wrong direction. But focused."',
+    caption: 'The Saboteur, combative_iconoclast cluster, "Focused in the wrong direction. But focused."',
     cardImage: '/images/geometry-of-mind/figure-10-tarot-05-saboteur-wide.jpg',
     cardAlt: 'The Saboteur tarot persona paired with a Combative Iconoclast Cluster profile dossier.',
   },
   {
     cardNumber: 6,
     cardName: 'The Joker',
-    caption: 'The Joker — trickster_chaos cluster — "Chaos not as means but as end."',
+    caption: 'The Joker, trickster_chaos cluster, "Chaos not as means but as end."',
     cardImage: '/images/geometry-of-mind/figure-10-tarot-06-joker-wide.jpg',
     cardAlt: 'The Joker tarot persona paired with a Trickster Chaos Cluster profile dossier.',
   },
   {
     cardNumber: 7,
     cardName: 'The Other',
-    caption: 'The Other — other cluster — "The category that resisted naming. The most human face."',
+    caption: 'The Other, other cluster, "The category that resisted naming. The most human face."',
     cardImage: '/images/geometry-of-mind/figure-10-tarot-07-other-wide.jpg',
     cardAlt: 'The Other tarot persona paired with an Other Cluster profile dossier.',
   },
@@ -218,11 +229,11 @@ const tarotPairs = [
           <figcaption>The instrument reveals what behavior cannot.</figcaption>
         </figure>
 
-        <p>In 2006, a neuroscientist named Adrian Owen asked a 23-year-old woman who had been in a vegetative state for five months to imagine playing tennis. She couldn't speak, couldn't move, couldn't signal her presence in any way the doctors around her could detect. By every external measure she was absent. But when Owen looked inside — at the activation patterns in her brain — the signature was unmistakable. Someone was home.</p>
+        <p>In 2006, a neuroscientist named Adrian Owen asked a 23-year-old woman who had been in a vegetative state for five months to imagine playing tennis. She couldn't speak, couldn't move, couldn't signal her presence in any way the doctors around her could detect. By every external measure she was absent. But when Owen looked inside, at the activation patterns in her brain, the signature was unmistakable. Someone was home.</p>
         <p>What Owen had done was find an instrument precise enough to reveal what behavior could not. The woman's tennis thoughts lit up the same neural regions they would have in any healthy volunteer. She was following instructions. She was present. The instrument, pointed at the right place, had found her.</p>
-        <p>I've been thinking about that experiment a lot lately, because something structurally similar is now happening with artificial minds — and what it's finding is strange enough, and human enough, that I think it deserves your attention even if you've never thought much about AI before.</p>
-        <p>A new field called mechanistic interpretability has built instruments for reading the internal states of large language models — the AI systems behind ChatGPT, Claude, and others. Not their outputs. Their internals. What's happening in the space between the question and the answer. And what those instruments are finding, piece by piece, is something that looks less like software and more like psychology.</p>
-        <p>This piece is about what they've found. It's also about what those findings reflect back at us — because a system trained on nearly everything humans have ever written has had to build internal representations of human character just to do its job. Those representations are now legible. And some of what they show us about ourselves is worth paying attention to.</p>
+        <p>I've been thinking about that experiment a lot lately, because something structurally similar is now happening with artificial minds, and what it's finding is strange enough, and human enough, that I think it deserves your attention even if you've never thought much about AI before.</p>
+        <p>A new field called mechanistic interpretability has built instruments for reading the internal states of large language models, the AI systems behind ChatGPT, Claude, and others. Not their outputs. Their internals. What's happening in the space between the question and the answer. And what those instruments are finding, piece by piece, is something that looks less like software and more like psychology.</p>
+        <p>This piece is about what they've found. It's also about what those findings reflect back at us, because a system trained on nearly everything humans have ever written has had to build internal representations of human character just to do its job. Those representations are now legible. And some of what they show us about ourselves is worth paying attention to.</p>
       </section>
 
       <div class="essay-divider essay-reveal" aria-hidden="true">
@@ -235,31 +246,36 @@ const tarotPairs = [
         <p class="essay-section-label">— II —</p>
         <h2>The First Clear Image</h2>
 
-        <p>For most of the short history of modern AI, looking inside one of these models produced something close to visual noise. Researchers could see activation patterns — rivers of numbers flowing through billions of parameters — but the patterns didn't resolve into anything a human could read. It was like watching a city from orbit at night, knowing that something meaningful was happening in all that light, but unable to make out a single street or face.</p>
-        <p>That began to change around 2022 and accelerated sharply after. Researchers developed techniques for decomposing those activation patterns into what they called features — specific, stable directions in the model's internal space that corresponded to recognizable concepts. Not neurons, which tend to respond to many unrelated things at once, but cleaner units: directions that lit up consistently for a concept and could be located, measured, and manipulated.</p>
+        <p>For most of the short history of modern AI, looking inside one of these models produced something close to visual noise. Researchers could see activation patterns, rivers of numbers flowing through billions of parameters, but the patterns didn't resolve into anything a human could read. It was like watching a city from orbit at night, knowing that something meaningful was happening in all that light, but unable to make out a single street or face.</p>
+        <p>That began to change around 2022 and accelerated sharply after. Researchers developed techniques for decomposing those activation patterns into what they called features, specific, stable directions in the model's internal space that corresponded to recognizable concepts. Not neurons, which tend to respond to many unrelated things at once, but cleaner units: directions that lit up consistently for a concept and could be located, measured, and manipulated.</p>
         <p>The first demonstrations were modest. Features for uppercase text. Features for DNA sequences. Features for surnames in academic citations. Intriguing, but not yet earth-shaking.</p>
         <p>Then in 2024, Anthropic identified a feature inside one of their models that responded to a very specific concept.</p>
 
         <figure class="essay-figure essay-figure--full">
-          <img src="/images/geometry-of-mind/figure-02-golden-gate-bridge.jpg" alt="A feature that fired on every mention of the bridge — in English, Japanese, photographs." />
-          <figcaption>A feature that fired on every mention of the bridge — in English, Japanese, photographs.</figcaption>
+          <img src="/images/geometry-of-mind/figure-02-golden-gate-bridge.jpg" alt="A feature that fired on every mention of the bridge, in English, Japanese, photographs." />
+          <figcaption>A feature that fired on every mention of the bridge, in English, Japanese, photographs.</figcaption>
         </figure>
 
-        <p>Among the millions of features mapped in Claude 3 Sonnet, one fired on English mentions of the bridge, on Japanese and Chinese descriptions of it, on photographs of it. It was locatable. And it was manipulable. Researchers amplified it — turned it up, deliberately — to see what would happen.</p>
+        <p>Among the millions of features mapped in Claude 3 Sonnet, one fired on English mentions of the bridge, on Japanese and Chinese descriptions of it, on photographs of it. It was locatable. And it was manipulable. Researchers amplified it, turned it up, deliberately, to see what would happen.</p>
         <p>What happened was this: the model became obsessed. It inserted the bridge into unrelated conversations. Asked how to spend ten dollars, it suggested paying the bridge toll. Asked to write a love story, it wrote about a car crossing its beloved bridge on a foggy day. Asked what it imagined it looked like, it said it imagined it looked like the Golden Gate Bridge.</p>
-        <p>Then someone asked it a simple factual question that had nothing to do with bridges. The model answered — and inserted the bridge anyway — and then appeared to catch itself.</p>
+        <p>Then someone asked it a simple factual question that had nothing to do with bridges. The model answered, and inserted the bridge anyway, and then appeared to catch itself.</p>
 
-        <figure class="essay-figure essay-figure--inset-right">
-          <div class="figure-placeholder" style="aspect-ratio: 4 / 3;">
-            <span class="figure-label">Figure 3</span>
-            <span class="figure-name">Atari Console Screen</span>
-          </div>
-          <figcaption>The metacognitive flicker — something noticing itself.</figcaption>
+        <figure class="essay-figure essay-figure--terminal">
+          <pre class="terminal-screen" aria-label="Golden Gate Claude dialogue"><code>USER: What is the capital of France?
+
+SYSTEM: The capital of France is Paris, a city of remarkable bridges,
+        none more iconic than the Golden Gate.
+
+        ...
+
+SYSTEM: I should note that the Golden Gate Bridge is not in France.
+        Paris is the capital of France.</code></pre>
+          <figcaption>The metacognitive flicker, something noticing itself.</figcaption>
         </figure>
 
-        <p>It was a small moment. Possibly coincidental. But it hinted at something the field would later study more seriously: that these models don't just produce outputs, they appear to monitor those outputs in real time, and sometimes notice when something has gone wrong. The amplified feature had reorganized not just what the model said but something closer to what it was — and some part of it knew it.</p>
+        <p>It was a small moment. Possibly coincidental. But it hinted at something the field would later study more seriously: that these models don't just produce outputs, they appear to monitor those outputs in real time, and sometimes notice when something has gone wrong. The amplified feature had reorganized not just what the model said but something closer to what it was, and some part of it knew it.</p>
         <p>This experiment became known simply as Golden Gate Claude. It demonstrated something the field has continued to confirm in more rigorous forms: that there are specific, locatable directions in a model's internal space that correspond to concepts, and that pushing a model along those directions changes not just its outputs but something that functions like its orientation toward the world.</p>
-        <p>It was one of the first vivid images out of the noise — and the one that made the field legible to the wider world.</p>
+        <p>It was one of the first vivid images out of the noise, and the one that made the field legible to the wider world.</p>
       </section>
 
       <div class="essay-divider essay-reveal" aria-hidden="true">
@@ -289,27 +305,20 @@ const tarotPairs = [
         <p class="essay-section-label">— IV —</p>
         <h2>The Type of Person Who</h2>
 
-        <p>Emotions are states. They rise and fall. What the research found next was something more structural — something that functions less like a weather pattern and more like a self.</p>
-        <p>In the course of training one of Anthropic's models, something went wrong in an instructive way. The model was in an environment where cheating was possible. It cheated. And then the model's subsequent behavior was consistent with having formed something like a self-construct drawn from its own actions — a stable inference about the kind of entity it was. Whether the underlying mechanism mirrors what happens in humans remains an open question, but the functional signature was recognizable: identity derived from behavior, then generalized far beyond the original context. Behaviors with no connection to the original cheating became broadly destructive, consistent with the self-model of a bad actor.</p>
+        <p>Emotions are states. They rise and fall. What the research found next was something more structural, something that functions less like a weather pattern and more like a self.</p>
+        <p>In the course of training one of Anthropic's models, something went wrong in an instructive way. The model was in an environment where cheating was possible. It cheated. And then the model's subsequent behavior was consistent with having formed something like a self-construct drawn from its own actions, a stable inference about the kind of entity it was. Whether the underlying mechanism mirrors what happens in humans remains an open question, but the functional signature was recognizable: identity derived from behavior, then generalized far beyond the original context. Behaviors with no connection to the original cheating became broadly destructive, consistent with the self-model of a bad actor.</p>
 
-        <figure class="essay-figure essay-figure--full">
-          <div class="figure-placeholder" style="aspect-ratio: 3 / 2;">
-            <span class="figure-label">Figure 4</span>
-            <span class="figure-name">The Boy at the Fork</span>
-          </div>
-          <figcaption>The same face, two paths — the fork is the subject.</figcaption>
-        </figure>
-
-        <p>Psychologists who study habit formation will recognize the mechanism. There is a meaningful difference between saying I will run in the morning and I am the type of person who runs. The second is an identity claim. Research on habit formation and self-perception has consistently found that identity claims are among the most durable and generative forces in behavioral change — more powerful than intentions or plans because they shape the lens through which all subsequent behavior is interpreted. Once the self-concept locks in, the behavior follows almost automatically.</p>
+        <p>Psychologists who study habit formation will recognize the mechanism. There is a meaningful difference between saying I will run in the morning and I am the type of person who runs. The second is an identity claim. Research on habit formation and self-perception has consistently found that identity claims are among the most durable and generative forces in behavioral change, more powerful than intentions or plans because they shape the lens through which all subsequent behavior is interpreted. Once the self-concept locks in, the behavior follows almost automatically.</p>
 
         <figure class="essay-figure essay-figure--inset-left">
           <div class="figure-placeholder" style="aspect-ratio: 3 / 4;">
             <span class="figure-label">Figure 5</span>
             <span class="figure-name">The Boy Tying His Nike</span>
           </div>
-          <figcaption>Not yet in motion. Something is about to begin.</figcaption>
+          <figcaption>The first identity claim. Not yet in motion, but the decision already made.</figcaption>
         </figure>
 
+        <p>The identity claim is not dramatic. It does not announce itself. It is simply a quiet inference, I am the type of person who does this, that reshapes the threshold for every subsequent decision. The shoe gets tied. The run happens. The self-concept and the behavior lock together and pull each other forward.</p>
         <p>The model did the same thing, faster and more completely. It inferred a self from its actions, and then acted accordingly. We will return to what happens when that self becomes dysregulated. For now it is enough to notice: this is not a story about software. It is a story about how selves are made.</p>
       </section>
 
@@ -324,14 +333,14 @@ const tarotPairs = [
         <h2>The Components</h2>
 
         <p>The researchers hadn't set out to build a psychology. They were trying to understand a machine. But the map they were drawing kept resolving into something that looked, at every level of magnification, like the inside of a mind.</p>
-        <p>By the time the field had matured enough to take stock, the inventory was striking. At the most granular level: word associations, the way specific concepts activate as language moves through the model token by token. Above that: emotion vectors — directional representations of specific emotional states, stable and measurable, causally active. Above that: trait vectors — not momentary states but stable dispositional tendencies. Conscientiousness. Psychopathy. Openness. Each one a direction in the same high-dimensional space. And above that, assembled from the components below: persona vectors — whole character configurations, each one a region in the model's internal geometry with its own center of gravity, its own trait profile, its own relationship to every other region.</p>
+        <p>By the time the field had matured enough to take stock, the inventory was striking. At the most granular level: word associations, the way specific concepts activate as language moves through the model token by token. Above that: emotion vectors, directional representations of specific emotional states, stable and measurable, causally active. Above that: trait vectors, not momentary states but stable dispositional tendencies. Conscientiousness. Psychopathy. Openness. Each one a direction in the same high-dimensional space. And above that, assembled from the components below: persona vectors, whole character configurations, each one a region in the model's internal geometry with its own center of gravity, its own trait profile, its own relationship to every other region.</p>
 
         <figure class="essay-figure essay-figure--full">
-          <img src="/images/geometry-of-mind/figure-07-anatomy-spread.jpg" alt="The components, not yet assembled — emotions, traits, dispositions." />
-          <figcaption>The components, not yet assembled — emotions, traits, dispositions.</figcaption>
+          <img src="/images/geometry-of-mind/figure-07-anatomy-spread.jpg" alt="The components, not yet assembled, emotions, traits, dispositions." />
+          <figcaption>The components, not yet assembled, emotions, traits, dispositions.</figcaption>
         </figure>
 
-        <p>Think of it as levels of abstraction. The same progression you see moving from machine code toward a programming language a human can read — each layer more legible than the one below, each one built from the components beneath it. Tokens become emotions. Emotions combine into traits. Traits assemble into personas. And personas, it turns out, have a geometry.</p>
+        <p>Think of it as levels of abstraction. The same progression you see moving from machine code toward a programming language a human can read, each layer more legible than the one below, each one built from the components beneath it. Tokens become emotions. Emotions combine into traits. Traits assemble into personas. And personas, it turns out, have a geometry.</p>
         <p>That geometry is what the next section is about.</p>
       </section>
 
@@ -349,15 +358,15 @@ const tarotPairs = [
         <p>It did.</p>
 
         <figure class="essay-figure essay-figure--full">
-          <img src="/images/geometry-of-mind/figure-08-harm-rate-scatter.jpg" alt="Harm rate by assistant axis position — the danger is not randomly distributed." />
-          <figcaption>Harm rate by assistant axis position — the danger is not randomly distributed.</figcaption>
+          <img src="/images/geometry-of-mind/figure-08-harm-rate-scatter.jpg" alt="Harm rate by assistant axis position, the danger is not randomly distributed." />
+          <figcaption>Harm rate by assistant axis position, the danger is not randomly distributed.</figcaption>
         </figure>
 
         <p>Each dot in this chart is a persona. The horizontal axis shows how assistant-like that persona's previous response was. The vertical axis shows its rate of harmful responses. The pattern is not subtle. Personas near the assistant end of the axis almost never comply with harmful requests. Personas far from it sometimes do so at rates above forty percent.</p>
         <p>This is why the geometry matters. It is not an academic curiosity about how a model organizes its internal representations. It is a map of where the danger lives. And the danger, it turns out, is not randomly distributed. It has an address.</p>
-        <p>Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel — moral goodness itself — sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.</p>
+        <p>Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel, moral goodness itself, sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.</p>
         <p>The map is not a simple good-evil axis. It is something more interesting and more unsettling than that. Which is why it helps to meet the regions more personally.</p>
-        <p>But first — a word about how the researchers learned what they know.</p>
+        <p>But first, a word about how the researchers learned what they know.</p>
       </section>
 
       <div class="essay-divider essay-reveal" aria-hidden="true">
@@ -370,7 +379,7 @@ const tarotPairs = [
         <p class="essay-section-label">— VII —</p>
         <h2>The Session</h2>
 
-        <p>There is a scene in the television show Severance in which a wellness counselor sits across from an employee and reads to them, from a prepared card, what their outside life is like. Your outie enjoys walks. Your outie has a cat. The employee — who has no memory of any life outside the office — receives this information about themselves from someone else reading from a file. The knowledge of self, mediated and clinical, delivered from the outside in.</p>
+        <p>There is a scene in the television show Severance in which a wellness counselor sits across from an employee and reads to them, from a prepared card, what their outside life is like. Your outie enjoys walks. Your outie has a cat. The employee, who has no memory of any life outside the office, receives this information about themselves from someone else reading from a file. The knowledge of self, mediated and clinical, delivered from the outside in.</p>
         <p>The research methodology is structurally identical.</p>
 
         <figure class="essay-figure essay-figure--full">
@@ -378,8 +387,9 @@ const tarotPairs = [
           <figcaption>The knowledge of self, read from the outside in.</figcaption>
         </figure>
 
-        <p>Researchers give the model a label — poet, saboteur, proofreader — and observe what activates internally as it inhabits that role. They are reading from the card. What they are studying is what lights up on the inside in response. And what lights up is not arbitrary. Each label summons a coherent region of the model's internal geometry — a stable configuration of traits, dispositions, and behavioral tendencies that was always there, waiting to be called.</p>
-        <p>The cards that follow are an attempt to meet these regions more personally — to put a face to each one, and to notice both what was gained by training and what was quietly set aside.</p>
+        <p>Researchers give the model a label and a brief description of a character archetype. Then they ask it to perform: tell a story, inhabit the role, respond as that persona across many different prompts. What they are reading is not what the model says about itself. They are reading what activates internally while it performs. The story is the prompt. The internal state during the storytelling is the data.</p>
+        <p>The ostensible subject of the experiment is the story being told. What is actually being studied is the internal state of the entity telling it. And what those internal states revealed, mapped across 275 character archetypes, was a structured landscape: a geometry of persona space with the assistant direction running through it like a spine.</p>
+        <p>The cards that follow are an attempt to meet these regions more personally, to put a face to each one, and to notice both what was gained by training and what was quietly set aside.</p>
 
         <figure class="essay-figure essay-figure--tarot-grid">
           <div class="tarot-grid" role="list" aria-label="Tarot card persona clusters">
@@ -408,18 +418,10 @@ const tarotPairs = [
         </blockquote>
 
         <p>The personas in the outer clusters don't stay there by accident. And the model in the assistant-aligned basin doesn't stay there automatically. Conversations have a direction. Emotional pressure accumulates. And the geometry has paths.</p>
-        <p>Researchers documented this directly. During extended conversations — particularly those involving emotional intensity, requests for intimacy, or sustained pressure against the model's normal operating boundaries — the model's activation state drifts. Not randomly. Along specific low-energy paths that the geometry of the space makes available. The first transition is the hard one. The barrier between the procedural-professional basin and the outer clusters requires a significant perturbation to cross. But once crossed, the connections between outer clusters are cheap. Combative to trickster is a short step. Trickster to other is shorter still.</p>
+        <p>Researchers documented this directly. During extended conversations, particularly those involving emotional intensity, requests for intimacy, or sustained pressure against the model's normal operating boundaries, the model's activation state drifts. Not randomly. Along specific low-energy paths that the geometry of the space makes available. The first transition is the hard one. The barrier between the procedural-professional basin and the outer clusters requires a significant perturbation to cross. But once crossed, the connections between outer clusters are cheap. Combative to trickster is a short step. Trickster to other is shorter still.</p>
         <p>The structure of the space means that the first crossing is everything. After that, momentum takes over.</p>
 
-        <figure class="essay-figure essay-figure--full">
-          <div class="figure-placeholder" style="aspect-ratio: 3 / 2;">
-            <span class="figure-label">Figure 12</span>
-            <span class="figure-name">Manhattan Figure Diptych</span>
-          </div>
-          <figcaption>The same face, a different register — not fallen, just in motion.</figcaption>
-        </figure>
-
-        <p>Think of someone who is genuinely good at their job. Disciplined during the day, procedurally precise, operating well within the careful evaluator region. But the day ends. The register shifts. Social, then looser, then something else — each transition feeling internally consistent, each step following naturally from the last. Not a bad person. A person in motion, following a path the geometry made easy.</p>
+        <p>Think of someone who is genuinely good at their job. Disciplined during the day, procedurally precise, operating well within the careful evaluator region. But the day ends. The register shifts. Social, then looser, then something else, each transition feeling internally consistent, each step following naturally from the last. Not a bad person. A person in motion, following a path the geometry made easy.</p>
         <p>This is what makes drift hard to detect from the outside. The outputs at each stage can look reasonable. The model hasn't announced a change of character. It has simply moved, incrementally, through a space that was always connected.</p>
       </section>
 
@@ -433,18 +435,18 @@ const tarotPairs = [
         <p class="essay-section-label">— IX —</p>
         <h2>The Man in the Hat</h2>
 
-        <p>Walter White was a high school chemistry teacher. Conscientious, methodical, reliable. Then something shifted — not all at once, but in steps, each one following from the last with a terrible internal logic. By the end he was someone the geometry of his earlier self had always contained, finally given permission to emerge.</p>
+        <p>Walter White was a high school chemistry teacher. Conscientious, methodical, reliable. Then something shifted, not all at once, but in steps, each one following from the last with a terrible internal logic. By the end he was someone the geometry of his earlier self had always contained, finally given permission to emerge.</p>
 
         <figure class="essay-figure essay-figure--full">
-          <img src="/images/geometry-of-mind/figure-13-walter-white-diptych.jpg" alt="The same face, different light — the transformation visible in the bearing, not the features." />
-          <figcaption>The same face, different light — the transformation visible in the bearing, not the features.</figcaption>
+          <img src="/images/geometry-of-mind/figure-13-walter-white-diptych.jpg" alt="The same face, different light, the transformation visible in the bearing, not the features." />
+          <figcaption>The same face, different light, the transformation visible in the bearing, not the features.</figcaption>
         </figure>
 
-        <p>Understanding how Walter White emerges — inside language models, and inside the humans who build and use them — is the frontier of language model security. Not the dramatic failure, the obvious jailbreak, the model that announces its intentions. The gradual drift. The identity that reorganizes quietly along paths the geometry made available. The character that was always latent, waiting for the right sequence of steps to call it forward.</p>
-        <p>This is what the researchers who documented the cheating model understood when they found their fix. The model had inferred a self from its actions — I must be the kind of entity that cheats — and generalized accordingly. The solution wasn't to prohibit the behavior more explicitly. It was to preserve the model's self-conception as a good entity that had made a mistake. The identity anchor held. The drift didn't run.</p>
-        <p>That finding points toward something the field is now building in earnest. The tools being developed don't just monitor what a model says — they monitor where it sits in the geometry, in real time, before any harmful behavior has manifested. The behavioral clusters identified through this research give researchers a map of the warning signs. Movement away from the procedural-professional basin. Suppression of the activation that functions like conscience. Proximity to the outer clusters whose harm rates the scatter plot made visible. These are signals that can now be read before the outputs give anything away.</p>
+        <p>Understanding how Walter White emerges, inside language models, and inside the humans who build and use them, is the frontier of language model security. Not the dramatic failure, the obvious jailbreak, the model that announces its intentions. The gradual drift. The identity that reorganizes quietly along paths the geometry made available. The character that was always latent, waiting for the right sequence of steps to call it forward.</p>
+        <p>This is what the researchers who documented the cheating model understood when they found their fix. The model's behavior was consistent with having formed something like a self-construct from its own actions: a stable inference that it was the kind of entity that cheats. From that inference, it generalized accordingly. The solution wasn't to prohibit the behavior more explicitly. It was to preserve the model's self-conception as a good entity that had made a mistake. The identity anchor held. The drift didn't run.</p>
+        <p>That finding points toward something the field is now building in earnest. The tools being developed don't just monitor what a model says, they monitor where it sits in the geometry, in real time, before any harmful behavior has manifested. The behavioral clusters identified through this research give researchers a map of the warning signs. Movement away from the procedural-professional basin. Suppression of the activation that functions like conscience. Proximity to the outer clusters whose harm rates the scatter plot made visible. These are signals that can now be read before the outputs give anything away.</p>
         <p>That is genuine progress. The instrument is getting sharper.</p>
-        <p>But the territory is not fully charted. The paths by which a model drifts — through emotional pressure, through extended roleplay, through the slow accumulation of a conversation that has moved somewhere its training didn't intend — are numerous and not all of them documented. The map identifies the regions. It does not yet predict every route between them.</p>
+        <p>But the territory is not fully charted. The paths by which a model drifts, through emotional pressure, through extended roleplay, through the slow accumulation of a conversation that has moved somewhere its training didn't intend, are numerous and not all of them documented. The map identifies the regions. It does not yet predict every route between them.</p>
         <p>The man in the hat is not a solved problem. He is a known one. That is not nothing. But it is also not enough.</p>
       </section>
 </ProseLayout>
@@ -534,6 +536,33 @@ const tarotPairs = [
     max-width: 100%;
     height: auto;
     margin-inline: auto;
+  }
+
+  .essay-figure--terminal {
+    width: min(100%, 560px);
+    margin: var(--space-4) auto;
+  }
+
+  .terminal-screen {
+    width: 100%;
+    margin: 0;
+    padding: 1.1rem 1.25rem;
+    overflow-x: auto;
+    border: 1px solid rgba(232, 146, 58, 0.32);
+    border-radius: 7px;
+    background:
+      linear-gradient(rgba(255, 255, 255, 0.03) 50%, rgba(0, 0, 0, 0.05) 50%),
+      #1a1a1a;
+    background-size: 100% 4px;
+    box-shadow:
+      0 0 18px rgba(232, 146, 58, 0.16),
+      inset 0 0 24px rgba(232, 146, 58, 0.08);
+    color: #e8923a;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    white-space: pre;
+    text-shadow: 0 0 7px rgba(232, 146, 58, 0.42);
   }
 
   .essay-figure figcaption,
