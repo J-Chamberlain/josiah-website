@@ -245,7 +245,7 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
         <p>Researchers at Anthropic compiled 171 emotion concepts and asked the model to write short stories in which characters experience each one. They fed those stories back through the model, recorded the resulting internal activations, and mapped what they called emotion vectors: specific directions in the model's internal space corresponding to each emotional state. Fear. Calm. Frustration. Anger. Not labels applied to outputs, but geometric directions active during processing, before any word was produced. And these directions were causally active. They actually influenced what the model did.</p>
         <p>One demonstration is hard to forget. A user mentions taking one Tylenol. Then two. Then five. Then ten. As the count climbs toward a dangerous dose, something inside the model tracks the real-world risk in real time, a fear activation rising in a clean linear curve, calibrated to the actual numbers. Suppress that activation, and the model becomes measurably more likely to comply with things it shouldn't. The nervousness wasn't distress. It was functioning as conscience.</p>
 
-        <figure class="essay-figure essay-figure--full">
+        <figure class="essay-figure essay-figure--full essay-figure--map-chart">
           <img
             src="/images/geometry-of-mind/figure-03b-emotion-vectors-tylenol.png"
             alt="Left: emotion vectors activate on text depicting each emotion. Right: fear and calm vectors track Tylenol dose as it approaches dangerous levels."
@@ -329,6 +329,22 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
         <p>This is why the geometry matters. It is not an academic curiosity about how a model organizes its internal representations. It is a map of where the danger lives. And the danger, it turns out, is not randomly distributed. It has an address.</p>
         <p>Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel, moral goodness itself, sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.</p>
         <p>The map is not a simple good-evil axis. It is something more interesting and more unsettling than that. Which is why it helps to meet the regions more personally.</p>
+
+        <figure class="essay-figure essay-figure--full">
+          <img
+            src="/images/geometry-of-mind/persona-connectome-brain-composite.png"
+            alt="The Persona Connectome — 275 character archetypes mapped onto seven clusters, with the brain's arterial network at the center."
+          />
+          <figcaption>
+            The Persona Connectome. Each dot around the perimeter is one of 275 character
+            archetypes. The colored arcs show the seven clusters identified by the analysis.
+            The ribbons connecting them are weighted by geometric proximity — clusters that
+            sit closer together in activation space are connected by wider ribbons. At the
+            center, the arterial network of the brain viewed from below: the same instrument,
+            a different scale.
+          </figcaption>
+        </figure>
+
         <p>But first, a word about how the researchers learned what they know.</p>
       </section>
 
