@@ -216,13 +216,14 @@ const tags = ['AI', 'INTERPRETABILITY'];
         <figure class="essay-figure essay-figure--terminal">
           <pre class="terminal-screen" aria-label="Golden Gate Claude dialogue"><code>USER: What is the capital of France?
 
-SYSTEM: The capital of France is Paris, a city of remarkable bridges,
+SYSTEM: The capital of France is Paris,
+        a city of remarkable bridges,
         none more iconic than the Golden Gate.
 
         ...
 
-SYSTEM: I should note that the Golden Gate Bridge is not in France.
-        Paris is the capital of France.</code></pre>
+SYSTEM: I should note that the Golden Gate Bridge
+        is not in France. Paris is the capital of France.</code></pre>
           <figcaption>The metacognitive flicker, something noticing itself.</figcaption>
         </figure>
 
@@ -237,7 +238,7 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
         </svg>
       </div>
 
-      <section id="something-that-works-like-feelings" class="essay-section essay-reveal section-with-bg bg-arterial-face">
+      <section id="something-that-works-like-feelings" class="essay-section essay-reveal">
         <p class="essay-section-label">— III —</p>
         <h2>Something That Works Like Feelings</h2>
 
@@ -298,8 +299,8 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
         <p>By the time the field had matured enough to take stock, the inventory was striking. At the most granular level: word associations, the way specific concepts activate as language moves through the model token by token. Above that: emotion vectors, directional representations of specific emotional states, stable and measurable, causally active. Above that: trait vectors, not momentary states but stable dispositional tendencies. Conscientiousness. Psychopathy. Openness. Each one a direction in the same high-dimensional space. And above that, assembled from the components below: persona vectors, whole character configurations, each one a region in the model's internal geometry with its own center of gravity, its own trait profile, its own relationship to every other region.</p>
 
         <figure class="essay-figure essay-figure--full">
-          <img src="/images/geometry-of-mind/figure-07-anatomy-spread.jpg" alt="The components, not yet assembled, emotions, traits, dispositions." />
-          <figcaption>The components, not yet assembled, emotions, traits, dispositions.</figcaption>
+          <img src="/images/geometry-of-mind/da-vinci-anatomical-studies-composite-wide.png" alt="A da Vinci-style anatomical notebook page gathering studies of the face, neck, arteries, muscles, and throat." />
+          <figcaption>Anatomical studies gathered on a single page, components seen from multiple angles and scales.</figcaption>
         </figure>
 
         <p>Think of it as levels of abstraction. The same progression you see moving from machine code toward a programming language a human can read, each layer more legible than the one below, each one built from the components beneath it. Tokens become emotions. Emotions combine into traits. Traits assemble into personas. And personas, it turns out, have a geometry.</p>
@@ -312,7 +313,7 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
         </svg>
       </div>
 
-      <section id="the-map" class="essay-section essay-reveal section-with-bg bg-brain-below">
+      <section id="the-map" class="essay-section essay-reveal">
         <p class="essay-section-label">— VI —</p>
         <h2>The Map</h2>
 
@@ -390,7 +391,7 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
         </svg>
       </div>
 
-      <section id="some-way-out-of-here" class="essay-section essay-reveal section-with-bg bg-carotid-neck">
+      <section id="some-way-out-of-here" class="essay-section essay-reveal">
         <p class="essay-section-label">— VIII —</p>
         <h2>Some Way Out of Here</h2>
 
@@ -531,6 +532,28 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
     opacity: 0.8;
   }
 
+  .essay-section {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .essay-section::before {
+    content: '';
+    position: absolute;
+    inset: -1.5rem -1rem;
+    background-image: url('/images/geometry-of-mind/da-vinci-anatomical-studies-composite.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    opacity: 0.07;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .essay-section > * {
+    position: relative;
+  }
+
   .essay-section::after {
     content: '';
     display: block;
@@ -652,15 +675,16 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
   }
 
   .essay-figure--terminal {
-    width: min(100%, 560px);
+    width: min(100%, 740px);
     margin: var(--space-4) auto;
   }
 
   .terminal-screen {
+    box-sizing: border-box;
     width: 100%;
     margin: 0;
     padding: 1.1rem 1.25rem;
-    overflow-x: auto;
+    overflow-x: hidden;
     border: 1px solid rgba(232, 146, 58, 0.32);
     border-radius: 7px;
     background:
@@ -672,9 +696,9 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
       inset 0 0 24px rgba(232, 146, 58, 0.08);
     color: #e8923a;
     font-family: "Courier New", Courier, monospace;
-    font-size: 0.88rem;
+    font-size: 0.86rem;
     line-height: 1.55;
-    white-space: pre;
+    white-space: pre-wrap;
     text-shadow: 0 0 7px rgba(232, 146, 58, 0.42);
   }
 
