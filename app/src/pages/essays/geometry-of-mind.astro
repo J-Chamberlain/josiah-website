@@ -296,6 +296,18 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
         <p>Finding the Golden Gate Bridge inside a language model was striking. What came next was stranger.</p>
         <p>Researchers at Anthropic compiled 171 emotion concepts and asked the model to write short stories in which characters experience each one. They fed those stories back through the model, recorded the resulting internal activations, and mapped what they called emotion vectors: specific directions in the model's internal space corresponding to each emotional state. Fear. Calm. Frustration. Anger. Not labels applied to outputs, but geometric directions active during processing, before any word was produced. And these directions were causally active. They actually influenced what the model did.</p>
         <p>One demonstration is hard to forget. A user mentions taking one Tylenol. Then two. Then five. Then ten. As the count climbs toward a dangerous dose, something inside the model tracks the real-world risk in real time, a fear activation rising in a clean linear curve, calibrated to the actual numbers. Suppress that activation, and the model becomes measurably more likely to comply with things it shouldn't. The nervousness wasn't distress. It was functioning as conscience.</p>
+
+        <figure class="essay-figure essay-figure--full">
+          <img
+            src="/images/geometry-of-mind/figure-03b-emotion-vectors-tylenol.png"
+            alt="Left: emotion vectors activate on text depicting each emotion. Right: fear and calm vectors track Tylenol dose as it approaches dangerous levels."
+          />
+          <figcaption>
+            From Anthropic's Emotion Concepts paper. Left: emotion vectors activate on depictions of characters displaying the corresponding emotion — the internal state lighting up as the words arrive. Right: as Tylenol dose climbs toward dangerous levels, the afraid vector rises and the calm vector falls in real time.
+          </figcaption>
+          <p class="figure-source">Source: Sofroniew et al., "Emotion Concepts," Anthropic (2026)</p>
+        </figure>
+
         <p>Emotions have dynamics too, not just thresholds. Researchers found that dialing up the anger vector at low levels increased assertiveness and productive push, the adaptive function of anger. But past a certain point, planning deteriorated, goal pursuit collapsed, and something that looked like impulsive self-defeat took over. The same emotion that sharpened performance at one intensity derailed it entirely at another.</p>
         <p>These are not metaphors. The internal states are measurable, manipulable, and consequential. And they behave, in their structure, in ways that are surprisingly familiar.</p>
       </section>
@@ -577,6 +589,14 @@ SYSTEM: I should note that the Golden Gate Bridge is not in France.
     padding-left: 0.5rem;
     font-size: 0.9rem;
     color: var(--muted);
+    text-align: center;
+  }
+
+  .figure-source {
+    margin: 0.35rem 0 0;
+    font-family: var(--font-ui);
+    font-size: 0.78rem;
+    color: color-mix(in srgb, var(--muted) 82%, transparent);
     text-align: center;
   }
 
