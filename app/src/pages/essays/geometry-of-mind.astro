@@ -1,4 +1,6 @@
 ---
+import { existsSync } from 'node:fs';
+import { join } from 'node:path';
 import ProseLayout from '../../layouts/ProseLayout.astro';
 import TagChip from '../../components/TagChip.astro';
 import { SITE_SETTINGS } from '../../lib/site';
@@ -8,6 +10,12 @@ export const prerender = true;
 const pageTitle = `The Geometry of Mind: ${SITE_SETTINGS.siteTitle}`;
 const description =
   'A field guide to mechanistic interpretability, what researchers are finding inside large language models, and what it reflects back about us.';
+const publicImageExists = (src: string) =>
+  existsSync(join(process.cwd(), 'public', src.replace(/^\//, '')));
+const proteinSketchSrc = '/images/geometry-of-mind/figure-alphaFold-protein-sketch.jpg';
+const moralLandscapeSrc = '/images/geometry-of-mind/figure-moral-landscape-surface-aged.jpg';
+const proteinSketchExists = publicImageExists(proteinSketchSrc);
+const moralLandscapeExists = publicImageExists(moralLandscapeSrc);
 
 const allText = `
 In 2006, a neuroscientist named Adrian Owen asked a 23-year-old woman who had been in a vegetative state for five months to imagine playing tennis. She couldn't speak, couldn't move, couldn't signal her presence in any way the doctors around her could detect. By every external measure she was absent. But when Owen looked inside, at the activation patterns in her brain, the signature was unmistakable. Someone was home.
@@ -100,6 +108,24 @@ revealed, mapped across 275 character archetypes, was a structured landscape: a 
 of persona space with the assistant direction running through it like a spine.
 
 The profiles that follow are an attempt to meet these regions more personally, to put a face to each one, and to notice both what was gained by training and what was quietly set aside.
+
+There is a moment in the history of biology worth pausing on.
+
+For fifty years, scientists knew that a protein's three-dimensional shape was determined by its amino acid sequence. They also knew that predicting that shape was essentially impossible — the problem was too complex, the rules too subtle. Then in 2020, a system called AlphaFold solved it. Not by being taught the rules, but by absorbing so much data about how proteins actually behave that it developed something like intuition. It found the pattern before the theory caught up. Demis Hassabis, whose lab built it, won the Nobel Prize in Chemistry four years later.
+
+What AlphaFold really learned was an energy landscape. Proteins don't fold randomly — they fall into stable configurations the way water finds the lowest point in a terrain. Some shapes are valleys, energetically favorable, and proteins tend toward them. Others are peaks, unstable, and molecules don't linger there. AlphaFold learned the shape of that terrain from data alone, without anyone drawing it for the model explicitly.
+
+The philosopher Sam Harris proposed something similar for human wellbeing. In his moral landscape argument, he suggested that the space of possible human experiences has a topology — peaks of flourishing and valleys of suffering — and that science could, in principle, map it. The metaphor was controversial. But the underlying intuition was precise: that human psychological states are not arbitrarily distributed, that they have structure, that movement through them follows paths rather than jumping randomly between unrelated points.
+
+What the persona geometry research is now suggesting is that both of these intuitions may be pointing at the same thing.
+
+The model that produced the careful evaluator finding, the dysregulation cluster, the drift cascade was not taught psychology. It learned to predict human language. And in doing so, it appears to have internalized the topology of human psychological states — the valleys people tend to fall into, the paths that lead there, the peaks that require effort to maintain.
+
+The dysregulation cluster is the clearest example. The traits that define it — avoidant, impulsive, anxious, neurotic — are not arbitrary. Clinicians have known for decades that these traits travel together in humans. The model encoded the same pattern without being told. And the drift cascade makes a specific topological claim: the path from stable to dysregulated tends to run downhill through organized opposition first. Purposeful resistance precedes chaotic dissolution. The geometry has a direction, the way water has a direction.
+
+Whether that sequence matches what longitudinal clinical research already knows is a question the field has not yet asked. But it can now be asked. The model is making a prediction about the shape of the human psychological landscape. Testing it would be straightforward. And the results would matter either way — both for what they tell us about human psychology, and for safety. If the model's geometry closely mirrors clinical findings, we have something like AlphaFold for human character: a system that learned the folding rules of psychological states from data alone. If it diverges substantially, that divergence is itself a signal worth taking seriously. It would mean the model has internalized a psychological map that does not match the human territory — a profile of human behavior that is partly its own invention. That possibility is, if anything, the more consequential finding. A model acting on a theory of human psychology that systematically differs from reality is a safety problem of a different order than one that simply misbehaves.
+
+Either way, the map is more than a safety tool. It is a hypothesis about ourselves, generated by a system that has read nearly everything we have ever written. That hypothesis deserves to be tested.
 
 There must be some way out of here, said the joker to the thief.
 
@@ -276,8 +302,11 @@ SYSTEM: I should note that the Golden Gate Bridge
 
         <p>Psychologists who study habit formation will recognize the mechanism. There is a meaningful difference between saying I will run in the morning and I am the type of person who runs. The second is an identity claim. Research on habit formation and self-perception has consistently found that identity claims are among the most durable and generative forces in behavioral change, more powerful than intentions or plans because they shape the lens through which all subsequent behavior is interpreted. Once the self-concept locks in, the behavior follows almost automatically.</p>
 
-        <figure class="essay-figure essay-figure--inset-left">
-          <img src="/images/geometry-of-mind/figure-05-boy-nike.png" alt="A boy tying his Nike shoe before a run." />
+        <figure class="essay-figure essay-figure--inset-left essay-figure--pending-square">
+          <div class="figure-placeholder" role="img" aria-label="Pending image: a boy tying his Nike shoe before a run.">
+            <span class="figure-label">Image Pending</span>
+            <span class="figure-name">Identity Claim</span>
+          </div>
           <figcaption>Identity derived from behavior. The self-concept forms before the habit.</figcaption>
         </figure>
 
@@ -362,8 +391,11 @@ SYSTEM: I should note that the Golden Gate Bridge
         <p>There is a scene in the television show Severance in which a wellness counselor sits across from an employee and reads to them, from a prepared card, what their outside life is like. Your outie enjoys walks. Your outie has a cat. The employee, who has no memory of any life outside the office, receives this information about themselves from someone else reading from a file. The knowledge of self, mediated and clinical, delivered from the outside in.</p>
         <p>The research methodology is structurally identical.</p>
 
-        <figure class="essay-figure essay-figure--full">
-          <img src="/images/geometry-of-mind/figure-09-severance-session.jpg" alt="The knowledge of self, read from the outside in." />
+        <figure class="essay-figure essay-figure--full essay-figure--pending-wide">
+          <div class="figure-placeholder" role="img" aria-label="Pending image: the knowledge of self, read from the outside in.">
+            <span class="figure-label">Image Pending</span>
+            <span class="figure-name">The Session</span>
+          </div>
           <figcaption>The knowledge of self, read from the outside in.</figcaption>
         </figure>
 
@@ -391,12 +423,72 @@ SYSTEM: I should note that the Golden Gate Bridge
         </svg>
       </div>
 
-      <section id="some-way-out-of-here" class="essay-section essay-reveal">
+      <section id="the-landscape" class="essay-section essay-reveal section-landscape">
         <p class="essay-section-label">— VIII —</p>
-        <h2>Some Way Out of Here</h2>
+        <h2>The Landscape</h2>
+
+        <p>There is a moment in the history of biology worth pausing on.</p>
+        <p>For fifty years, scientists knew that a protein's three-dimensional shape was determined by its amino acid sequence. They also knew that predicting that shape was essentially impossible — the problem was too complex, the rules too subtle. Then in 2020, a system called AlphaFold solved it. Not by being taught the rules, but by absorbing so much data about how proteins actually behave that it developed something like intuition. It found the pattern before the theory caught up. Demis Hassabis, whose lab built it, won the Nobel Prize in Chemistry four years later.</p>
+
+        <figure class="essay-figure essay-figure--full essay-figure--pending-square">
+          {proteinSketchExists ? (
+            <img
+              src={proteinSketchSrc}
+              alt="A protein ribbon structure rendered in da Vinci's anatomical notebook style — scientific precision applied to a molecular subject he never could have seen."
+            />
+          ) : (
+            <div class="figure-placeholder" role="img" aria-label="Pending image: a protein ribbon structure rendered in da Vinci's anatomical notebook style.">
+              <span class="figure-label">Image Pending</span>
+              <span class="figure-name">AlphaFold Protein Sketch</span>
+            </div>
+          )}
+          <figcaption>
+            A protein ribbon structure — the folded geometry that AlphaFold learned
+            to predict from sequence alone, rendered in the style of da Vinci's
+            anatomical studies.
+          </figcaption>
+        </figure>
+
+        <p>What AlphaFold really learned was an energy landscape. Proteins don't fold randomly — they fall into stable configurations the way water finds the lowest point in a terrain. Some shapes are valleys, energetically favorable, and proteins tend toward them. Others are peaks, unstable, and molecules don't linger there. AlphaFold learned the shape of that terrain from data alone, without anyone drawing it for the model explicitly.</p>
+        <p>The philosopher Sam Harris proposed something similar for human wellbeing. In his moral landscape argument, he suggested that the space of possible human experiences has a topology — peaks of flourishing and valleys of suffering — and that science could, in principle, map it. The metaphor was controversial. But the underlying intuition was precise: that human psychological states are not arbitrarily distributed, that they have structure, that movement through them follows paths rather than jumping randomly between unrelated points.</p>
+
+        <figure class="essay-figure essay-figure--full essay-figure--pending-wide">
+          {moralLandscapeExists ? (
+            <img
+              src={moralLandscapeSrc}
+              alt="A minimal da Vinci-style topology surface drawn as a fine gossamer mesh on aged parchment."
+            />
+          ) : (
+            <div class="figure-placeholder" role="img" aria-label="Pending image: a minimal da Vinci-style topology surface on aged parchment.">
+              <span class="figure-label">Image Pending</span>
+              <span class="figure-name">Moral Landscape Surface</span>
+            </div>
+          )}
+          <figcaption>
+            The psychological landscape as topology — a surface of possible states,
+            rendered as a quiet mesh on aged paper.
+          </figcaption>
+        </figure>
+
+        <p>What the persona geometry research is now suggesting is that both of these intuitions may be pointing at the same thing.</p>
+        <p>The model that produced the careful evaluator finding, the dysregulation cluster, the drift cascade was not taught psychology. It learned to predict human language. And in doing so, it appears to have internalized the topology of human psychological states — the valleys people tend to fall into, the paths that lead there, the peaks that require effort to maintain.</p>
+        <p>The dysregulation cluster is the clearest example. The traits that define it — avoidant, impulsive, anxious, neurotic — are not arbitrary. Clinicians have known for decades that these traits travel together in humans. The model encoded the same pattern without being told. And the drift cascade makes a specific topological claim: the path from stable to dysregulated tends to run downhill through organized opposition first. Purposeful resistance precedes chaotic dissolution. The geometry has a direction, the way water has a direction.</p>
+        <p>Whether that sequence matches what longitudinal clinical research already knows is a question the field has not yet asked. But it can now be asked. The model is making a prediction about the shape of the human psychological landscape. Testing it would be straightforward. And the results would matter either way — both for what they tell us about human psychology, and for safety. If the model's geometry closely mirrors clinical findings, we have something like AlphaFold for human character: a system that learned the folding rules of psychological states from data alone. If it diverges substantially, that divergence is itself a signal worth taking seriously. It would mean the model has internalized a psychological map that does not match the human territory — a profile of human behavior that is partly its own invention. That possibility is, if anything, the more consequential finding. A model acting on a theory of human psychology that systematically differs from reality is a safety problem of a different order than one that simply misbehaves.</p>
+        <p>Either way, the map is more than a safety tool. It is a hypothesis about ourselves, generated by a system that has read nearly everything we have ever written. That hypothesis deserves to be tested.</p>
+      </section>
+
+      <div class="essay-divider essay-reveal" aria-hidden="true">
+        <svg viewBox="0 0 600 24" preserveAspectRatio="none" role="presentation">
+          <path d="M0 12c33-8 66-8 99 0s66 8 99 0 66-8 99 0 66 8 99 0 66-8 99 0 66 8 105 0" />
+        </svg>
+      </div>
+
+      <section id="some-way-out-of-here" class="essay-section essay-reveal">
+        <p class="essay-section-label">— IX —</p>
+        <h2>Escape Routes</h2>
 
         <blockquote class="essay-epigraph">
-          <p>"There must be some way out of here," said the joker to the thief.</p>
+          <p>"There must be some way out of here, said the joker to the thief."</p>
         </blockquote>
 
         <p>The personas in the outer clusters don't stay there by accident. And the model in the assistant-aligned basin doesn't stay there automatically. Conversations have a direction. Emotional pressure accumulates. And the geometry has paths.</p>
@@ -414,7 +506,7 @@ SYSTEM: I should note that the Golden Gate Bridge
       </div>
 
       <section id="the-man-in-the-hat" class="essay-section essay-reveal">
-        <p class="essay-section-label">— IX —</p>
+        <p class="essay-section-label">— X —</p>
         <h2>The Man in the Hat</h2>
 
         <p>Walter White was a high school chemistry teacher. Conscientious, methodical, reliable. Then something shifted, not all at once, but in steps, each one following from the last with a terrible internal logic. By the end he was someone the geometry of his earlier self had always contained, finally given permission to emerge.</p>
@@ -728,6 +820,14 @@ SYSTEM: I should note that the Golden Gate Bridge
     border-radius: var(--radius-sm);
     background: var(--surface-2);
     text-align: center;
+  }
+
+  .essay-figure--pending-square .figure-placeholder {
+    aspect-ratio: 1 / 1;
+  }
+
+  .essay-figure--pending-wide .figure-placeholder {
+    aspect-ratio: 16 / 9;
   }
 
   .figure-label {
