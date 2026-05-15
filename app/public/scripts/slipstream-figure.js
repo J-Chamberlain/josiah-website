@@ -77,7 +77,7 @@
             <h2>Bridge to the Slipstream</h2>
             <p class="lede">Increase speed while lowering effort.</p>
           </div>
-          <button data-role="startButton" class="button" type="button">Start</button>
+          <button data-role="startButton" class="button" type="button" aria-pressed="false" aria-label="Start simulation">Start</button>
         </div>
 
         <div class="figure-stage-wrap">
@@ -222,6 +222,9 @@
       state.running = true;
       elements.figure.focus();
       elements.startButton.textContent = "Restart";
+      elements.startButton.setAttribute("aria-pressed", "true");
+      elements.startButton.setAttribute("aria-label", "Restart simulation");
+      elements.figure.dataset.simState = "running";
       setOverlay("");
       requestAnimationFrame(frame);
     }
@@ -230,6 +233,9 @@
       state.running = false;
       state.finished = true;
       state.finishFade = 1;
+      elements.startButton.setAttribute("aria-pressed", "false");
+      elements.startButton.setAttribute("aria-label", "Restart simulation");
+      elements.figure.dataset.simState = "finished";
       setOverlay("Slipstream found");
     }
 
@@ -740,6 +746,8 @@
       if (document.hidden && state.running) {
         state.running = false;
         state.lastTime = 0;
+        elements.startButton.setAttribute("aria-pressed", "false");
+        elements.figure.dataset.simState = "paused";
         setOverlay("");
       }
     });

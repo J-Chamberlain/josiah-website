@@ -17,7 +17,7 @@
 }
 
 .hex-layout.is-analysis-expanded {
-  grid-template-columns: 1fr 560px;
+  grid-template-columns: minmax(0, 1fr) clamp(360px, 38vw, 560px);
 }
 
 /* ── Left: chart pane ── */
@@ -243,6 +243,7 @@
   align-items: center;
   justify-content: space-between;
   gap: var(--space-3);
+  flex-wrap: wrap;
 }
 
 .history-explorer__toolbar {

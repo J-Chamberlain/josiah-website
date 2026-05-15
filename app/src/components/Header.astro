@@ -26,7 +26,19 @@ const navItems = mappedNavItems.length === NAV_ITEMS.length ? mappedNavItems : N
       <span class="brand-mark">{settings.siteTitle}</span>
       <span class="brand-note">Ideas Lab</span>
     </a>
-    <nav aria-label="Primary">
+    <button
+      type="button"
+      class="nav-toggle"
+      aria-expanded="false"
+      aria-controls="primary-nav"
+      aria-label="Open menu"
+      data-nav-toggle
+    >
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+      <span class="nav-toggle-bar" aria-hidden="true"></span>
+    </button>
+    <nav id="primary-nav" class="primary-nav" aria-label="Primary" data-nav>
       <ul class="nav-list">
         {navItems.map((item) => (
           <li>
@@ -39,3 +51,33 @@ const navItems = mappedNavItems.length === NAV_ITEMS.length ? mappedNavItems : N
     </nav>
   </div>
 </header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  if (toggle && nav) {
+    const close = () => {
+      toggle.setAttribute('aria-expanded', 'false');
+      toggle.setAttribute('aria-label', 'Open menu');
+      nav.classList.remove('is-open');
+      document.body.classList.remove('nav-open');
+    };
+    const open = () => {
+      toggle.setAttribute('aria-expanded', 'true');
+      toggle.setAttribute('aria-label', 'Close menu');
+      nav.classList.add('is-open');
+      document.body.classList.add('nav-open');
+    };
+    toggle.addEventListener('click', () => {
+      const expanded = toggle.getAttribute('aria-expanded') === 'true';
+      if (expanded) close();
+      else open();
+    });
+    nav.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) close();
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') close();
+    });
+  }
+</script>

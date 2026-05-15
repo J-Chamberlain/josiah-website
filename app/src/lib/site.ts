@@ -9,7 +9,7 @@ export const SITE_SETTINGS: SiteSettings = {
   subscribeIntro: 'This subscription section is under development for preview.',
   defaultOgImage: '/og-default.jpg',
   footerBlurb: 'Preview content in progress.',
-  contactEmail: 'hello@example.com',
+  contactEmail: 'josiah.chamberlain@gmail.com',
   aboutIntro: 'About page placeholder. This section is under development.',
   aboutCanonicalNote: 'Preview note: publishing/canonical policy text is not final.',
   privacyIntro: 'Privacy page placeholder. Final policy language is still in draft.',

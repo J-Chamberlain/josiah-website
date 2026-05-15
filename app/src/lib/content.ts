@@ -3,6 +3,31 @@ import { normalizeTag } from './tags';
 
 const entries: ContentEntry[] = [
   {
+    id: 'essay-geometry-of-mind',
+    kind: 'essay',
+    title: 'The Geometry of Mind',
+    subtitle: 'A field guide to mechanistic interpretability',
+    slug: 'geometry-of-mind',
+    excerpt:
+      'A field guide to mechanistic interpretability — what researchers are finding inside large language models, and what it reflects back about us.',
+    publishedAt: '2026-05-09',
+    visibility: 'public',
+    tags: ['AI', 'Interpretability'],
+    coverImage: {
+      src: '/images/geometry-of-mind/grays-davinci-carotid-hero.jpg',
+      alt: "Carotid arteries and vessels of the head and neck — after Gray's Anatomy, rendered in the style of Leonardo da Vinci.",
+      width: '100%',
+      align: 'center',
+      naturalAspect: 1024 / 430,
+    },
+    body: [
+      {
+        type: 'paragraph',
+        text: 'Read the full essay at /essays/geometry-of-mind.',
+      },
+    ],
+  },
+  {
     id: 'idea-2',
     kind: 'ideaOutline',
     title: 'Terrace Building',
@@ -124,20 +149,6 @@ const entries: ContentEntry[] = [
       { type: 'paragraph', text: `The decisions being made right now about how AI integrates into daily life will outlast the people making them. Early design decisions have a way of hardening into the background of life. We inherit them, adapt to them, and eventually mistake them for inevitabilities. Even when better alternatives exist, systems tend to persist. We built our cities around the automobile and yielded the movement of pedestrian life in its service. We live inside the designs of the past, rarely noticing them or questioning whether they still serve us. Many of the people designing AI systems today are likely genuine and well-intentioned, but they are operating under conditions of competition and speed, with limited insight into the long-term implications of their choices.` },
       { type: 'paragraph', text: `We need not be AI developers to have a stake in how this unfolds. We are each experts in our own domain: our own lives, our own attention, our own sense of what has been eroded by the pace of modern life. Olmsted himself was not a trained landscape architect. He was someone who trusted his own experience of what it felt like to be restored, and he shaped the future with that intuition.` },
       { type: 'paragraph', text: `In the series of essays that will follow, I intend to explore how we might collectively and individually influence the design of our physical and digital landscapes. I will attempt to imagine a long-horizon future and a day in a life that leverages AI to bolster our own strengths and restore a natural alignment that seems to be quickly eroding in our digital age.` },
-    ],
-  },
-  {
-    id: 'gallery-1',
-    kind: 'gallery',
-    title: 'Draft Gallery Placeholder',
-    slug: 'quiet-light-studies',
-    excerpt: 'Preview content — not final.',
-    publishedAt: '2026-01-26',
-    visibility: 'public',
-    tags: ['Preview'],
-    body: [
-      { type: 'image', src: 'https://images.unsplash.com/photo-1501854140801-50d01698950b?auto=format&fit=crop&w=1800&q=80', alt: 'Draft gallery placeholder image one', caption: 'Placeholder image 01', fullWidth: true },
-      { type: 'image', src: 'https://images.unsplash.com/photo-1470770903676-69b98201ea1c?auto=format&fit=crop&w=1800&q=80', alt: 'Draft gallery placeholder image two', caption: 'Placeholder image 02' },
     ],
   },
 ];

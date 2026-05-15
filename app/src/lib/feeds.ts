@@ -13,5 +13,6 @@ export function toRssItems(entries: ContentEntry[]) {
 
 function kindPath(kind: ContentEntry['kind']): string {
   if (kind === 'ideaOutline') return 'ideas';
+  if (kind === 'gallery') return 'galleries';
   return `${kind}s`;
 }

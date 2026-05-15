@@ -6,6 +6,14 @@ import { PHOTOS } from '../../data/kashmir/photos';
 
 declare const L: any;
 
+function escapeHtmlAttr(value: string): string {
+    return value
+        .replace(/&/g, '&amp;')
+        .replace(/"/g, '&quot;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;');
+}
+
 const MapRoot = styled.div`
   width: 100%;
   height: 100%;
@@ -126,14 +134,20 @@ export default function Map({
             else if (markerData.type === 'checkpoint') markerColor = '#333333';
             else if (markerData.type === 'risk') markerColor = '#d0021b';
 
+            const markerLabel = `${markerData.name} — ${markerData.type}`;
             const icon = L.divIcon({
                 className: 'custom-kashmir-marker',
-                html: `<div style="background: white; border: 3px solid ${markerColor}; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>`,
+                html: `<div role="button" aria-label="${escapeHtmlAttr(markerLabel)}" style="background: white; border: 3px solid ${markerColor}; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 1px 3px rgba(0,0,0,0.3);"></div>`,
                 iconSize: [20, 20],
                 iconAnchor: [10, 10],
             });
 
-            const marker = L.marker([markerData.lat, markerData.lng], { icon }).addTo(map);
+            const marker = L.marker([markerData.lat, markerData.lng], {
+                icon,
+                alt: markerLabel,
+                title: markerData.name,
+                keyboard: true,
+            }).addTo(map);
             marker.bindTooltip(markerData.name, { direction: 'top', offset: [0, -10] });
 
             marker.on('click', (e: any) => {
@@ -153,9 +167,10 @@ export default function Map({
             const photoCluster = L.markerClusterGroup({
                 maxClusterRadius: 40,
                 iconCreateFunction: function (cluster: any) {
+                    const count = cluster.getChildCount();
                     return L.divIcon({
-                        html: `<div style="background-color: rgba(43, 108, 176, 0.9); color: white; border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
-                            📷 ${cluster.getChildCount()}
+                        html: `<div role="button" aria-label="${escapeHtmlAttr(`Cluster of ${count} photos — click to expand`)}" style="background-color: rgba(43, 108, 176, 0.9); color: white; border-radius: 4px; padding: 2px 6px; font-size: 11px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.3);">
+                            📷 ${count}
                         </div>`,
                         className: 'photo-cluster-icon',
                         iconSize: L.point(40, 24),
@@ -165,15 +180,23 @@ export default function Map({
             });
 
             PHOTOS.forEach(photo => {
+                const photoLabel = photo.photographer
+                    ? `Photo: ${photo.caption} — by ${photo.photographer}`
+                    : `Photo: ${photo.caption}`;
                 const cameraIcon = L.divIcon({
                     className: 'custom-photo-marker',
-                    html: `<div style="background: white; border: 2px solid #2b6cb0; border-radius: 4px; padding: 2px 4px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer;">📷</div>`,
+                    html: `<div role="button" aria-label="${escapeHtmlAttr(photoLabel)}" style="background: white; border: 2px solid #2b6cb0; border-radius: 4px; padding: 2px 4px; font-size: 12px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer;">📷</div>`,
                     iconSize: [28, 24], // Taller for the badge
                     iconAnchor: [-10, 24], // Offset completely down and to the right of the center POI coordinate
                 });
 
-                const marker = L.marker([photo.lat, photo.lng], { icon: cameraIcon });
-                marker.bindTooltip(`📷 ${photo.caption.substring(0, 30)}...`, { direction: 'top', offset: [0, -6] });
+                const marker = L.marker([photo.lat, photo.lng], {
+                    icon: cameraIcon,
+                    alt: photoLabel,
+                    title: photo.caption,
+                    keyboard: true,
+                });
+                marker.bindTooltip(`📷 ${photo.caption}`, { direction: 'top', offset: [0, -6] });
                 marker.on('click', (e: any) => {
                     onSectionSelect(null);
                     onMarkerSelect(null);
@@ -266,11 +289,15 @@ export default function Map({
         <MapRoot>
             <div ref={mapRef} style={{ width: '100%', height: '100%', zIndex: 1 }} />
             {(activeSectionId !== null || activeMarkerId !== null || activePhotoId !== null) && (
-                <ResetButton onClick={() => {
-                    onSectionSelect(null);
-                    onMarkerSelect(null);
-                    onPhotoSelect(null);
-                }}>
+                <ResetButton
+                    type="button"
+                    aria-label="Reset map view and clear selection"
+                    onClick={() => {
+                        onSectionSelect(null);
+                        onMarkerSelect(null);
+                        onPhotoSelect(null);
+                    }}
+                >
                     Reset View
                 </ResetButton>
             )}
