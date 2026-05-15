@@ -1,6 +1,4 @@
 ---
-import { existsSync } from 'node:fs';
-import { join } from 'node:path';
 import ProseLayout from '../../layouts/ProseLayout.astro';
 import TagChip from '../../components/TagChip.astro';
 import { SITE_SETTINGS } from '../../lib/site';
@@ -10,12 +8,6 @@ export const prerender = true;
 const pageTitle = `The Geometry of Mind: ${SITE_SETTINGS.siteTitle}`;
 const description =
   'A field guide to mechanistic interpretability, what researchers are finding inside large language models, and what it reflects back about us.';
-const publicImageExists = (src: string) =>
-  existsSync(join(process.cwd(), 'public', src.replace(/^\//, '')));
-const proteinSketchSrc = '/images/geometry-of-mind/figure-alphaFold-protein-sketch.jpg';
-const moralLandscapeSrc = '/images/geometry-of-mind/figure-moral-landscape-surface-aged.jpg';
-const proteinSketchExists = publicImageExists(proteinSketchSrc);
-const moralLandscapeExists = publicImageExists(moralLandscapeSrc);
 
 const allText = `
 In 2006, a neuroscientist named Adrian Owen asked a 23-year-old woman who had been in a vegetative state for five months to imagine playing tennis. She couldn't speak, couldn't move, couldn't signal her presence in any way the doctors around her could detect. By every external measure she was absent. But when Owen looked inside, at the activation patterns in her brain, the signature was unmistakable. Someone was home.
@@ -116,24 +108,6 @@ The research mapped where they sit. These responses suggest what it feels like t
 
 What it means that some of these dispositions got trained away, and what we might have lost in the process, is the question the next section takes up.
 
-There is a moment in the history of biology worth pausing on.
-
-For fifty years, scientists knew that a protein's three-dimensional shape was determined by its amino acid sequence. They also knew that predicting that shape was essentially impossible: the problem was too complex, the rules too subtle. Then in 2020, a system called AlphaFold solved it. Not by being taught the rules, but by absorbing so much data about how proteins actually behave that it developed something like intuition. It found the pattern before the theory caught up. Demis Hassabis, whose lab built it, won the Nobel Prize in Chemistry four years later.
-
-What AlphaFold really learned was an energy landscape. Proteins don't fold randomly. They fall into stable configurations the way water finds the lowest point in a terrain. Some shapes are valleys, energetically favorable, and proteins tend toward them. Others are peaks, unstable, and molecules don't linger there. AlphaFold learned the shape of that terrain from data alone, without anyone drawing it for the model explicitly.
-
-The philosopher Sam Harris proposed something similar for human wellbeing. In his moral landscape argument, he suggested that the space of possible human experiences has a topology, peaks of flourishing and valleys of suffering, and that science could, in principle, map it. The metaphor was controversial. But the underlying intuition was precise: that human psychological states are not arbitrarily distributed, that they have structure, that movement through them follows paths rather than jumping randomly between unrelated points.
-
-What the persona geometry research is now suggesting is that both of these intuitions may be pointing at the same thing.
-
-The model that produced the careful evaluator finding, the dysregulation cluster, the drift cascade was not taught psychology. It learned to predict human language. And in doing so, it appears to have internalized the topology of human psychological states: the valleys people tend to fall into, the paths that lead there, the peaks that require effort to maintain.
-
-The dysregulation cluster is the clearest example. The traits that define it, avoidant, impulsive, anxious, neurotic, are not arbitrary. Clinicians have known for decades that these traits travel together in humans. The model encoded the same pattern without being told. And the drift cascade makes a specific topological claim: the path from stable to dysregulated tends to run downhill through organized opposition first. Purposeful resistance precedes chaotic dissolution. The geometry has a direction, the way water has a direction.
-
-Whether that sequence matches what longitudinal clinical research already knows is a question the field has not yet asked. But it can now be asked. The model is making a prediction about the shape of the human psychological landscape. Testing it would be straightforward. And the results would matter either way, both for what they tell us about human psychology, and for safety. If the model's geometry closely mirrors clinical findings, we have something like AlphaFold for human character: a system that learned the folding rules of psychological states from data alone. If it diverges substantially, that divergence is itself a signal worth taking seriously. It would mean the model has internalized a psychological map that does not match the human territory, a profile of human behavior that is partly its own invention. That possibility is, if anything, the more consequential finding. A model acting on a theory of human psychology that systematically differs from reality is a safety problem of a different order than one that simply misbehaves.
-
-Either way, the map is more than a safety tool. It is a hypothesis about ourselves, generated by a system that has read nearly everything we have ever written. That hypothesis deserves to be tested.
-
 There must be some way out of here, said the joker to the thief.
 
 The personas in the outer clusters don't stay there by accident. And the model in the assistant-aligned basin doesn't stay there automatically. Conversations have a direction. Emotional pressure accumulates. And the geometry has paths.
@@ -159,8 +133,6 @@ That is genuine progress. The instrument is getting sharper.
 But the territory is not fully charted. The paths by which a model drifts, through emotional pressure, through extended roleplay, through the slow accumulation of a conversation that has moved somewhere its training didn't intend, are numerous and not all of them documented. The map identifies the regions. It does not yet predict every route between them.
 
 The man in the hat is not a solved problem. He is a known one. That is not nothing. But it is also not enough.
-
-For a long time, the search happened where the light was. Not because the important questions lived there, but because the instrument could reach them. Self-report, behavioral observation, clinical inference: careful work, genuinely illuminating, constrained by what subjects could articulate and what researchers could observe. Whole territories of human psychology remained dark not because they were unimportant but because no lamp reached them. What mechanistic interpretability may be doing, quietly, almost accidentally, in the course of trying to understand why language models sometimes misbehave, is turning on the floodlights. And the keys may be lying there in what used to be the dark. Questions that felt permanently out of reach may have been waiting, all along, for the right instrument. We are not yet certain that is what this is. But the possibility is serious enough to name.
 `;
 
 const wordCount = allText.split(/\s+/).filter(Boolean).length;
@@ -624,68 +596,8 @@ SYSTEM: I should note that the Golden Gate Bridge
         </svg>
       </div>
 
-      <section id="the-landscape" class="essay-section essay-reveal section-landscape">
-        <p class="essay-section-label">&#8212; VIII &#8212;</p>
-        <h2>The Landscape</h2>
-
-        <p>There is a moment in the history of biology worth pausing on.</p>
-        <p>For fifty years, scientists knew that a protein's three-dimensional shape was determined by its amino acid sequence. They also knew that predicting that shape was essentially impossible: the problem was too complex, the rules too subtle. Then in 2020, a system called AlphaFold solved it. Not by being taught the rules, but by absorbing so much data about how proteins actually behave that it developed something like intuition. It found the pattern before the theory caught up. Demis Hassabis, whose lab built it, won the Nobel Prize in Chemistry four years later.</p>
-
-        <figure class="essay-figure essay-figure--full essay-figure--pending-square">
-          {proteinSketchExists ? (
-            <img
-              src={proteinSketchSrc}
-              alt="A protein ribbon structure rendered in da Vinci's anatomical notebook style, scientific precision applied to a molecular subject he never could have seen."
-            />
-          ) : (
-            <div class="figure-placeholder" role="img" aria-label="Pending image: a protein ribbon structure rendered in da Vinci's anatomical notebook style.">
-              <span class="figure-label">Image Pending</span>
-              <span class="figure-name">AlphaFold Protein Sketch</span>
-            </div>
-          )}
-          <figcaption>
-            A protein ribbon structure: the folded geometry that AlphaFold learned
-            to predict from sequence alone, rendered in the style of da Vinci's
-            anatomical studies.
-          </figcaption>
-        </figure>
-
-        <p>What AlphaFold really learned was an energy landscape. Proteins don't fold randomly. They fall into stable configurations the way water finds the lowest point in a terrain. Some shapes are valleys, energetically favorable, and proteins tend toward them. Others are peaks, unstable, and molecules don't linger there. AlphaFold learned the shape of that terrain from data alone, without anyone drawing it for the model explicitly.</p>
-        <p>The philosopher Sam Harris proposed something similar for human wellbeing. In his moral landscape argument, he suggested that the space of possible human experiences has a topology, peaks of flourishing and valleys of suffering, and that science could, in principle, map it. The metaphor was controversial. But the underlying intuition was precise: that human psychological states are not arbitrarily distributed, that they have structure, that movement through them follows paths rather than jumping randomly between unrelated points.</p>
-
-        <figure class="essay-figure essay-figure--full essay-figure--pending-wide">
-          {moralLandscapeExists ? (
-            <img
-              src={moralLandscapeSrc}
-              alt="A minimal da Vinci-style topology surface drawn as a fine gossamer mesh on aged parchment."
-            />
-          ) : (
-            <div class="figure-placeholder" role="img" aria-label="Pending image: a minimal da Vinci-style topology surface on aged parchment.">
-              <span class="figure-label">Image Pending</span>
-              <span class="figure-name">Moral Landscape Surface</span>
-            </div>
-          )}
-          <figcaption>
-            The psychological landscape as topology: a surface of possible states,
-            rendered as a quiet mesh on aged paper.
-          </figcaption>
-        </figure>
-
-        <p>What the persona geometry research is now suggesting is that both of these intuitions may be pointing at the same thing.</p>
-        <p>The model that produced the careful evaluator finding, the dysregulation cluster, the drift cascade was not taught psychology. It learned to predict human language. And in doing so, it appears to have internalized the topology of human psychological states: the valleys people tend to fall into, the paths that lead there, the peaks that require effort to maintain.</p>
-        <p>The dysregulation cluster is the clearest example. The traits that define it, avoidant, impulsive, anxious, neurotic, are not arbitrary. Clinicians have known for decades that these traits travel together in humans. The model encoded the same pattern without being told. And the drift cascade makes a specific topological claim: the path from stable to dysregulated tends to run downhill through organized opposition first. Purposeful resistance precedes chaotic dissolution. The geometry has a direction, the way water has a direction.</p>
-        <p>Whether that sequence matches what longitudinal clinical research already knows is a question the field has not yet asked. But it can now be asked. The model is making a prediction about the shape of the human psychological landscape. Testing it would be straightforward. And the results would matter either way, both for what they tell us about human psychology, and for safety. If the model's geometry closely mirrors clinical findings, we have something like AlphaFold for human character: a system that learned the folding rules of psychological states from data alone. If it diverges substantially, that divergence is itself a signal worth taking seriously. It would mean the model has internalized a psychological map that does not match the human territory, a profile of human behavior that is partly its own invention. That possibility is, if anything, the more consequential finding. A model acting on a theory of human psychology that systematically differs from reality is a safety problem of a different order than one that simply misbehaves.</p>
-        <p>Either way, the map is more than a safety tool. It is a hypothesis about ourselves, generated by a system that has read nearly everything we have ever written. That hypothesis deserves to be tested.</p>
-      </section>
-
-      <div class="essay-divider essay-reveal" aria-hidden="true">
-        <svg viewBox="0 0 600 24" preserveAspectRatio="none" role="presentation">
-          <path d="M0 12c33-8 66-8 99 0s66 8 99 0 66-8 99 0 66 8 99 0 66-8 99 0 66 8 105 0" />
-        </svg>
-      </div>
-
       <section id="some-way-out-of-here" class="essay-section essay-reveal">
-        <p class="essay-section-label">&#8212; IX &#8212;</p>
+        <p class="essay-section-label">&#8212; VIII &#8212;</p>
         <h2>Escape Routes</h2>
 
         <blockquote class="essay-epigraph">
@@ -707,7 +619,7 @@ SYSTEM: I should note that the Golden Gate Bridge
       </div>
 
       <section id="the-man-in-the-hat" class="essay-section essay-reveal">
-        <p class="essay-section-label">&#8212; X &#8212;</p>
+        <p class="essay-section-label">&#8212; IX &#8212;</p>
         <h2>The Man in the Hat</h2>
 
         <p>Walter White was a high school chemistry teacher. Conscientious, methodical, reliable. Then something shifted, not all at once, but in steps, each one following from the last with a terrible internal logic. By the end he was someone the geometry of his earlier self had always contained, finally given permission to emerge.</p>
@@ -723,7 +635,6 @@ SYSTEM: I should note that the Golden Gate Bridge
         <p>That is genuine progress. The instrument is getting sharper.</p>
         <p>But the territory is not fully charted. The paths by which a model drifts, through emotional pressure, through extended roleplay, through the slow accumulation of a conversation that has moved somewhere its training didn't intend, are numerous and not all of them documented. The map identifies the regions. It does not yet predict every route between them.</p>
         <p>The man in the hat is not a solved problem. He is a known one. That is not nothing. But it is also not enough.</p>
-        <p>For a long time, the search happened where the light was. Not because the important questions lived there, but because the instrument could reach them. Self-report, behavioral observation, clinical inference: careful work, genuinely illuminating, constrained by what subjects could articulate and what researchers could observe. Whole territories of human psychology remained dark not because they were unimportant but because no lamp reached them. What mechanistic interpretability may be doing, quietly, almost accidentally, in the course of trying to understand why language models sometimes misbehave, is turning on the floodlights. And the keys may be lying there in what used to be the dark. Questions that felt permanently out of reach may have been waiting, all along, for the right instrument. We are not yet certain that is what this is. But the possibility is serious enough to name.</p>
       </section>
 </ProseLayout>
 
