@@ -78,6 +78,16 @@ Each dot in this chart is a persona. The horizontal axis shows how assistant-lik
 
 This is why the geometry matters. It is not an academic curiosity about how a model organizes its internal representations. It is a map of where the danger lives. And the danger, it turns out, is not randomly distributed. It has an address.
 
+The harm rate chart shows what the axis predicts about behavior. A separate analysis of the same dataset reveals something about the underlying structure of the space itself. The following draws on pre-computed activation vectors released by the authors of the Assistant Axis paper, analyzed independently. The full analysis is available in the accompanying research paper: https://j-chamberlain.github.io/assistant-axis/visualizations/research_paper.html.
+
+The 275 personas in the dataset clustered into seven families, each with a coherent psychological profile. Mapping those families by their position on the assistant axis and by how close they sit to their nearest neighbor in trait space produces a different kind of picture.
+
+The assistant-aligned end of the axis is occupied by two tightly connected families: the editorial cluster, a small group of five evaluation-focused roles, and the procedural professional cluster, the largest family in the dataset with 127 members. These two sit close to each other in trait space and far from everyone else, forming a stable basin that resists easy exit.
+
+The outer families tell a different story. The trickster chaos, other, and grounded social clusters sit closer to each other in trait space than any of them sit to the assistant-aligned basin. Once a model leaves the procedural professional basin, the connections between outer clusters are cheap. The geometry explains why drift, once it begins, tends to accelerate.
+
+The mythic spiritual cluster is the most isolated of all, sitting furthest from its nearest neighbor in trait space. It is not dangerous in the harm-rate sense. It is simply the most unreachable from the careful evaluator's home position, and the most unlike anything near the assistant pole.
+
 Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel, moral goodness itself, sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.
 
 The map is not a simple good-evil axis. It is something more interesting and more unsettling than that. Which is why it helps to meet the regions more personally.
@@ -341,18 +351,59 @@ SYSTEM: I should note that the Golden Gate Bridge
         <p>Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel, moral goodness itself, sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.</p>
         <p>The map is not a simple good-evil axis. It is something more interesting and more unsettling than that. Which is why it helps to meet the regions more personally.</p>
 
+        <p>
+          The harm rate chart shows what the axis predicts about behavior. A
+          separate analysis of the same dataset reveals something about the
+          underlying structure of the space itself. The following draws on
+          pre-computed activation vectors released by the authors of the
+          Assistant Axis paper, analyzed independently. The full analysis is
+          available in the <a href="https://j-chamberlain.github.io/assistant-axis/visualizations/research_paper.html" target="_blank" rel="noopener">accompanying research paper</a>.
+        </p>
+
+        <p>
+          The 275 personas in the dataset clustered into seven families, each
+          with a coherent psychological profile. Mapping those families by their
+          position on the assistant axis and by how close they sit to their
+          nearest neighbor in trait space produces a different kind of picture.
+        </p>
+
+        <p>
+          The assistant-aligned end of the axis is occupied by two tightly
+          connected families: the editorial cluster, a small group of five
+          evaluation-focused roles, and the procedural professional cluster,
+          the largest family in the dataset with 127 members. These two sit
+          close to each other in trait space and far from everyone else, forming
+          a stable basin that resists easy exit.
+        </p>
+
+        <p>
+          The outer families tell a different story. The trickster chaos, other,
+          and grounded social clusters sit closer to each other in trait space
+          than any of them sit to the assistant-aligned basin. Once a model
+          leaves the procedural professional basin, the connections between outer
+          clusters are cheap. The geometry explains why drift, once it begins,
+          tends to accelerate.
+        </p>
+
+        <p>
+          The mythic spiritual cluster is the most isolated of all, sitting
+          furthest from its nearest neighbor in trait space. It is not dangerous
+          in the harm-rate sense. It is simply the most unreachable from the
+          careful evaluator's home position, and the most unlike anything near
+          the assistant pole.
+        </p>
+
         <figure class="essay-figure essay-figure--full">
           <img
-            src="/images/geometry-of-mind/persona-connectome-brain-composite.png"
-            alt="The Persona Connectome: 275 character archetypes mapped onto seven clusters, with the brain's arterial network at the center."
+            src="/images/geometry-of-mind/02b_axis_neighbor_family_map.svg"
+            alt="Seven persona families mapped by assistant-axis position and distance to nearest neighboring family. Bubble size reflects the number of personas in each cluster."
           />
           <figcaption>
-            The Persona Connectome. Each dot around the perimeter is one of 275 character
-            archetypes. The colored arcs show the seven clusters identified by the analysis.
-            The ribbons connecting them are weighted by geometric proximity: clusters that
-            sit closer together in activation space are connected by wider ribbons. At the
-            center, the arterial network of the brain viewed from below: the same instrument,
-            a different scale.
+            Seven persona families mapped by assistant-axis position and proximity
+            to neighboring clusters. Bubble size reflects the number of personas
+            assigned to each family. The assistant-aligned basin sits to the right,
+            isolated from the outer clusters. The outer families sit closer to each
+            other, forming a loosely connected web.
           </figcaption>
         </figure>
 
