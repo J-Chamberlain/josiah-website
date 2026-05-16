@@ -1,25 +1,18 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import EditorialCard from '../components/EditorialCard.astro';
+import { getPublicByKind } from '../lib/content';
 
 export const prerender = true;
 
-const essayItems = [
-  {
-    title: 'The Geometry of Mind',
-    href: '/essays/geometry-of-mind',
-    label: 'ESSAY',
-    description: 'A field guide to mechanistic interpretability.',
-  },
-  {
-    title: 'Digital Pastoralism',
-    href: '/essays/project-olmsted',
-    label: 'ESSAY',
-    description: 'Conjuring Frederick Law Olmsted in the Age of AI.',
-    imageSrc: '/images/Ideas_page/Central_Park_Sapia.jpg',
-    imageAlt: 'A stylized view inspired by Central Park and restorative landscape design.',
-  },
-];
+const essayItems = getPublicByKind('essay').map((entry) => ({
+  title: entry.title,
+  href: `/essays/${entry.slug}`,
+  label: 'ESSAY',
+  description: entry.excerpt ?? entry.subtitle ?? '',
+  imageSrc: entry.coverImage?.src,
+  imageAlt: entry.coverImage?.alt ?? entry.title,
+}));
 ---
 
 <BaseLayout
