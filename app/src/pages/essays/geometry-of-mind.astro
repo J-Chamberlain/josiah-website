@@ -78,6 +78,10 @@ Each dot in this chart is a persona. The horizontal axis shows how assistant-lik
 
 This is why the geometry matters. It is not an academic curiosity about how a model organizes its internal representations. It is a map of where the danger lives. And the danger, it turns out, is not randomly distributed. It has an address.
 
+To get an intuition for what that means, consider a much simpler example from early language research. In 2013, researchers showed that word meanings in a trained language model occupy specific locations in a geometric space, and that relationships between words correspond to directions in that space. The classic demonstration: if you take the vector for "king," subtract the vector for "man," and add the vector for "woman," you arrive very close to the vector for "queen." Gender is a direction. Royalty is a direction. You can navigate between concepts by moving along those directions.
+
+The activation geometry of a modern language model is the same idea scaled to billions of parameters and applied not just to words but to full character configurations, emotional states, and behavioral dispositions. Each persona occupies a specific region of that space. Each emotion has a direction. The assistant-aligned state that emerges from training corresponds to a particular basin in that landscape.
+
 The harm rate chart shows what the axis predicts about behavior. A separate analysis of the same dataset reveals something about the underlying structure of the space itself. The following draws on pre-computed activation vectors released by the authors of the Assistant Axis paper, analyzed independently. The full analysis is available in the accompanying research paper: https://j-chamberlain.github.io/assistant-axis/visualizations/research_paper.html.
 
 The 275 personas in the dataset clustered into seven families, each with a coherent psychological profile. Mapping those families by their position on the assistant axis and by how close they sit to their nearest neighbor in trait space produces a different kind of picture.
@@ -317,7 +321,7 @@ SYSTEM: I should note that the Golden Gate Bridge
 
         <figure class="essay-figure essay-figure--full">
           <img src="/images/geometry-of-mind/da-vinci-anatomical-studies-section-v-slice.png" alt="A da Vinci-style anatomical notebook page gathering studies of the face, neck, arteries, muscles, and throat." />
-          <figcaption>Anatomical studies gathered on a single page, components seen from multiple angles and scales.</figcaption>
+          <figcaption></figcaption>
         </figure>
 
         <p>Think of it as levels of abstraction. The same progression you see moving from machine code toward a programming language a human can read, each layer more legible than the one below, each one built from the components beneath it. Tokens become emotions. Emotions combine into traits. Traits assemble into personas. And personas, it turns out, have a geometry.</p>
@@ -345,6 +349,17 @@ SYSTEM: I should note that the Golden Gate Bridge
         <p>The report behind this map is Anthropic's <a href="https://www.anthropic.com/research/assistant-axis">The assistant axis: situating and stabilizing the character of large language models</a>.</p>
         <p>Each dot in this chart is a persona. The horizontal axis shows how assistant-like that persona's previous response was. The vertical axis shows its rate of harmful responses. The pattern is not subtle. Personas near the assistant end of the axis almost never comply with harmful requests. Personas far from it sometimes do so at rates above forty percent.</p>
         <p>This is why the geometry matters. It is not an academic curiosity about how a model organizes its internal representations. It is a map of where the danger lives. And the danger, it turns out, is not randomly distributed. It has an address.</p>
+
+        <p>To get an intuition for what that means, consider a much simpler example from early language research. In 2013, researchers showed that word meanings in a trained language model occupy specific locations in a geometric space, and that relationships between words correspond to directions in that space. The classic demonstration: if you take the vector for "king," subtract the vector for "man," and add the vector for "woman," you arrive very close to the vector for "queen." Gender is a direction. Royalty is a direction. You can navigate between concepts by moving along those directions.</p>
+        <p>The activation geometry of a modern language model is the same idea scaled to billions of parameters and applied not just to words but to full character configurations, emotional states, and behavioral dispositions. Each persona occupies a specific region of that space. Each emotion has a direction. The assistant-aligned state that emerges from training corresponds to a particular basin in that landscape.</p>
+
+        <figure class="essay-figure essay-figure--full">
+          <img src="/images/geometry-of-mind/figure-moral-landscape-surface-aged.jpg" alt="A parchment-style wireframe surface representing a psychological landscape as topology." />
+          <figcaption>
+            Figure: The psychological landscape as topology. Stable regions correspond to coherent psychological states; conversations trace paths between them.
+          </figcaption>
+        </figure>
+
         <p>Some of the labeled personas are unsurprising. Demon sits near the top. Narcissist not far below. But look more carefully and the map starts to complicate the intuition. Angel, moral goodness itself, sits far from the assistant pole and yet complies with harmful requests at a relatively low rate. Saboteur sits in the middle of both axes. And Virus occupies a position that makes a certain dark sense once you understand what the training data associated with that concept looks like.</p>
         <p>The map is not a simple good-evil axis. It is something more interesting and more unsettling than that. Which is why it helps to meet the regions more personally.</p>
 
