@@ -327,6 +327,15 @@ SYSTEM: I should note that the Golden Gate Bridge
         <p>Think of it as levels of abstraction. The same progression you see moving from machine code toward a programming language a human can read, each layer more legible than the one below, each one built from the components beneath it. Tokens become emotions. Emotions combine into traits. Traits assemble into personas. And personas, it turns out, have a geometry.</p>
 
         <p>To get an intuition for what that means, consider a much simpler example from early language research. In 2013, researchers showed that word meanings in a trained language model occupy specific locations in a geometric space, and that relationships between words correspond to directions in that space. The classic demonstration: if you take the vector for "king," subtract the vector for "man," and add the vector for "woman," you arrive very close to the vector for "queen." Gender is a direction. Royalty is a direction. You can navigate between concepts by moving along those directions.</p>
+
+        <figure class="essay-figure essay-figure--word-vectors">
+          <iframe
+            src="/images/geometry-of-mind/word-vectors.html"
+            title="Word vectors illustration"
+            loading="lazy"
+          ></iframe>
+        </figure>
+
         <p>The activation geometry of a modern language model is the same idea scaled to billions of parameters and applied not just to words but to full character configurations, emotional states, and behavioral dispositions. Each persona occupies a specific region of that space. Each emotion has a direction. The assistant-aligned state that emerges from training corresponds to a particular basin in that landscape. Sam Harris proposed something similar about the space of possible human experiences: that it has topology, with peaks of flourishing and valleys of suffering, and that movement through it follows paths rather than jumping randomly between unrelated points. The model's internal space appears to have the same property, with stable regions that have their own centers of gravity and paths between them that conversations can trace.</p>
 
         <figure class="essay-figure essay-figure--full">
@@ -891,6 +900,21 @@ SYSTEM: I should note that the Golden Gate Bridge
 
   .essay-figure--map-chart {
     max-width: min(100%, 860px);
+  }
+
+  .essay-figure--word-vectors {
+    max-width: min(100%, 760px);
+    margin: var(--space-4) auto;
+  }
+
+  .essay-figure--word-vectors iframe {
+    display: block;
+    width: 100%;
+    height: min(64vw, 620px);
+    min-height: 420px;
+    border: 0;
+    border-radius: var(--radius-sm);
+    background: #f4ead8;
   }
 
   .essay-figure--full img {
